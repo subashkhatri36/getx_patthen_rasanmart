@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "23942480337",
+    "project_id": "rasan-ae826",
+    "storage_bucket": "rasan-ae826.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:23942480337:android:30e1220ed114da24eca0f0",
+        "android_client_info": {
+          "package_name": "com.subashkhatri.rasan_mart"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "23942480337-trj38qd7hqn5sb1v66uvpgsbji38cn7b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.subashkhatri.rasan_mart",
+            "certificate_hash": "f7654227e1d2c01f7156acab22d51602e84d7d5b"
+          }
+        },
+        {
+          "client_id": "23942480337-8ufk7dpgd64629285m4ems5o2u91177i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYHaJSQLwqLVQw4VEbuAgVehL2opjDZAY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "23942480337-8ufk7dpgd64629285m4ems5o2u91177i.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "23942480337-b6vbmpa66mbd86p0vdod0d63skbjf15h.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.rasan"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
