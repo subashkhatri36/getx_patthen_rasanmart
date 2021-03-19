@@ -5,10 +5,14 @@ abstract class Routes {
   static const HOME = _Paths.HOME;
   static const AUTHENTICATION = _Paths.AUTHENTICATION;
   static const SPLASH = _Paths.SPLASH;
+  static const SEARCHPAGE = _Paths.SEARCHPAGE;
+  static const NOINTERNET = _Paths.NOINTERNET;
 }
 
 abstract class _Paths {
   static const HOME = '/home';
   static const AUTHENTICATION = '/authentication';
   static const SPLASH = '/splash';
+  static const SEARCHPAGE = '/searchpage';
+  static const NOINTERNET = '/nointernet';
 }

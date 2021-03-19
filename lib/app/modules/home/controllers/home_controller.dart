@@ -3,7 +3,8 @@ import 'package:get/get.dart';
 class HomeController extends GetxController {
   //TODO: Implement HomeController
 
-  final count = 0.obs;
+  //RxInt navSelectedIndex = 0.obs;
+  RxBool searchBar = false.obs;
   @override
   void onInit() {
     super.onInit();
@@ -15,6 +16,9 @@ class HomeController extends GetxController {
   }
 
   @override
-  void onClose() {}
-  void increment() => count.value++;
+  void onClose() {
+    super.onClose();
+  }
+
+  void showSearchBar(bool value) => searchBar.value = value;
 }
