@@ -10,3 +10,4 @@ enum DiscountType {
   Flat,
   Percentage,
 }
+enum CounterType { Decreament, Increament }

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rasan_mart/app/core/constant/default_value.dart';
@@ -14,6 +15,7 @@ class CategoriesGridView extends GetView {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(top: Defaults.defaultfontsize),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -31,38 +33,71 @@ class CategoriesGridView extends GetView {
           Obx(() => Container(
               padding: EdgeInsets.symmetric(
                   horizontal: Defaults.defaultfontsize / 2),
-              child: istabclick
-                  ? buildListView(categories: categoryController.categories)
-                  : buildGridView(
-                      context: context,
-                      categories: categoryController.categories))),
+              child: categoryController.isCategoryLoading.isTrue
+                  ? Center(
+                      child: Column(
+                        children: [
+                          CircularProgressIndicator(),
+                          SizedBox(height: Defaults.defaultPadding),
+                          Text('Loading...')
+                        ],
+                      ),
+                    )
+                  : istabclick
+                      ? buildListView(categories: categoryController.categories)
+                      : buildGridView(
+                          context: context,
+                          categories: categoryController.categories))),
         ],
       ),
     );
   }
 
 //creating listview for the categories tabs
-  ListView buildListView({List<Categories> categories}) => ListView.builder(
+  ListView buildListView({List<Categories> categories}) => ListView.separated(
+      separatorBuilder: (context, index) {
+        return Divider();
+      },
       physics: BouncingScrollPhysics(),
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
       itemCount: categories?.length ?? 0,
       itemBuilder: (context, index) {
-        return ListTile(
-          leading: Image.network(
-            categories[index].categoryPath,
-            fit: BoxFit.cover,
-            height: Defaults.defaultPadding * 2,
-          ),
-          title: Text(
-            categories[index].categoryName,
-            overflow: TextOverflow.fade,
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: Defaults.defaultfontsize),
-            maxLines: 2,
-          ),
-          trailing: Icon(Icons.arrow_forward_ios),
+        return Container(
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Row(children: [
+              CachedNetworkImage(
+                imageUrl: categories[index].categoryPath,
+                fadeInDuration: Duration(milliseconds: 1),
+                imageBuilder: (context, imageProvider) => Container(
+                  height: Defaults.defaultPadding * 2.5,
+                  width: Defaults.defaultPadding * 2.5,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                placeholder: (context, url) => CircularProgressIndicator(
+                  strokeWidth: 0.5,
+                ),
+                errorWidget: (context, url, error) => Icon(Icons.error),
+              ),
+              SizedBox(width: Defaults.defaultPadding),
+              Text(
+                categories[index].categoryName,
+                overflow: TextOverflow.fade,
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: Defaults.defaultfontsize),
+                maxLines: 2,
+              ),
+            ]),
+            Icon(Icons.arrow_forward_ios),
+          ]),
         );
       });
 
@@ -71,11 +106,12 @@ class CategoriesGridView extends GetView {
         physics: NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         crossAxisSpacing: 4,
-        mainAxisSpacing: 3,
+        mainAxisSpacing: 1,
         crossAxisCount: istabclick ? 3 : 4,
         children: List.generate(
           categories.length > 8 ? 8 : categories?.length,
           (index) {
+            // print(categories[index].categoryPath);
             return Container(
               width: MediaQuery.of(context).size.width * 0.10,
               alignment: Alignment.center,
@@ -83,10 +119,24 @@ class CategoriesGridView extends GetView {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.network(
-                    categories[index].categoryPath,
-                    fit: BoxFit.cover,
-                    height: Defaults.defaultPadding * 2,
+                  CachedNetworkImage(
+                    imageUrl: categories[index].categoryPath,
+                    fadeInDuration: Duration(milliseconds: 1),
+                    imageBuilder: (context, imageProvider) => Container(
+                      height: Defaults.defaultPadding * 2,
+                      width: Defaults.defaultPadding * 2,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        image: DecorationImage(
+                          image: imageProvider,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    placeholder: (context, url) => CircularProgressIndicator(
+                      strokeWidth: 0.5,
+                    ),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
                   SizedBox(height: Defaults.defaultfontsize / 3),
                   Text(

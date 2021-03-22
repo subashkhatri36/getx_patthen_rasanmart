@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:rasan_mart/app/Widgets/Gridview_categories.dart';
+import 'package:rasan_mart/app/Widgets/Scroll_banner.dart';
+import 'package:rasan_mart/app/Widgets/horizental_product_container.dart';
 import 'package:rasan_mart/app/Widgets/search_bar_icons.dart';
 import 'package:rasan_mart/app/core/enum/enums.dart';
 import 'package:rasan_mart/app/modules/customeproductpage/controllers/customeproductpage_controller.dart';
@@ -13,27 +16,27 @@ class CustomebodyviewView extends GetView {
   Widget build(BuildContext context) {
     ProductContianer list = productContainerController
         .productContianerList[productContainerController.index.value];
-    print('value');
-    print(list);
+
     switch (list.contianerType) {
       case ContianerType.SearchBar:
-        print('try to print searchbar');
         return SearchBarIcon(
           val: list,
         );
         break;
 
-      /*
-
       case ContianerType.HorizentalLayout:
         Color color = list.backgroundColor;
-        String title = plist.containerTitle;
+        String title = list.containerTitle;
         List<String> plist = list.productIdList;
+        int index = productContainerController.index.value;
+        productContainerController.increaseindex(index);
         return HorizentalProductContainer(
           containerTitle: title,
           backgroundColor: color,
           productIdList: plist,
+          index: index,
         );
+      /*
 
       case ContianerType.GridviewLayout:
         Color color = list.backgroundColor;
@@ -44,16 +47,18 @@ class CustomebodyviewView extends GetView {
           backgroundColor: color,
           productIdList: plist,
         );
+         */
 
       case ContianerType.BannerLayout:
         return BannerScrollImage();
         break;
+
       case ContianerType.Category:
         return CategoriesGridView(
-          istabclick: false,
+          false,
         );
         break;
-        */
+
       default:
         return Container();
         break;

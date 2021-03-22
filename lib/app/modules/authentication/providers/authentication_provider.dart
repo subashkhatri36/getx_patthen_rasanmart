@@ -20,6 +20,7 @@ class AuthenticationProvider extends GetConnect {
         return _authRepositories.userRegister(user);
         break;
       case AuthenticateType.GoogleSignIn:
+        return null;
         break;
       default:
         return null;

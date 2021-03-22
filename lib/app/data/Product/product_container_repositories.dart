@@ -28,6 +28,7 @@ class ProductContianerRepositories implements ProductContianerRepo {
           .collection('Categories')
           .doc(category)
           .collection('data')
+          .orderBy("layoutindex", descending: false)
           .get()
           .then((value) {
         value.docs.forEach((element) {
@@ -60,13 +61,10 @@ class ProductContianerRepositories implements ProductContianerRepo {
           }
           //print(ProductContianer.length);
         });
-        print('fetched data ' + container.length.toString());
       });
-      print('Fetched Online value and return');
 
       return right(container);
     } catch (e) {
-      print('Error while fetching online values');
       return left('container');
     }
   }

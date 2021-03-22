@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:rasan_mart/app/Widgets/Gridview_categories.dart';
 import 'package:rasan_mart/app/Widgets/app_drawer.dart';
 import 'package:rasan_mart/app/Widgets/appbar/custome_appbar.dart';
 import 'package:rasan_mart/app/Widgets/bottom_navigationbar.dart';
@@ -26,13 +27,13 @@ class _HomeViewState extends State<HomeView> {
         return CustomeproductpageView();
         break;
       case 1:
-        return Text('Categories');
+        return CategoriesGridView(true);
         break;
       case 2:
         return Text('Account');
         break;
       default:
-        return null;
+        return Container();
         break;
     }
   }

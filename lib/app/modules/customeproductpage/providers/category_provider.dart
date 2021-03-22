@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-class ProductcontainerproviderProvider extends GetConnect {
+class CategoryProvider extends GetConnect {
   @override
   void onInit() {
     httpClient.baseUrl = 'YOUR-API-URL';

@@ -11,7 +11,6 @@ class CustomeproductpageView extends GetView<CustomeproductpageController> {
 
   @override
   Widget build(BuildContext context) {
-    print(customeController.productContianerList?.length ?? 0);
     return Column(
       children: [
         Expanded(

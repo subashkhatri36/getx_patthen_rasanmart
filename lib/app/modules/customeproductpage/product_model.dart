@@ -14,10 +14,12 @@ class Product {
   final String productDiscountType;
   final bool productOnDiscount;
   final String backgroundColor;
+  final bool productStock;
   int qty;
   double price;
 
   Product({
+    @required this.productStock,
     @required this.productId,
     @required this.productOnDiscount,
     @required this.productImages,
@@ -37,61 +39,25 @@ class Product {
   int get qetQty => this.qty;
   setQty(int qty) => this.qty = qty;
 
-  Map<String, dynamic> toMap() {
-    return {
-      'productId': productId,
-      'productName': productName,
-      'productImages': productImages,
-      'productDescription': productDescription,
-      'productPrice': productPrice,
-      'productCuttedPrice': productCuttedPrice,
-      'productOnSale': productOnSale,
-      'productDiscount': productDiscount,
-      'productDiscountType': productDiscountType,
-      'productOnDiscount': productOnDiscount,
-      'backgroundColor': backgroundColor,
-    };
-  }
-
-  factory Product.fromMap(Map<String, dynamic> map) {
-    if (map == null) return null;
-
-    return Product(
-      productId: map['productId'],
-      productName: map['productName'],
-      productImages: List<String>.from(map['productImages']),
-      productDescription: List<String>.from(map['productDescription']),
-      productPrice: map['productPrice'],
-      productCuttedPrice: map['productCuttedPrice'],
-      productOnSale: map['productOnSale'],
-      productDiscount: map['productDiscount'],
-      productDiscountType: map['productDiscountType'],
-      productOnDiscount: map['productOnDiscount'],
-      backgroundColor: map['backgroundColor'],
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory Product.fromJson(String source) =>
-      Product.fromMap(json.decode(source));
-
   @override
-  bool operator ==(Object o) {
-    if (identical(this, o)) return true;
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
 
-    return o is Product &&
-        o.productId == productId &&
-        o.productName == productName &&
-        listEquals(o.productImages, productImages) &&
-        listEquals(o.productDescription, productDescription) &&
-        o.productPrice == productPrice &&
-        o.productCuttedPrice == productCuttedPrice &&
-        o.productOnSale == productOnSale &&
-        o.productDiscount == productDiscount &&
-        o.productDiscountType == productDiscountType &&
-        o.productOnDiscount == productOnDiscount &&
-        o.backgroundColor == backgroundColor;
+    return other is Product &&
+        other.productId == productId &&
+        other.productName == productName &&
+        listEquals(other.productImages, productImages) &&
+        listEquals(other.productDescription, productDescription) &&
+        other.productPrice == productPrice &&
+        other.productCuttedPrice == productCuttedPrice &&
+        other.productOnSale == productOnSale &&
+        other.productDiscount == productDiscount &&
+        other.productDiscountType == productDiscountType &&
+        other.productOnDiscount == productOnDiscount &&
+        other.backgroundColor == backgroundColor &&
+        other.productStock == productStock &&
+        other.qty == qty &&
+        other.price == price;
   }
 
   @override
@@ -106,11 +72,52 @@ class Product {
         productDiscount.hashCode ^
         productDiscountType.hashCode ^
         productOnDiscount.hashCode ^
-        backgroundColor.hashCode;
+        backgroundColor.hashCode ^
+        productStock.hashCode ^
+        qty.hashCode ^
+        price.hashCode;
   }
 
-  @override
-  String toString() {
-    return 'Product(productId: $productId, productName: $productName, productImages: $productImages, productDescription: $productDescription, productPrice: $productPrice, productCuttedPrice: $productCuttedPrice, productOnSale: $productOnSale, productDiscount: $productDiscount, productDiscountType: $productDiscountType, productOnDiscount: $productOnDiscount, backgroundColor: $backgroundColor)';
+  Map<String, dynamic> toMap() {
+    return {
+      'productId': productId,
+      'productName': productName,
+      'productImages': productImages,
+      'productDescription': productDescription,
+      'productPrice': productPrice,
+      'productCuttedPrice': productCuttedPrice,
+      'productOnSale': productOnSale,
+      'productDiscount': productDiscount,
+      'productDiscountType': productDiscountType,
+      'productOnDiscount': productOnDiscount,
+      'backgroundColor': backgroundColor,
+      'productStock': productStock,
+      'qty': qty,
+      'price': price,
+    };
   }
+
+  factory Product.fromMap(Map<String, dynamic> map) {
+    return Product(
+      productId: map['productId'],
+      productName: map['productName'],
+      productImages: List<String>.from(map['productImages']),
+      productDescription: List<String>.from(map['productDescription']),
+      productPrice: map['productPrice'],
+      productCuttedPrice: map['productCuttedPrice'],
+      productOnSale: map['productOnSale'],
+      productDiscount: map['productDiscount'],
+      productDiscountType: map['productDiscountType'],
+      productOnDiscount: map['productOnDiscount'],
+      backgroundColor: map['backgroundColor'],
+      productStock: map['productStock'],
+      qty: map['qty'] ?? 0,
+      price: map['price'] ?? 0,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory Product.fromJson(String source) =>
+      Product.fromMap(json.decode(source));
 }

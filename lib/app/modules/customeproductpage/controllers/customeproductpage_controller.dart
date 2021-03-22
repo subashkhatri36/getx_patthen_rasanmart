@@ -11,6 +11,7 @@ class CustomeproductpageController extends GetxController {
   RxBool isProductContianerLioading = false.obs;
 
   RxInt index = 0.obs;
+
   ScrollController scrollController = new ScrollController();
   RxDouble _scrollPosition = 0.0.obs;
 
@@ -34,13 +35,11 @@ class CustomeproductpageController extends GetxController {
   }
 
   void loadproductContianer() async {
-    print('Loading product container');
     isProductContianerLioading.toggle();
     Either<String, List<ProductContianer>> containerValue =
         await _productContainerRepo.fetchOnlineProductContianer(
             category: categories.value);
     containerValue.fold((l) {
-      print(l);
       productContianerList =
           _productContainerRepo.fetchOfflineProductContianer().toList().obs;
     }, (r) => productContianerList = r.toList().obs);
@@ -54,6 +53,9 @@ class CustomeproductpageController extends GetxController {
 
   @override
   void onClose() {}
+
   void changeCategories(String category) =>
       categories.value = category.toUpperCase();
+
+  void increaseindex(int value) => index.value = value;
 }
