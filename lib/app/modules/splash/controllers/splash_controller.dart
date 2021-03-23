@@ -10,7 +10,7 @@ class SplashController extends GetxController {
   final String versionName = 'V1.0'.obs();
   FirebaseAuth firebaseAuth = FirebaseAuth.instance.obs();
   UserCredential userCredential = null.obs();
-  String userId = ''.obs();
+  RxString userId = ''.obs;
 
   @override
   void onInit() {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:rasan_mart/app/Widgets/total_product_price.dart';
+import 'package:rasan_mart/app/Widgets/Product/cart_and_quickview_btn.dart';
+import 'package:rasan_mart/app/Widgets/Product/total_product_price.dart';
 import 'package:rasan_mart/app/core/constant/default_value.dart';
 import 'package:rasan_mart/app/core/enum/enums.dart';
 import 'package:rasan_mart/app/modules/customeproductpage/product_model.dart';
@@ -20,12 +21,13 @@ class QuantityAndTotalpriceContainer extends StatefulWidget {
 
 class _QuantityContainerState extends State<QuantityAndTotalpriceContainer> {
   Product _product;
-  int qty;
-  double _totalprice;
+  int qty = 1;
+  double _totalprice = 0;
   @override
   void initState() {
     _product = widget.product;
-    qty = 1;
+    _product.setQty(1);
+    _product.setPrice(_product.productPrice);
     _totalprice = _product.productPrice;
     super.initState();
   }
@@ -159,6 +161,8 @@ class _QuantityContainerState extends State<QuantityAndTotalpriceContainer> {
             totalprice: _totalprice,
             isdetailpage: widget.isdetailpage,
           ),
+          SizedBox(height: Defaults.defaultfontsize),
+          buildCartAndQuick(false, context, _product),
         ],
       ),
     );
@@ -181,6 +185,9 @@ class _QuantityContainerState extends State<QuantityAndTotalpriceContainer> {
         setState(() {
           qty++;
           _totalprice = _product.productPrice * qty;
+          _totalprice = _totalprice.toPrecision(3);
+          _product.setQty(qty);
+          _product.setPrice(_totalprice);
         });
         break;
       case CounterType.Decreament:
@@ -188,9 +195,15 @@ class _QuantityContainerState extends State<QuantityAndTotalpriceContainer> {
           if (qty > 1) {
             qty--;
             _totalprice = _product.productPrice * qty;
+            _totalprice = _totalprice.toPrecision(3);
+            _product.setQty(qty);
+            _product.setPrice(_totalprice);
           } else {
             qty = 1;
             _totalprice = _product.productPrice * qty;
+            _totalprice = _totalprice.toPrecision(3);
+            _product.setQty(qty);
+            _product.setPrice(_totalprice);
           }
         });
         break;
@@ -198,8 +211,15 @@ class _QuantityContainerState extends State<QuantityAndTotalpriceContainer> {
         setState(() {
           qty = 1;
           _totalprice = _product.productPrice * qty;
+          _totalprice = _totalprice.toPrecision(3);
+          _product.setQty(qty);
+          _product.setPrice(_totalprice);
         });
         break;
     }
   }
+}
+
+extension Ex on double {
+  double toPrecision(int n) => double.parse(toStringAsFixed(n));
 }

@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:rasan_mart/app/data/local_data/get_storage.dart';
 import 'package:rasan_mart/app/modules/authentication/views/user_model.dart';
 import 'package:get/get.dart';
 import 'package:rasan_mart/app/modules/splash/controllers/splash_controller.dart';
@@ -12,7 +13,8 @@ abstract class AuthRepositories {
 }
 
 class UserAuthenticationRepositories implements AuthRepositories {
-  var splash = Get.put(SplashController());
+  var splash = Get.find<SplashController>();
+  LocalDB local = new LocalDB();
 
   @override
   Future<Either<String, String>> userGoogleSignIn() {
@@ -23,14 +25,19 @@ class UserAuthenticationRepositories implements AuthRepositories {
   @override
   Future<Either<String, String>> userLogIn(UserAuth user) async {
     try {
-      splash.userCredential =
-          await splash.firebaseAuth.signInWithEmailAndPassword(
+      splash.userCredential = await splash.firebaseAuth
+          .signInWithEmailAndPassword(
         email: user.email,
         password: user.password,
-      );
+      )
+          .then((value) {
+        splash.userId.value = splash.userCredential.user.uid;
+        local.writeToDB(value.user.uid);
+        return null;
+      });
 
       if (splash.userCredential != null) {
-        splash.userId = splash.userCredential.user.uid;
+        splash.userId.value = splash.userCredential.user.uid;
 
         return right('Success');
       } else {
@@ -47,16 +54,16 @@ class UserAuthenticationRepositories implements AuthRepositories {
     try {
       await splash.firebaseAuth
           .createUserWithEmailAndPassword(
-            email: user.email,
-            password: user.password,
-          )
-          .then((value) {})
-          .catchError((e) {
+        email: user.email,
+        password: user.password,
+      )
+          .then((value) {
+        splash.userId.value = splash.userCredential.user.uid;
+        local.writeToDB(value.user.uid);
+      }).catchError((e) {
         return left(e.toString());
       });
       if (splash.userCredential.user != null) {
-        splash.userId = splash.userCredential.user.uid;
-
         return right('Success');
       } else {
         return left("Registration Failed !");

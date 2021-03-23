@@ -6,11 +6,12 @@ import 'package:rasan_mart/app/data/Product/product_repositories.dart';
 import 'package:rasan_mart/app/modules/customeproductpage/product_model.dart';
 import 'package:rasan_mart/app/modules/customeproductpage/providers/product_provider.dart';
 
-class ProductController extends GetxController {
-  RxList<Product> productlist;
+class GridviewController extends GetxController {
+  // RxList<List<Product>> productlist;
   ProductRepo productRepo = new ProductRepositories();
   RxBool isProductLoading = false.obs;
 
+  final count = 0.obs;
   @override
   void onInit() {
     super.onInit();
@@ -44,4 +45,5 @@ class ProductController extends GetxController {
 
   @override
   void onClose() {}
+  void increment() => count.value++;
 }

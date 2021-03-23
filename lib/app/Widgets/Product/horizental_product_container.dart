@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rasan_mart/app/Widgets/product_widget.dart';
+import 'package:rasan_mart/app/Widgets/Product/product_widget.dart';
 import 'package:rasan_mart/app/core/constant/default_value.dart';
 import 'package:rasan_mart/app/core/constant/strings.dart';
 import 'package:rasan_mart/app/core/enum/enums.dart';
@@ -28,16 +28,24 @@ class HorizentalProductContainer extends StatefulWidget {
 
 class _HorizentalProductContainerState
     extends State<HorizentalProductContainer> {
-  final productController = Get.put(ProductController());
+  final productController = Get.find<ProductController>();
+  //List<Product> productlist;
+  Future<List<Product>> loadData() async {
+    return await productController.loadproduct(productId: widget.productIdList);
+    //print(productlist);
+  }
+
   @override
   void initState() {
-    productController.loadproduct(productId: widget.productIdList);
+    //print(widget.index);
+    loadData();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: widget.backgroundColor,
       margin: EdgeInsets.symmetric(vertical: Defaults.defaultfontsize / 4),
       padding: EdgeInsets.all(Defaults.defaultfontsize / 4),
       width: MediaQuery.of(context).size.width,
@@ -72,27 +80,32 @@ class _HorizentalProductContainerState
         SizedBox(height: Defaults.defaultfontsize / 4),
         Container(
             height: MediaQuery.of(context).size.height * 0.33,
-            child: Obx(() => productController.isProductLoading.isTrue
-                ? Container(
-                    child: Column(
-                    children: [CircularProgressIndicator(), Text('Loading...')],
-                  ))
-                : ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    shrinkWrap: true,
-                    itemCount:
-                        productController.productlist[widget.index].length,
-                    itemBuilder: (context, _index) {
-                      Product oneproduct =
-                          productController.productlist[widget.index][_index];
-
-                      ProductWidget(
-                        product: oneproduct,
-                        contianerType: ContianerType.HorizentalLayout,
-                        mainIndex: widget.index,
-                        index: _index,
-                      );
-                    })))
+            child: FutureBuilder(
+              builder: (context, snapshot) {
+                return snapshot.data != null
+                    ? ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        itemCount: snapshot.data?.length ?? 0,
+                        itemBuilder: (context, _index) {
+                          Product oneproduct = snapshot.data[_index];
+                          return ProductWidget(
+                            product: oneproduct,
+                            contianerType: ContianerType.HorizentalLayout,
+                            mainIndex: widget.index,
+                            index: _index,
+                          );
+                        })
+                    : Container(
+                        child: Column(
+                        children: [
+                          CircularProgressIndicator(),
+                          Text('Loading...')
+                        ],
+                      ));
+              },
+              future: loadData(),
+            ))
       ]),
     );
   }

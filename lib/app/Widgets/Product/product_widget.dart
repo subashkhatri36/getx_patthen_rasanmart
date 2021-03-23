@@ -1,11 +1,12 @@
 import 'dart:core';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:rasan_mart/app/Widgets/amount_box.dart';
-import 'package:rasan_mart/app/Widgets/cart_and_quickview_btn.dart';
+import 'package:rasan_mart/app/Widgets/Product/amount_box.dart';
+import 'package:rasan_mart/app/Widgets/Product/cart_and_quickview_btn.dart';
 import 'package:rasan_mart/app/Widgets/quantity_and_totalprice_container.dart';
-import 'package:rasan_mart/app/Widgets/sale_and_discount.dart';
+import 'package:rasan_mart/app/Widgets/Product/sale_and_discount.dart';
 import 'package:rasan_mart/app/core/constant/default_value.dart';
 import 'package:rasan_mart/app/core/enum/enums.dart';
 import 'package:rasan_mart/app/core/utils/styles.dart';
@@ -67,10 +68,15 @@ class _ProductWidgetState extends State<ProductWidget> {
                       EdgeInsets.only(bottom: Defaults.defaultfontsize / 6),
                   child: Hero(
                     tag: new Text(widget.product.productId),
-                    child: Image.network(
-                      widget.product.productImages[0],
+                    child: CachedNetworkImage(
+                      imageUrl: widget.product.productImages[0],
+                      fadeInDuration: Duration(milliseconds: 1),
                       fit: BoxFit.fitHeight,
                       height: MediaQuery.of(context).size.height * .07,
+                      placeholder: (context, url) => CircularProgressIndicator(
+                        strokeWidth: 0.5,
+                      ),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
                     ),
                   ),
                 ),
@@ -94,8 +100,6 @@ class _ProductWidgetState extends State<ProductWidget> {
                 product: widget.product,
                 isdetailpage: false,
               ),
-              SizedBox(height: Defaults.defaultfontsize),
-              buildCartAndQuick(false, context),
             ],
           ),
           if (widget.product.productOnSale)

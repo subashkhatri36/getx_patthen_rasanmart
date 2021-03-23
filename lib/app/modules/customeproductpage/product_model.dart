@@ -39,6 +39,9 @@ class Product {
   int get qetQty => this.qty;
   setQty(int qty) => this.qty = qty;
 
+  double get qetPrice => this.price;
+  setPrice(double price) => this.price = price;
+
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;

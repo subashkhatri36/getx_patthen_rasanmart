@@ -11,6 +11,8 @@ class CustomeproductpageController extends GetxController {
   RxBool isProductContianerLioading = false.obs;
 
   RxInt index = 0.obs;
+  RxInt productindex = 0.obs;
+  RxInt gridIndex = 0.obs;
 
   ScrollController scrollController = new ScrollController();
   RxDouble _scrollPosition = 0.0.obs;
@@ -57,5 +59,6 @@ class CustomeproductpageController extends GetxController {
   void changeCategories(String category) =>
       categories.value = category.toUpperCase();
 
-  void increaseindex(int value) => index.value = value;
+  void productincreaseindex() => productindex.value++;
+  void gridincreaseindex() => gridIndex.value++;
 }
