@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rasan_mart/app/Widgets/snakbar.dart';
 import 'package:rasan_mart/app/data/cart/cart_repository.dart';
+import 'package:rasan_mart/app/modules/authentication/controllers/mainauth_controller.dart';
 import 'package:rasan_mart/app/modules/customeproductpage/product_model.dart';
 import 'package:rasan_mart/app/modules/customeproductpage/providers/cart_provider.dart';
 
@@ -12,14 +13,18 @@ class CartController extends GetxController {
   RxBool isLoadingCart = false.obs;
   CartProvider cartRepo = CartRepository();
 
+  final firebase = Get.find<MainauthController>();
+  RxInt cartTotal = 0.obs;
+
   @override
-  void onInit() {
+  void onInit() async {
+    await loadCart(firebase.firebaseAuth.currentUser.uid);
     super.onInit();
   }
 
-  loadCart() async {
+  Future<void> loadCart(String data) async {
     List<Product> newcartList = [];
-    Either<String, List<Product>> cart = await cartRepo.fetchCart();
+    Either<String, List<Product>> cart = await cartRepo.fetchCart(data);
     cart.fold(
         (l) => CustomeSnackbar(
             title: 'Error Loading Cart',
@@ -28,13 +33,11 @@ class CartController extends GetxController {
             backgroundColor: Colors.white), (r) {
       newcartList = r.toList();
       cartList = newcartList.obs;
+      cartTotal = cartList.length.obs;
     });
   }
 
-  removeCart({
-    @required int index,
-    @required String productId,
-  }) async {
+  removeCart({@required int index, @required String productId}) async {
     Either<String, String> cart =
         await cartRepo.removeCart(productId: productId);
     cart.fold(
@@ -49,7 +52,7 @@ class CartController extends GetxController {
         message: r.toString(),
         icon: Icon(Icons.arrow_right),
       );
-      loadCart();
+      loadCart(null);
       // cartList.removeAt(index);
     });
   }
@@ -62,7 +65,7 @@ class CartController extends GetxController {
     );
     cart.fold(
         (l) => CustomeSnackbar(
-            title: 'Error on removing Cart',
+            title: 'Error on adding to Cart',
             message: l.toString(),
             icon: Icon(Icons.warning),
             backgroundColor: Colors.white), (r) {
@@ -71,8 +74,10 @@ class CartController extends GetxController {
         message: r.toString(),
         icon: Icon(Icons.arrow_right),
       );
+      cartTotal.value += 1;
+      cartList.add(product);
 
-      loadCart();
+      //   loadCart(null);
       // addToCart(product);
     });
   }

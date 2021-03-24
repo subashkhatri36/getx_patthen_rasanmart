@@ -7,7 +7,8 @@ import 'package:rasan_mart/app/Widgets/appbar/custome_appbar.dart';
 import 'package:rasan_mart/app/Widgets/bottom_navigationbar.dart';
 import 'package:rasan_mart/app/modules/customeproductpage/controllers/customeproductpage_controller.dart';
 import 'package:rasan_mart/app/modules/customeproductpage/views/customeproductpage_view.dart';
-import '../controllers/home_controller.dart';
+
+import 'package:rasan_mart/app/modules/home/controllers/home_controller.dart';
 
 class HomeView extends StatefulWidget {
   @override
@@ -15,10 +16,11 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  final homecontroller = Get.put(HomeController());
+  // final homecontroller = Get.put(HomeController());
   int _selectedIndex = 0;
 
   final productcontianerContorller = Get.put(CustomeproductpageController());
+  final data = Get.put(HomeController());
 
   Widget returnScreenValue(int _index) {
     switch (_index) {
@@ -40,12 +42,14 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: buildAppBar(context),
-      drawer: AppDrawer(),
-      body: returnScreenValue(_selectedIndex),
-      // drawer: AppDrawer(),
-      bottomNavigationBar: buildBottomNavigationBar(context),
+    return Obx(
+      () => Scaffold(
+        appBar: buildAppBar(context),
+        drawer: AppDrawer(),
+        body: returnScreenValue(_selectedIndex),
+        // drawer: AppDrawer(),
+        bottomNavigationBar: buildBottomNavigationBar(context),
+      ),
     );
   }
 
@@ -61,7 +65,7 @@ class _HomeViewState extends State<HomeView> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
-      if (_selectedIndex != 0) homecontroller.showSearchBar(false);
+      if (_selectedIndex != 0) data.showSearchBar(false);
     });
   }
 }

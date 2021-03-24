@@ -7,7 +7,6 @@ import 'package:rasan_mart/app/Widgets/quantity_and_totalprice_container.dart';
 import 'package:rasan_mart/app/core/constant/default_value.dart';
 import 'package:rasan_mart/app/core/enum/enum_convert.dart';
 import 'package:rasan_mart/app/core/utils/styles.dart';
-import 'package:rasan_mart/app/data/local_data/dummy_data.dart';
 import 'package:rasan_mart/app/modules/customeproductpage/product_model.dart';
 import 'package:get/get.dart';
 import 'package:rasan_mart/app/modules/productdetail/views/product_images_details.dart';
@@ -94,6 +93,7 @@ class _ProductdetailViewState extends State<ProductdetailView> {
                   productIdList: _product.similarproduct,
                 ),
                 SizedBox(height: Defaults.defaultPadding)
+                
               ],
             )),
       ),

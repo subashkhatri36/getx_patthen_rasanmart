@@ -5,6 +5,7 @@ import 'package:rasan_mart/app/core/utils/styles.dart';
 import 'package:rasan_mart/app/modules/customeproductpage/controllers/cart_controller.dart';
 import 'package:rasan_mart/app/modules/customeproductpage/product_model.dart';
 import 'package:get/get.dart';
+import 'package:rasan_mart/app/modules/productdetail/views/productdetail_view.dart';
 
 Container buildCartAndQuick(
     bool isdetailpage, BuildContext context, Product product) {
@@ -14,26 +15,26 @@ Container buildCartAndQuick(
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Container(
-          alignment: Alignment.center,
-          padding: isdetailpage
-              ? EdgeInsets.symmetric(
-                  horizontal: Defaults.defaultPadding * 2,
-                  vertical: Defaults.defaultfontsize / 2,
-                )
-              : EdgeInsets.all(Defaults.defaultfontsize / 4),
-          decoration: buildBoxDecoration(
-              bgcolor: isdetailpage
-                  ? Theme.of(context).backgroundColor
-                  : Colors.grey[300],
-              round: true,
-              shadow: false),
-          child: GestureDetector(
-            onTap: () {
-              cartController.addCart(
-                product: product,
-              );
-            },
+        GestureDetector(
+          onTap: () {
+            cartController.addCart(
+              product: product,
+            );
+          },
+          child: Container(
+            alignment: Alignment.center,
+            padding: isdetailpage
+                ? EdgeInsets.symmetric(
+                    horizontal: Defaults.defaultPadding * 2,
+                    vertical: Defaults.defaultfontsize / 2,
+                  )
+                : EdgeInsets.all(Defaults.defaultfontsize / 4),
+            decoration: buildBoxDecoration(
+                bgcolor: isdetailpage
+                    ? Theme.of(context).backgroundColor
+                    : Colors.grey[300],
+                round: true,
+                shadow: false),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -68,7 +69,9 @@ Container buildCartAndQuick(
             decoration:
                 buildBoxDecoration(bgcolor: null, round: true, shadow: false),
             child: GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Get.to(() => ProductdetailView(), arguments: product);
+              },
               child: Row(
                 children: [
                   Icon(

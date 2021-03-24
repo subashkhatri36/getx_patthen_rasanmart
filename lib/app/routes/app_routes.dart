@@ -9,6 +9,8 @@ abstract class Routes {
   static const NOINTERNET = _Paths.NOINTERNET;
   static const ACCOUNT = _Paths.ACCOUNT;
   static const PRODUCTDETAIL = _Paths.PRODUCTDETAIL;
+  static const CART = _Paths.CART;
+  static const NOTIFICATIONPAGE = _Paths.NOTIFICATIONPAGE;
 }
 
 abstract class _Paths {
@@ -19,4 +21,6 @@ abstract class _Paths {
   static const NOINTERNET = '/nointernet';
   static const ACCOUNT = '/account';
   static const PRODUCTDETAIL = '/productdetail';
+  static const CART = '/cart';
+  static const NOTIFICATIONPAGE = '/notificationpage';
 }

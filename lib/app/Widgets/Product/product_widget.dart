@@ -56,24 +56,17 @@ class _ProductWidgetState extends State<ProductWidget> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              GestureDetector(
-                onTap: () {
-                  // Navigator.of(context).push(route)
-                  Get.to(() => ProductdetailView(), arguments: widget.product);
-                },
-                child: Container(
-                  alignment: Alignment.center,
-                  padding:
-                      EdgeInsets.only(bottom: Defaults.defaultfontsize / 6),
-                  child: Hero(
-                      tag: new Text(widget.product.productId),
-                      child: imageContainer(
-                        path: widget.product.productImages[0],
-                        context: context,
-                        width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height * .07,
-                      )),
-                ),
+              Container(
+                alignment: Alignment.center,
+                padding: EdgeInsets.only(bottom: Defaults.defaultfontsize / 6),
+                child: Hero(
+                    tag: new Text(widget.product.productId),
+                    child: imageContainer(
+                      path: widget.product.productImages[0],
+                      context: context,
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height * .07,
+                    )),
               ),
               SizedBox(height: Defaults.defaultfontsize / 2),
               Text(

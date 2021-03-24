@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rasan_mart/app/core/constant/default_value.dart';
 import 'package:rasan_mart/app/modules/customeproductpage/views/customebodyview_view.dart';
+import 'package:rasan_mart/app/modules/home/controllers/home_controller.dart';
 
 import '../controllers/customeproductpage_controller.dart';
 
 class CustomeproductpageView extends GetView<CustomeproductpageController> {
   final customeController = Get.put(CustomeproductpageController());
+  final homecontroller = Get.find<HomeController>();
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class CustomeproductpageView extends GetView<CustomeproductpageController> {
                     ],
                   ))
                 : ListView.builder(
-                    controller: customeController.scrollController,
+                    controller: homecontroller.scrollController,
                     itemCount: customeController.productContianerList?.length,
                     shrinkWrap: true,
                     scrollDirection: Axis.vertical,

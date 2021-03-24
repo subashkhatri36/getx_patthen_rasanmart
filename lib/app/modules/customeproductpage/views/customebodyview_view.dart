@@ -7,7 +7,6 @@ import 'package:rasan_mart/app/Widgets/Scroll_banner.dart';
 import 'package:rasan_mart/app/Widgets/Product/horizental_product_container.dart';
 import 'package:rasan_mart/app/Widgets/search_bar_icons.dart';
 import 'package:rasan_mart/app/core/enum/enums.dart';
-import 'package:rasan_mart/app/modules/customeproductpage/controllers/cart_controller.dart';
 import 'package:rasan_mart/app/modules/customeproductpage/controllers/customeproductpage_controller.dart';
 import 'package:rasan_mart/app/modules/customeproductpage/controllers/gridview_controller.dart';
 import 'package:rasan_mart/app/modules/customeproductpage/controllers/product_controller.dart';
@@ -31,7 +30,7 @@ class _CustomebodyviewViewState extends State<CustomebodyviewView> {
         .productContianerList[productContainerController.index.value];
     Get.put(ProductController());
     Get.put(GridviewController());
-    Get.put(CartController());
+
     // Get.put(SplashController());
 
     switch (list.contianerType) {

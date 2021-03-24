@@ -7,13 +7,15 @@ import 'package:rasan_mart/app/modules/customeproductpage/providers/cart_provide
 
 class CartRepository implements CartProvider {
   LocalDB localDB = new LocalDB();
-
   @override
-  Future<Either<String, String>> addCart({@required Product product}) async {
+  Future<Either<String, String>> addCart(
+      {@required Product product, String data}) async {
+    if (data == null) data = localDB.readToDB();
+
     String msg = 'No data';
     try {
       await FirebaseFirestore.instance
-          .collection(localDB.readToDB())
+          .collection(data)
           .add(product.toMap())
           .whenComplete(() => msg = 'Successfully Added to Cart');
 
@@ -25,18 +27,15 @@ class CartRepository implements CartProvider {
   }
 
   @override
-  Future<Either<String, List<Product>>> fetchCart() async {
+  Future<Either<String, List<Product>>> fetchCart(String data) async {
+    if (data == null) data = localDB.readToDB();
     List<Product> _product = [];
+    print('Database' + data.toString());
     try {
-      await FirebaseFirestore.instance
-          .collection(localDB.readToDB())
-          .get()
-          .then((value) {
+      await FirebaseFirestore.instance.collection(data).get().then((value) {
         value.docs.forEach((element) {
-          print(localDB.readToDB());
-          print(element['productName']);
           _product.add(Product(
-            productId: element['productId'].toString(),
+            productId: element.id,
             productName: element['productName'].toString(),
             productImages: List.from(['productImages']),
             productDescription: List.from(['productDescription']),
@@ -50,10 +49,11 @@ class CartRepository implements CartProvider {
             productStock: element['productStock'] as bool,
             qty: element['qty'] as int,
             price: element['price'].toDouble(),
+            similarproduct: List.from(element['similarproduct']),
           ));
         });
       });
-      print(_product.toList());
+      // print(_product);
 
       return right(_product);
     } catch (error) {
@@ -63,15 +63,19 @@ class CartRepository implements CartProvider {
   }
 
   @override
-  Future<Either<String, String>> removeCart(
-      {@required String productId, var userData}) {
+  Future<Either<String, String>> deleteCartItems({String cartId, String data}) {
+    // TODO: implement deleteCartItems
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<String, String>> removeCart({String productId, String data}) {
     // TODO: implement removeCart
     throw UnimplementedError();
   }
 
   @override
-  Future<Either<String, String>> updateCart(
-      {@required String productId, var userData}) {
+  Future<Either<String, String>> updateCart({String productId, String data}) {
     // TODO: implement updateCart
     throw UnimplementedError();
   }

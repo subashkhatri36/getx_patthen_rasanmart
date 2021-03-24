@@ -11,18 +11,19 @@ Widget imageContainer({
   return CachedNetworkImage(
     imageUrl: path,
     fadeInDuration: Duration(milliseconds: 1),
-    fit: fit != null ? fit: BoxFit.fitHeight,
+    fit: BoxFit.fitHeight,
     width: width,
     height: height,
-    placeholder: (context, url) => Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        CircularProgressIndicator(
-          strokeWidth: 0.5,
-        ),
-        Text('Loading...')
-      ],
+    placeholder: (context, url) => Container(
+      width: width,
+      height: height,
+      child: Column(
+        children: [
+          CircularProgressIndicator(
+            strokeWidth: 0.5,
+          ),
+        ],
+      ),
     ),
     errorWidget: (context, url, error) => Icon(Icons.error),
   );

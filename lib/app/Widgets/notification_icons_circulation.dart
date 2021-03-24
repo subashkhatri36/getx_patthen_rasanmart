@@ -16,9 +16,13 @@ class IconWithNotification extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.only(right: 10),
       child: Stack(
         children: [
-          Icon(icon),
+          Icon(
+            icon,
+            size: 30,
+          ),
           Positioned(
             top: 0,
             right: 0,
@@ -30,10 +34,10 @@ class IconWithNotification extends StatelessWidget {
                 foregroundColor: Colors.white,
                 backgroundColor:
                     backgroundColor ?? Theme.of(context).backgroundColor,
-                radius: 6,
+                radius: 7,
                 child: Text(
                   notification ?? 0,
-                  style: TextStyle(fontSize: Defaults.defaultfontsize / 2),
+                  style: TextStyle(fontSize: Defaults.defaultfontsize - 4),
                 ),
               ),
             ),
