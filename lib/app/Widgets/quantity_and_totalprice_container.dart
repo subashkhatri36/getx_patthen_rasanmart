@@ -161,8 +161,8 @@ class _QuantityContainerState extends State<QuantityAndTotalpriceContainer> {
             totalprice: _totalprice,
             isdetailpage: widget.isdetailpage,
           ),
-          SizedBox(height: Defaults.defaultfontsize),
-          buildCartAndQuick(false, context, _product),
+          if (!widget.isdetailpage) SizedBox(height: Defaults.defaultfontsize),
+          if (!widget.isdetailpage) buildCartAndQuick(false, context, _product),
         ],
       ),
     );

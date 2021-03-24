@@ -1,9 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rasan_mart/app/data/local_data/get_storage.dart';
+import 'package:rasan_mart/app/modules/authentication/controllers/mainauth_controller.dart';
 import 'package:rasan_mart/app/modules/authentication/views/user_model.dart';
 import 'package:get/get.dart';
-import 'package:rasan_mart/app/modules/splash/controllers/splash_controller.dart';
 
 abstract class AuthRepositories {
   Future<Either<String, String>> userLogIn(UserAuth user);
@@ -13,7 +13,7 @@ abstract class AuthRepositories {
 }
 
 class UserAuthenticationRepositories implements AuthRepositories {
-  var splash = Get.find<SplashController>();
+  var splash = Get.find<MainauthController>();
   LocalDB local = new LocalDB();
 
   @override
@@ -24,6 +24,7 @@ class UserAuthenticationRepositories implements AuthRepositories {
 
   @override
   Future<Either<String, String>> userLogIn(UserAuth user) async {
+    bool userMsg = false;
     try {
       splash.userCredential = await splash.firebaseAuth
           .signInWithEmailAndPassword(
@@ -31,19 +32,20 @@ class UserAuthenticationRepositories implements AuthRepositories {
         password: user.password,
       )
           .then((value) {
-        splash.userId.value = splash.userCredential.user.uid;
+        // splash.userId.value = splash.userCredential.user.uid;
+        splash.userCredential = value;
+
         local.writeToDB(value.user.uid);
-        return null;
+        userMsg = true;
+        // return null;
+      }).onError((error, stackTrace) {
+        userMsg = false;
       });
-
-      if (splash.userCredential != null) {
-        splash.userId.value = splash.userCredential.user.uid;
-
+      if (userMsg) {
         return right('Success');
       } else {
         return left("Authentication Failed !");
       }
-      //
     } on FirebaseAuthException {
       return left("Authentication Failed !\n Wrong Email and Password");
     }
@@ -51,6 +53,7 @@ class UserAuthenticationRepositories implements AuthRepositories {
 
   @override
   Future<Either<String, String>> userRegister(UserAuth user) async {
+    bool userMsg = false;
     try {
       await splash.firebaseAuth
           .createUserWithEmailAndPassword(
@@ -58,15 +61,19 @@ class UserAuthenticationRepositories implements AuthRepositories {
         password: user.password,
       )
           .then((value) {
-        splash.userId.value = splash.userCredential.user.uid;
+        // splash.userId.value = splash.userCredential.user.uid;
+        splash.userCredential = value;
+
         local.writeToDB(value.user.uid);
-      }).catchError((e) {
-        return left(e.toString());
+        userMsg = true;
+        //return null;
+      }).onError((error, stackTrace) {
+        userMsg = false;
       });
-      if (splash.userCredential.user != null) {
+      if (userMsg) {
         return right('Success');
       } else {
-        return left("Registration Failed !");
+        return left("Authentication Failed !");
       }
 
       //.user;
@@ -78,7 +85,6 @@ class UserAuthenticationRepositories implements AuthRepositories {
 
   @override
   Future<Either<String, String>> userForgetPassword() {
-    // TODO: implement userForgetPassword
     throw UnimplementedError();
   }
 }

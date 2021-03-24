@@ -11,14 +11,13 @@ class HorizentalProductContainer extends StatefulWidget {
   final String containerTitle;
   final List<String> productIdList;
   final Color backgroundColor;
-  final int index;
+  //final int index;
 
   const HorizentalProductContainer({
     Key key,
     @required this.containerTitle,
     @required this.productIdList,
     @required this.backgroundColor,
-    @required this.index,
   }) : super(key: key);
 
   @override
@@ -46,7 +45,8 @@ class _HorizentalProductContainerState
   Widget build(BuildContext context) {
     return Container(
       color: widget.backgroundColor,
-      margin: EdgeInsets.symmetric(vertical: Defaults.defaultfontsize / 4),
+      margin: EdgeInsets.symmetric(
+          vertical: Defaults.defaultfontsize / 4, horizontal: 0.0),
       padding: EdgeInsets.all(Defaults.defaultfontsize / 4),
       width: MediaQuery.of(context).size.width,
       child: Column(children: [
@@ -92,8 +92,6 @@ class _HorizentalProductContainerState
                           return ProductWidget(
                             product: oneproduct,
                             contianerType: ContianerType.HorizentalLayout,
-                            mainIndex: widget.index,
-                            index: _index,
                           );
                         })
                     : Container(

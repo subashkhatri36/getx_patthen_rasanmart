@@ -24,7 +24,7 @@ class ProductController extends GetxController {
 
     newproduct.fold((l) {
       CustomeSnackbar(
-        title: 'Error on Banner',
+        title: 'Error on Product',
         message: l.toString(),
         icon: Icon(Icons.warning),
       );

@@ -25,9 +25,41 @@ class CartRepository implements CartProvider {
   }
 
   @override
-  Future<Either<String, List<Product>>> fetchCart({var userData}) {
-    // TODO: implement fetchCart
-    throw UnimplementedError();
+  Future<Either<String, List<Product>>> fetchCart() async {
+    List<Product> _product = [];
+    try {
+      await FirebaseFirestore.instance
+          .collection(localDB.readToDB())
+          .get()
+          .then((value) {
+        value.docs.forEach((element) {
+          print(localDB.readToDB());
+          print(element['productName']);
+          _product.add(Product(
+            productId: element['productId'].toString(),
+            productName: element['productName'].toString(),
+            productImages: List.from(['productImages']),
+            productDescription: List.from(['productDescription']),
+            productPrice: element['productPrice'].toDouble(),
+            productCuttedPrice: element['productCuttedPrice'].toDouble(),
+            productOnSale: element['productOnSale'] as bool,
+            productDiscount: element['productDiscount'].toDouble(),
+            productDiscountType: element['productDiscountType'].toString(),
+            productOnDiscount: element['productOnDiscount'] as bool,
+            backgroundColor: element['backgroundColor'].toString(),
+            productStock: element['productStock'] as bool,
+            qty: element['qty'] as int,
+            price: element['price'].toDouble(),
+          ));
+        });
+      });
+      print(_product.toList());
+
+      return right(_product);
+    } catch (error) {
+      print(error);
+      return left(error.toString());
+    }
   }
 
   @override

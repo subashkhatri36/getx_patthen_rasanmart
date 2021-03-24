@@ -11,4 +11,5 @@ class Strings {
       "Authentication Failed\n Please try again.";
   static const String searchMessage = 'What are you looking for?';
   static const String btnview = "View All";
+  static const String productDescription = 'Product Description';
 }

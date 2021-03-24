@@ -32,6 +32,7 @@ class ProductRepositories implements ProductRepo {
               productOnSale: newproduct['productOnSale'] as bool,
               productPrice: newproduct['productPrice'].toDouble(),
               productStock: newproduct['productStock'] as bool,
+              similarproduct: List.from(newproduct['similarproduct']),
             ));
           });
         });

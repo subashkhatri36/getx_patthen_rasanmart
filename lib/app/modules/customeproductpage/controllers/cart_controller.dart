@@ -17,16 +17,15 @@ class CartController extends GetxController {
     super.onInit();
   }
 
-  loadCart(var userData) async {
+  loadCart() async {
     List<Product> newcartList = [];
-    Either<String, List<Product>> cart =
-        await cartRepo.fetchCart(userData: userData);
+    Either<String, List<Product>> cart = await cartRepo.fetchCart();
     cart.fold(
         (l) => CustomeSnackbar(
-              title: 'Error Loading Cart',
-              message: l.toString(),
-              icon: Icon(Icons.warning),
-            ), (r) {
+            title: 'Error Loading Cart',
+            message: l.toString(),
+            icon: Icon(Icons.warning),
+            backgroundColor: Colors.white), (r) {
       newcartList = r.toList();
       cartList = newcartList.obs;
     });
@@ -42,6 +41,7 @@ class CartController extends GetxController {
         (l) => CustomeSnackbar(
               title: 'Error on removing Cart',
               message: l.toString(),
+              backgroundColor: Colors.white,
               icon: Icon(Icons.warning),
             ), (r) {
       CustomeSnackbar(
@@ -49,29 +49,31 @@ class CartController extends GetxController {
         message: r.toString(),
         icon: Icon(Icons.arrow_right),
       );
-      cartList.removeAt(index);
+      loadCart();
+      // cartList.removeAt(index);
     });
   }
 
   addCart({
     @required product,
-    @required userdata,
   }) async {
     Either<String, String> cart = await cartRepo.addCart(
       product: product,
     );
     cart.fold(
         (l) => CustomeSnackbar(
-              title: 'Error on removing Cart',
-              message: l.toString(),
-              icon: Icon(Icons.warning),
-            ), (r) {
+            title: 'Error on removing Cart',
+            message: l.toString(),
+            icon: Icon(Icons.warning),
+            backgroundColor: Colors.white), (r) {
       CustomeSnackbar(
         title: 'Successful',
         message: r.toString(),
         icon: Icon(Icons.arrow_right),
       );
-      addToCart(product);
+
+      loadCart();
+      // addToCart(product);
     });
   }
 

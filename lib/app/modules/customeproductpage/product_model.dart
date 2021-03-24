@@ -15,6 +15,7 @@ class Product {
   final bool productOnDiscount;
   final String backgroundColor;
   final bool productStock;
+  final List<String> similarproduct;
   int qty;
   double price;
 
@@ -31,6 +32,7 @@ class Product {
     @required this.productDiscountType,
     @required this.productName,
     @required this.backgroundColor,
+    @required this.similarproduct,
     int qty,
     double price,
   });
@@ -95,6 +97,7 @@ class Product {
       'productOnDiscount': productOnDiscount,
       'backgroundColor': backgroundColor,
       'productStock': productStock,
+      'similarproduct': similarproduct,
       'qty': qty,
       'price': price,
     };
@@ -114,6 +117,7 @@ class Product {
       productOnDiscount: map['productOnDiscount'],
       backgroundColor: map['backgroundColor'],
       productStock: map['productStock'],
+      similarproduct: map['similarproduct'],
       qty: map['qty'] ?? 0,
       price: map['price'] ?? 0,
     );

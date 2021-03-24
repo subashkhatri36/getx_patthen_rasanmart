@@ -122,6 +122,21 @@ class AuthenticationView extends GetView<AuthenticationController> {
                           );
                         }
                       },
+                    ),
+                    CustomOutlinedButton(
+                      label: 'Register',
+                      onPressed: () {
+                        if (formkey.currentState.validate()) {
+                          authController.onSubmit(AuthenticateType.Register);
+                        } else {
+                          CustomeSnackbar(
+                            title: 'Authentication !',
+                            message: 'Check your data!.',
+                            icon: Icon(Icons.warning),
+                            backgroundColor: Colors.white,
+                          );
+                        }
+                      },
                     )
                   ],
                 )

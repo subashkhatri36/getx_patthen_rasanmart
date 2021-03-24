@@ -16,39 +16,42 @@ class CategoriesGridView extends GetView {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(top: Defaults.defaultfontsize),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (!istabclick)
-            Container(
-              margin: EdgeInsets.only(left: Defaults.defaultfontsize),
-              child: Text(
-                'Categories',
-                style: TextStyle(
-                    fontSize: Defaults.defaultfontsize + 5,
-                    fontWeight: FontWeight.bold),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (!istabclick)
+              Container(
+                margin: EdgeInsets.only(left: Defaults.defaultfontsize),
+                child: Text(
+                  'Categories',
+                  style: TextStyle(
+                      fontSize: Defaults.defaultfontsize + 5,
+                      fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
-          SizedBox(height: Defaults.defaultfontsize),
-          Obx(() => Container(
-              padding: EdgeInsets.symmetric(
-                  horizontal: Defaults.defaultfontsize / 2),
-              child: categoryController.isCategoryLoading.isTrue
-                  ? Center(
-                      child: Column(
-                        children: [
-                          CircularProgressIndicator(),
-                          SizedBox(height: Defaults.defaultPadding),
-                          Text('Loading...')
-                        ],
-                      ),
-                    )
-                  : istabclick
-                      ? buildListView(categories: categoryController.categories)
-                      : buildGridView(
-                          context: context,
-                          categories: categoryController.categories))),
-        ],
+            SizedBox(height: Defaults.defaultfontsize),
+            Obx(() => Container(
+                padding: EdgeInsets.symmetric(
+                    horizontal: Defaults.defaultfontsize / 2),
+                child: categoryController.isCategoryLoading.isTrue
+                    ? Center(
+                        child: Column(
+                          children: [
+                            CircularProgressIndicator(),
+                            SizedBox(height: Defaults.defaultPadding),
+                            Text('Loading...')
+                          ],
+                        ),
+                      )
+                    : istabclick
+                        ? buildListView(
+                            categories: categoryController.categories)
+                        : buildGridView(
+                            context: context,
+                            categories: categoryController.categories))),
+          ],
+        ),
       ),
     );
   }

@@ -8,12 +8,10 @@ import 'package:rasan_mart/app/Widgets/Product/horizental_product_container.dart
 import 'package:rasan_mart/app/Widgets/search_bar_icons.dart';
 import 'package:rasan_mart/app/core/enum/enums.dart';
 import 'package:rasan_mart/app/modules/customeproductpage/controllers/cart_controller.dart';
-import 'package:rasan_mart/app/modules/customeproductpage/controllers/category_controller.dart';
 import 'package:rasan_mart/app/modules/customeproductpage/controllers/customeproductpage_controller.dart';
 import 'package:rasan_mart/app/modules/customeproductpage/controllers/gridview_controller.dart';
 import 'package:rasan_mart/app/modules/customeproductpage/controllers/product_controller.dart';
 import 'package:rasan_mart/app/modules/customeproductpage/product_contianer_model.dart';
-import 'package:rasan_mart/app/modules/splash/controllers/splash_controller.dart';
 
 class CustomebodyviewView extends StatefulWidget {
   @override
@@ -34,7 +32,7 @@ class _CustomebodyviewViewState extends State<CustomebodyviewView> {
     Get.put(ProductController());
     Get.put(GridviewController());
     Get.put(CartController());
-    Get.put(SplashController());
+    // Get.put(SplashController());
 
     switch (list.contianerType) {
       case ContianerType.SearchBar:
@@ -57,7 +55,6 @@ class _CustomebodyviewViewState extends State<CustomebodyviewView> {
             containerTitle: title,
             backgroundColor: color,
             productIdList: plist,
-            index: _productindex,
           );
         } catch (error) {
           return Container();
@@ -67,7 +64,6 @@ class _CustomebodyviewViewState extends State<CustomebodyviewView> {
           containerTitle: title,
           backgroundColor: color,
           productIdList: plist,
-          index: _productindex,
         );
 
       case ContianerType.GridviewLayout:

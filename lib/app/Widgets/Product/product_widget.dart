@@ -4,27 +4,27 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:rasan_mart/app/Widgets/Product/amount_box.dart';
-import 'package:rasan_mart/app/Widgets/Product/cart_and_quickview_btn.dart';
+import 'package:rasan_mart/app/Widgets/image_container.dart';
 import 'package:rasan_mart/app/Widgets/quantity_and_totalprice_container.dart';
 import 'package:rasan_mart/app/Widgets/Product/sale_and_discount.dart';
 import 'package:rasan_mart/app/core/constant/default_value.dart';
 import 'package:rasan_mart/app/core/enum/enums.dart';
 import 'package:rasan_mart/app/core/utils/styles.dart';
 import 'package:rasan_mart/app/modules/customeproductpage/product_model.dart';
+import 'package:get/get.dart';
+import 'package:rasan_mart/app/modules/productdetail/views/productdetail_view.dart';
 
 class ProductWidget extends StatefulWidget {
   final ContianerType contianerType;
   final Product product;
-  final mainIndex;
-  final index;
+  //final mainIndex;
+  //final index;
 
-  const ProductWidget(
-      {Key key,
-      @required this.product,
-      @required this.contianerType,
-      this.mainIndex,
-      this.index})
-      : super(key: key);
+  const ProductWidget({
+    Key key,
+    @required this.product,
+    @required this.contianerType,
+  }) : super(key: key);
 
   @override
   _ProductWidgetState createState() => _ProductWidgetState();
@@ -59,26 +59,20 @@ class _ProductWidgetState extends State<ProductWidget> {
               GestureDetector(
                 onTap: () {
                   // Navigator.of(context).push(route)
-                  Navigator.of(context)
-                      .pushNamed('/productdetail', arguments: widget.product);
+                  Get.to(() => ProductdetailView(), arguments: widget.product);
                 },
                 child: Container(
                   alignment: Alignment.center,
                   padding:
                       EdgeInsets.only(bottom: Defaults.defaultfontsize / 6),
                   child: Hero(
-                    tag: new Text(widget.product.productId),
-                    child: CachedNetworkImage(
-                      imageUrl: widget.product.productImages[0],
-                      fadeInDuration: Duration(milliseconds: 1),
-                      fit: BoxFit.fitHeight,
-                      height: MediaQuery.of(context).size.height * .07,
-                      placeholder: (context, url) => CircularProgressIndicator(
-                        strokeWidth: 0.5,
-                      ),
-                      errorWidget: (context, url, error) => Icon(Icons.error),
-                    ),
-                  ),
+                      tag: new Text(widget.product.productId),
+                      child: imageContainer(
+                        path: widget.product.productImages[0],
+                        context: context,
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * .07,
+                      )),
                 ),
               ),
               SizedBox(height: Defaults.defaultfontsize / 2),
