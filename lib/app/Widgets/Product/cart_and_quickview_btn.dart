@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rasan_mart/app/core/constant/default_value.dart';
 import 'package:rasan_mart/app/core/utils/styles.dart';
-import 'package:rasan_mart/app/modules/customeproductpage/controllers/cart_controller.dart';
-import 'package:rasan_mart/app/modules/customeproductpage/product_model.dart';
+import 'package:rasan_mart/app/modules/cart/controllers/cart_controller.dart';
 import 'package:get/get.dart';
+import 'package:rasan_mart/app/modules/customeproductpage/product_model.dart';
 import 'package:rasan_mart/app/modules/productdetail/views/productdetail_view.dart';
 
 Container buildCartAndQuick(
-    bool isdetailpage, BuildContext context, Product product) {
+  bool isdetailpage,
+  BuildContext context,
+  Product product,
+) {
   final cartController = Get.find<CartController>();
 
   return Container(
@@ -17,6 +20,13 @@ Container buildCartAndQuick(
       children: [
         GestureDetector(
           onTap: () {
+            int qty = product?.qty ?? 1;
+            double price = product?.price ?? 0;
+
+            if (price == 0) product.setPrice(product.productPrice);
+
+            if (qty == 1) product.setQty(qty);
+
             cartController.addCart(
               product: product,
             );

@@ -12,4 +12,7 @@ class Strings {
   static const String searchMessage = 'What are you looking for?';
   static const String btnview = "View All";
   static const String productDescription = 'Product Description';
+
+  static const String successMessage = 'Successfuly Done';
+  static const String FailedMessage = 'Failed while doing transaction.';
 }

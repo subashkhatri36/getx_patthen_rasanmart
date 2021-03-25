@@ -40,11 +40,14 @@ class _HomeViewState extends State<HomeView> {
     }
   }
 
+  final globalScafold = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Obx(
       () => Scaffold(
-        appBar: buildAppBar(context),
+          key: globalScafold,
+        appBar: buildAppBar(context,globalScafold),
         drawer: AppDrawer(),
         body: returnScreenValue(_selectedIndex),
         // drawer: AppDrawer(),

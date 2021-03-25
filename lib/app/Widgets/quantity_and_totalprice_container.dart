@@ -9,11 +9,13 @@ class QuantityAndTotalpriceContainer extends StatefulWidget {
   const QuantityAndTotalpriceContainer({
     Key key,
     @required this.product,
-    @required this.isdetailpage,
+    this.isdetailpage = false,
+    this.isproducthorizental = false,
   }) : super(key: key);
 
   final Product product;
   final bool isdetailpage;
+  final bool isproducthorizental;
 
   @override
   _QuantityContainerState createState() => _QuantityContainerState();
@@ -23,12 +25,19 @@ class _QuantityContainerState extends State<QuantityAndTotalpriceContainer> {
   Product _product;
   int qty = 1;
   double _totalprice = 0;
+  bool _horizentalproduct;
   @override
   void initState() {
+    _horizentalproduct = widget.isproducthorizental;
     _product = widget.product;
-    _product.setQty(1);
-    _product.setPrice(_product.productPrice);
-    _totalprice = _product.productPrice;
+
+    setState(() {
+      qty = _horizentalproduct ? _product?.qty ?? 1 : 1;
+      _totalprice = _horizentalproduct
+          ? _product?.price ?? _product.productPrice
+          : _product.productPrice;
+    });
+
     super.initState();
   }
 
@@ -38,10 +47,14 @@ class _QuantityContainerState extends State<QuantityAndTotalpriceContainer> {
       alignment: Alignment.center,
       margin: EdgeInsets.only(top: Defaults.defaultfontsize),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: _horizentalproduct
+            ? CrossAxisAlignment.start
+            : CrossAxisAlignment.center,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: _horizentalproduct
+                ? MainAxisAlignment.start
+                : MainAxisAlignment.center,
             children: [
               Text(
                 'Qty',
@@ -49,7 +62,9 @@ class _QuantityContainerState extends State<QuantityAndTotalpriceContainer> {
                     fontWeight: FontWeight.bold,
                     fontSize: widget.isdetailpage
                         ? Defaults.defaultfontsize * 1.5
-                        : Defaults.defaultfontsize - 2),
+                        : _horizentalproduct
+                            ? Defaults.defaultfontsize
+                            : Defaults.defaultfontsize - 2),
               ),
               SizedBox(width: Defaults.defaultfontsize / 2),
               Container(
@@ -106,6 +121,7 @@ class _QuantityContainerState extends State<QuantityAndTotalpriceContainer> {
                           style: BorderStyle.solid,
                         ),
                       ),
+                      //
                       child: Text(
                         qty.toString(),
                         style: TextStyle(
@@ -160,9 +176,12 @@ class _QuantityContainerState extends State<QuantityAndTotalpriceContainer> {
           TotalProductPrice(
             totalprice: _totalprice,
             isdetailpage: widget.isdetailpage,
+            ishorizentalproduct: _horizentalproduct,
           ),
-          if (!widget.isdetailpage) SizedBox(height: Defaults.defaultfontsize),
-          if (!widget.isdetailpage) buildCartAndQuick(false, context, _product),
+          if (!widget.isdetailpage && !_horizentalproduct)
+            SizedBox(height: Defaults.defaultfontsize),
+          if (!widget.isdetailpage && !_horizentalproduct)
+            buildCartAndQuick(false, context, _product),
         ],
       ),
     );

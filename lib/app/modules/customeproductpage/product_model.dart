@@ -33,8 +33,8 @@ class Product {
     @required this.productName,
     @required this.backgroundColor,
     @required this.similarproduct,
-    int qty,
-    double price,
+    this.qty,
+    this.price,
   });
 
   //getter abd setter

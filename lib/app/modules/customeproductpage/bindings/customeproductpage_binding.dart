@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import 'package:rasan_mart/app/modules/customeproductpage/controllers/cart_controller.dart';
+import 'package:rasan_mart/app/modules/cart/controllers/cart_controller.dart';
 import 'package:rasan_mart/app/modules/customeproductpage/controllers/category_controller.dart';
 import 'package:rasan_mart/app/modules/customeproductpage/controllers/product_controller.dart';
 import 'package:rasan_mart/app/modules/customeproductpage/controllers/scrollbanner_controller.dart';

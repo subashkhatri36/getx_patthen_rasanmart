@@ -7,17 +7,17 @@ class CustomeSnackbar {
   final String title;
   final String message;
   final Icon icon;
-  final Color backgroundColor;
 
   CustomeSnackbar({
     this.title,
     this.message,
     this.icon,
-    this.backgroundColor,
   }) {
     Get.snackbar(title, message,
+        borderColor: Themes.lightBackgroundColor,
+        borderWidth: 1,
         icon: icon,
-        backgroundColor: backgroundColor ?? Themes.lightBackgroundColor,
+        backgroundColor: Themes.lightPrimaryColor,
         snackPosition: SnackPosition.BOTTOM,
         margin: EdgeInsets.symmetric(
             vertical: Defaults.defaultfontsize,

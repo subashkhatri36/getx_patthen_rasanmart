@@ -6,79 +6,106 @@ import 'package:rasan_mart/app/Widgets/notification_icons_circulation.dart';
 import 'package:rasan_mart/app/core/constant/default_value.dart';
 import 'package:rasan_mart/app/core/constant/strings.dart';
 import 'package:rasan_mart/app/core/theme/app_theme.dart';
-import 'package:rasan_mart/app/modules/customeproductpage/controllers/cart_controller.dart';
+import 'package:rasan_mart/app/modules/cart/views/cart_view.dart';
+import 'package:rasan_mart/app/modules/cart/controllers/cart_controller.dart';
 import 'package:rasan_mart/app/modules/home/controllers/home_controller.dart';
 import 'package:rasan_mart/app/modules/home/controllers/notification_controller.dart';
+import 'package:rasan_mart/app/modules/notificationpage/views/notificationpage_view.dart';
 import 'package:rasan_mart/app/modules/searchpage/views/searchpage_view.dart';
 
-AppBar buildAppBar(BuildContext context) {
+AppBar buildAppBar(
+    BuildContext context, GlobalKey<ScaffoldState> globalScafold) {
   final cart = Get.find<CartController>();
   final notification = Get.find<NotificationController>();
   return AppBar(
+    leading: Text(''),
     backgroundColor: Theme.of(context).backgroundColor,
     actions: [
-      Row(
-        children: [
-          Get.find<HomeController>().searchBar.value
-              ? Row(
-                  children: [
-                    SizedBox(width: Defaults.defaultPadding),
-                    Icon(Icons.search),
-                    GestureDetector(
-                      onTap: () {
-                        Get.to(() => SearchpageView());
-                        //Navigator.of(context).pushNamed('/search');
-                      },
-                      child: Text(
-                        Strings.searchMessage,
-                        style: TextStyle(
-                            fontSize: Defaults.defaultfontsize,
-                            fontWeight: FontWeight.bold),
+      Expanded(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            IconButton(
+              onPressed: () {
+                globalScafold.currentState.openDrawer();
+                //  Scaffold.of(context).openDrawer();
+              },
+              icon: Icon(
+                Icons.sort,
+                size: 30,
+              ),
+            ),
+            Get.find<HomeController>().searchBar.value
+                ? Row(
+                    children: [
+                      SizedBox(width: Defaults.defaultPadding),
+                      Icon(Icons.search),
+                      GestureDetector(
+                        onTap: () {
+                          Get.to(() => SearchpageView());
+                          //Navigator.of(context).pushNamed('/search');
+                        },
+                        child: Text(
+                          Strings.searchMessage,
+                          style: TextStyle(
+                              fontSize: Defaults.defaultfontsize,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
+                    ],
+                  )
+                : RichText(
+                    textAlign: TextAlign.center,
+                    text: new TextSpan(
+                      children: <TextSpan>[
+                        new TextSpan(
+                            text: 'Rasan ',
+                            style: new TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Themes.lightBtnColor,
+                                fontSize: Defaults.defaultfontsize * 2)),
+                        new TextSpan(
+                            text: 'Mart',
+                            style: new TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.pink[900],
+                                fontSize: Defaults.defaultfontsize * 2)),
+                      ],
                     ),
-                  ],
-                )
-              : RichText(
-                  textAlign: TextAlign.center,
-                  text: new TextSpan(
-                    children: <TextSpan>[
-                      new TextSpan(
-                          text: 'Rasan ',
-                          style: new TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Themes.lightBtnColor,
-                              fontSize: Defaults.defaultfontsize * 2)),
-                      new TextSpan(
-                          text: 'Mart',
-                          style: new TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.pink[900],
-                              fontSize: Defaults.defaultfontsize * 2)),
+                  ),
+            SizedBox(width: Defaults.defaultfontsize),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Obx(
+                  () => Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Get.to(() => NotificationpageView());
+                        },
+                        child: Notification(
+                          length: notification.notificationList?.length ?? 0,
+                        ),
+                      ),
+                      SizedBox(width: Defaults.defaultfontsize / 2),
+                      GestureDetector(
+                        onTap: () {
+                          Get.to(() => CartView());
+                        },
+                        child: ShoppingCart(
+                          length: cart.cartList?.length ?? 0,
+                        ),
+                      ),
                     ],
                   ),
                 ),
-          SizedBox(width: Defaults.defaultfontsize),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Obx(
-                () => Row(
-                  children: [
-                    Notification(
-                      length: notification.notificationList?.length ?? 0,
-                    ),
-                    SizedBox(width: Defaults.defaultfontsize / 2),
-                    ShoppingCart(
-                      length: cart.cartList?.length ?? 0,
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(width: Defaults.defaultfontsize / 2),
-            ],
-          ),
-        ],
+                SizedBox(width: Defaults.defaultfontsize / 2),
+              ],
+            ),
+          ],
+        ),
       )
     ],
   );

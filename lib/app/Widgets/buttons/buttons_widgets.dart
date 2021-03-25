@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 class CustomeTextButton extends StatelessWidget {
   final VoidCallback onPressed;
   final String label;
+  final Color color;
   CustomeTextButton({
     @required this.label,
     this.onPressed,
+    this.color = Colors.amber,
   });
   @override
   Widget build(BuildContext context) {
@@ -16,8 +18,8 @@ class CustomeTextButton extends StatelessWidget {
       ),
       onPressed: onPressed,
       style: TextButton.styleFrom(
-        primary: Colors.purple, // foreground/text
-        backgroundColor: Colors.amber, // background
+        primary: Colors.white, // foreground/text
+        backgroundColor: color, // background
         // textStyle: TextStyle(
         //     fontSize: Constants.defaultFontSize, fontStyle: FontStyle.italic),
       ),

@@ -36,7 +36,6 @@ class AuthenticationController extends GetxController {
               title: 'Authentication Failed !',
               icon: Icon(Icons.warning),
               message: 'Incorrect Email and Password!',
-              backgroundColor: Themes.lightBackgroundColor,
             ),
         (r) => Get.off(() => HomeView()));
   }

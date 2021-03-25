@@ -118,7 +118,6 @@ class AuthenticationView extends GetView<AuthenticationController> {
                             title: 'Authentication !',
                             message: 'Check your data!.',
                             icon: Icon(Icons.warning),
-                            backgroundColor: Colors.white,
                           );
                         }
                       },
@@ -133,7 +132,6 @@ class AuthenticationView extends GetView<AuthenticationController> {
                             title: 'Authentication !',
                             message: 'Check your data!.',
                             icon: Icon(Icons.warning),
-                            backgroundColor: Colors.white,
                           );
                         }
                       },
