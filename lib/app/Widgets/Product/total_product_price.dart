@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rasan_mart/app/core/constant/default_value.dart';
 
 class TotalProductPrice extends StatelessWidget {
+
   const TotalProductPrice({
     Key key,
     @required this.totalprice,
@@ -33,7 +34,7 @@ class TotalProductPrice extends StatelessWidget {
         ),
         SizedBox(width: Defaults.defaultfontsize / 3),
         Text(
-          totalprice.toString() + ' /-',
+          totalprice.toStringAsFixed(2) + ' /-',
           style: TextStyle(
               fontSize: isdetailpage || ishorizentalproduct
                   ? Defaults.defaultfontsize * 1.5

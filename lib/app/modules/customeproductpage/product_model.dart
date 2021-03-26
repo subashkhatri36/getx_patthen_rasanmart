@@ -16,6 +16,7 @@ class Product {
   final String backgroundColor;
   final bool productStock;
   final List<String> similarproduct;
+  final List<String> tags;
   int qty;
   double price;
 
@@ -33,7 +34,8 @@ class Product {
     @required this.productName,
     @required this.backgroundColor,
     @required this.similarproduct,
-    this.qty,
+    @required this.tags,
+    this.qty=1,
     this.price,
   });
 
@@ -61,6 +63,7 @@ class Product {
         other.productOnDiscount == productOnDiscount &&
         other.backgroundColor == backgroundColor &&
         other.productStock == productStock &&
+        other.tags == tags &&
         other.qty == qty &&
         other.price == price;
   }
@@ -79,6 +82,7 @@ class Product {
         productOnDiscount.hashCode ^
         backgroundColor.hashCode ^
         productStock.hashCode ^
+        tags.hashCode ^
         qty.hashCode ^
         price.hashCode;
   }
@@ -98,6 +102,7 @@ class Product {
       'backgroundColor': backgroundColor,
       'productStock': productStock,
       'similarproduct': similarproduct,
+      'tags': tags,
       'qty': qty,
       'price': price,
     };
@@ -118,8 +123,9 @@ class Product {
       backgroundColor: map['backgroundColor'],
       productStock: map['productStock'],
       similarproduct: map['similarproduct'],
-      qty: map['qty'] ?? 0,
-      price: map['price'] ?? 0,
+      tags: List<String>.from(map['tags']),
+      qty: map['qty'] ?? 1,
+      price: map['price'] ?? map['productPrice'],
     );
   }
 

@@ -59,9 +59,10 @@ class CartRepository implements CartProvider {
                 qty: element['qty'] as int,
                 price: element['price'].toDouble(),
                 similarproduct: List.from(element['similarproduct']),
+                tags: List.from(element['tags']),
               ),
               cartId: element.id));
-         // print(element.id);
+          // print(element.id);
         });
       });
 

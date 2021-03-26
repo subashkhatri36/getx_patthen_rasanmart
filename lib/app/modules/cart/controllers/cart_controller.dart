@@ -7,6 +7,7 @@ import 'package:rasan_mart/app/core/constant/strings.dart';
 import 'package:rasan_mart/app/data/cart/cart_repository.dart';
 import 'package:rasan_mart/app/modules/authentication/controllers/mainauth_controller.dart';
 import 'package:rasan_mart/app/modules/cart/views/cart_model.dart';
+import 'package:rasan_mart/app/modules/cart/views/product_total_model.dart';
 import 'package:rasan_mart/app/modules/customeproductpage/product_model.dart';
 import 'package:rasan_mart/app/modules/customeproductpage/providers/cart_provider.dart';
 
@@ -14,9 +15,11 @@ class CartController extends GetxController {
   RxList<CartModel> cartList;
   RxBool isLoadingCart = false.obs;
   CartProvider cartRepo = CartRepository();
+  RxDouble grandTotal = 0.0.obs;
 
   final firebase = Get.find<MainauthController>();
   RxInt cartTotal = 0.obs;
+  RxInt cindex = 0.obs;
 
   @override
   void onInit() async {
@@ -27,12 +30,13 @@ class CartController extends GetxController {
   Future<void> loadCart(String data) async {
     List<CartModel> newcartList = [];
     Either<String, List<CartModel>> cart = await cartRepo.fetchCart(data);
-    cart.fold(
-        (l) => CustomeSnackbar(
-              title: 'Error Loading Cart',
-              message: l.toString(),
-              icon: Icon(Icons.warning),
-            ), (r) {
+    cart.fold((l) {
+      CustomeSnackbar(
+          title: 'Error Loading Cart',
+          message: l.toString(),
+          icon: Icon(Icons.warning));
+      print(l);
+    }, (r) {
       newcartList = r.toList();
       cartList = newcartList.obs;
       cartTotal = cartList.length.obs;
@@ -42,6 +46,7 @@ class CartController extends GetxController {
   removeCart({@required int index, @required String productId}) async {
     Either<String, String> cart =
         await cartRepo.deleteCartItems(cartId: productId);
+
     cart.fold(
         (l) => CustomeSnackbar(
               title: 'Error on removing Cart',
@@ -54,8 +59,10 @@ class CartController extends GetxController {
           message: Strings.successMessage,
           icon: Icon(Icons.arrow_right),
         );
-        cartList.removeAt(index).obs;
+
+        cartList.removeAt(index);
         cartTotal.value -= 1;
+        cindex.value = 0;
       } else {
         CustomeSnackbar(
           title: 'Failed',
@@ -118,4 +125,46 @@ class CartController extends GetxController {
 
   @override
   void onClose() {}
+
+  double calculateTotalPrice() {
+    double total = 1.0;
+    // double total
+    if (cartList.length > 0) {}
+
+    return total;
+  }
+
+  ProductPriceCalculation calculateTotalsAmount() {
+    int totalItems = cartList.length;
+    int totaldiscount = 0;
+    double totalprice = 0;
+    double totaldiscountprice = 0;
+    // double grandTotalAmount = 0;
+
+    cartList.forEach((element) {
+      if (element.product.productOnDiscount) {
+        if (element.product.productDiscountType.toUpperCase() ==
+            'Flat'.toUpperCase()) {
+          totaldiscountprice += element.product.productDiscount;
+        } else {
+          double disountpercentage =
+              element.product.price * (element.product.productDiscount / 100);
+
+          totaldiscountprice += disountpercentage;
+        }
+
+        totaldiscount++;
+      }
+
+      totalprice += element.product.price;
+    });
+    grandTotal.value = totalprice - totaldiscountprice;
+
+    return ProductPriceCalculation(
+        totalprice: totalprice.toPrecision(2),
+        totalItems: totalItems,
+        totaldiscount: totaldiscount,
+        totaldiscountprice: totaldiscountprice,
+        grandTotal: grandTotal.value);
+  }
 }

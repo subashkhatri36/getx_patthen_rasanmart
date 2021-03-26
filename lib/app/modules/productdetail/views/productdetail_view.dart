@@ -84,7 +84,7 @@ class _ProductdetailViewState extends State<ProductdetailView> {
                   padding: EdgeInsets.all(Defaults.defaultPadding),
                   decoration: buildBoxDecoration(
                       bgcolor: Colors.transparent, round: true, shadow: false),
-                  child: buildCartAndQuick(true, context, _product),
+                  child: buildCartAndQuick(true, context, _product, false),
                 ),
                 SizedBox(height: 10),
                 HorizentalProductContainer(
@@ -93,7 +93,6 @@ class _ProductdetailViewState extends State<ProductdetailView> {
                   productIdList: _product.similarproduct,
                 ),
                 SizedBox(height: Defaults.defaultPadding)
-                
               ],
             )),
       ),

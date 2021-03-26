@@ -24,22 +24,27 @@ class AmountBox extends StatelessWidget {
               ? MainAxisAlignment.start
               : MainAxisAlignment.center,
       children: [
-        Text('NRs. ' + product.productPrice.toString() + ' /-',
+        Text('NRs.' + product.productPrice.toStringAsFixed(1) + '/-',
             style: TextStyle(
                 color: Theme.of(context).backgroundColor,
                 fontSize: isdetailpage || producthorizental
                     ? Defaults.defaultfontsize
                     : Defaults.defaultfontsize - 4,
                 fontWeight: FontWeight.bold)),
-        SizedBox(width: Defaults.defaultfontsize - 5),
-        Text('NRs. ' + product.productCuttedPrice.toString() + ' /-',
-            style: TextStyle(
-                decoration: TextDecoration.lineThrough,
-                color: Theme.of(context).accentColor,
-                fontSize: isdetailpage || producthorizental
-                    ? Defaults.defaultfontsize
-                    : Defaults.defaultfontsize - 4,
-                fontWeight: FontWeight.bold)),
+        SizedBox(width: 2),
+        Expanded(
+          child: Text(
+              'NRs.' + product.productCuttedPrice.toStringAsFixed(1) + '/-',
+              style: TextStyle(
+                  decoration: TextDecoration.lineThrough,
+                  color: Theme.of(context).accentColor,
+                  fontSize: isdetailpage || producthorizental
+                      ? Defaults.defaultfontsize
+                      : product.productCuttedPrice.toString().length > 6
+                          ? Defaults.defaultfontsize / 2
+                          : Defaults.defaultfontsize - 4,
+                  fontWeight: FontWeight.bold)),
+        ),
       ],
     );
   }

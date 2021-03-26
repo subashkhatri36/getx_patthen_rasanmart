@@ -1,9 +1,12 @@
+import 'package:dartz/dartz_unsafe.dart';
 import 'package:flutter/material.dart';
 import 'package:rasan_mart/app/Widgets/Product/cart_and_quickview_btn.dart';
 import 'package:rasan_mart/app/Widgets/Product/total_product_price.dart';
 import 'package:rasan_mart/app/core/constant/default_value.dart';
 import 'package:rasan_mart/app/core/enum/enums.dart';
+import 'package:rasan_mart/app/modules/cart/controllers/cart_controller.dart';
 import 'package:rasan_mart/app/modules/customeproductpage/product_model.dart';
+import 'package:get/get.dart';
 
 class QuantityAndTotalpriceContainer extends StatefulWidget {
   const QuantityAndTotalpriceContainer({
@@ -22,22 +25,18 @@ class QuantityAndTotalpriceContainer extends StatefulWidget {
 }
 
 class _QuantityContainerState extends State<QuantityAndTotalpriceContainer> {
+  final cartcontroller = Get.find<CartController>();
   Product _product;
-  int qty = 1;
-  double _totalprice = 0;
+
   bool _horizentalproduct;
+
   @override
   void initState() {
+    // setState(() {
     _horizentalproduct = widget.isproducthorizental;
     _product = widget.product;
 
-    setState(() {
-      qty = _horizentalproduct ? _product?.qty ?? 1 : 1;
-      _totalprice = _horizentalproduct
-          ? _product?.price ?? _product.productPrice
-          : _product.productPrice;
-    });
-
+    // });
     super.initState();
   }
 
@@ -72,7 +71,8 @@ class _QuantityContainerState extends State<QuantityAndTotalpriceContainer> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        countermethod(CounterType.Decreament);
+                        countermethod(
+                            CounterType.Decreament, _horizentalproduct);
                       },
                       child: Container(
                         alignment: Alignment.center,
@@ -123,7 +123,7 @@ class _QuantityContainerState extends State<QuantityAndTotalpriceContainer> {
                       ),
                       //
                       child: Text(
-                        qty.toString(),
+                        _product.qty.toString(),
                         style: TextStyle(
                             fontSize: widget.isdetailpage
                                 ? Defaults.defaultfontsize * 1.5
@@ -132,7 +132,8 @@ class _QuantityContainerState extends State<QuantityAndTotalpriceContainer> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        countermethod(CounterType.Increament);
+                        countermethod(
+                            CounterType.Increament, _horizentalproduct);
                       },
                       child: Container(
                         alignment: Alignment.center,
@@ -174,14 +175,14 @@ class _QuantityContainerState extends State<QuantityAndTotalpriceContainer> {
           ),
           SizedBox(height: Defaults.defaultfontsize),
           TotalProductPrice(
-            totalprice: _totalprice,
+            totalprice: _product.price,
             isdetailpage: widget.isdetailpage,
             ishorizentalproduct: _horizentalproduct,
           ),
           if (!widget.isdetailpage && !_horizentalproduct)
             SizedBox(height: Defaults.defaultfontsize),
           if (!widget.isdetailpage && !_horizentalproduct)
-            buildCartAndQuick(false, context, _product),
+            buildCartAndQuick(false, context, _product, _horizentalproduct),
         ],
       ),
     );
@@ -198,47 +199,53 @@ class _QuantityContainerState extends State<QuantityAndTotalpriceContainer> {
     }
   }
 
-  void countermethod(CounterType counterType) {
+  void countermethod(CounterType counterType, bool iscart) {
     switch (counterType) {
       case CounterType.Increament:
         setState(() {
-          qty++;
-          _totalprice = _product.productPrice * qty;
-          _totalprice = _totalprice.toPrecision(3);
-          _product.setQty(qty);
-          _product.setPrice(_totalprice);
+          increment();
         });
         break;
       case CounterType.Decreament:
         setState(() {
-          if (qty > 1) {
-            qty--;
-            _totalprice = _product.productPrice * qty;
-            _totalprice = _totalprice.toPrecision(3);
-            _product.setQty(qty);
-            _product.setPrice(_totalprice);
+          if (_product.qty > 1) {
+            decrement();
           } else {
-            qty = 1;
-            _totalprice = _product.productPrice * qty;
-            _totalprice = _totalprice.toPrecision(3);
-            _product.setQty(qty);
-            _product.setPrice(_totalprice);
+            defaultdata();
           }
         });
         break;
       default:
         setState(() {
-          qty = 1;
-          _totalprice = _product.productPrice * qty;
-          _totalprice = _totalprice.toPrecision(3);
-          _product.setQty(qty);
-          _product.setPrice(_totalprice);
+          defaultdata();
         });
         break;
     }
   }
-}
 
-extension Ex on double {
-  double toPrecision(int n) => double.parse(toStringAsFixed(n));
+  void increment() {
+    _product.qty++;
+    _product.price = _product.productPrice * _product.qty;
+
+    // _product.setQty(qty);
+    // _product.setPrice(_totalprice);
+    cartcontroller.calculateTotalsAmount();
+  }
+
+  void decrement() {
+    _product.qty--;
+    _product.price = _product.productPrice * _product.qty;
+
+    // _product.setQty(qty);
+    // _product.setPrice(_totalprice);
+    cartcontroller.calculateTotalsAmount();
+  }
+
+  void defaultdata() {
+    _product.qty = 1;
+    _product.price = _product.productPrice * _product.qty;
+    // _product.setQty(qty);
+    // _product.setPrice(_totalprice);
+    cartcontroller.calculateTotalsAmount();
+  }
 }
