@@ -4,6 +4,9 @@ import 'package:get/get.dart';
 import 'package:rasan_mart/app/core/constant/default_value.dart';
 import 'package:rasan_mart/app/modules/customeproductpage/categories_model.dart';
 import 'package:rasan_mart/app/modules/customeproductpage/controllers/category_controller.dart';
+import 'package:rasan_mart/app/modules/customeproductpage/controllers/customeproductpage_controller.dart';
+import 'package:rasan_mart/app/modules/home/controllers/home_controller.dart';
+import 'package:rasan_mart/app/modules/productCategory/views/product_category_view.dart';
 
 class CategoriesGridView extends GetView {
   final bool istabclick;
@@ -11,6 +14,7 @@ class CategoriesGridView extends GetView {
   CategoriesGridView(this.istabclick); // = widget.istabclick;
   // final _controller = Get.find<MainProductContainerController>();
   final categoryController = Get.put(CategoryController());
+  final productcontianerContorller = Get.find<CustomeproductpageController>();
 
   @override
   Widget build(BuildContext context) {
@@ -66,41 +70,51 @@ class CategoriesGridView extends GetView {
       shrinkWrap: true,
       itemCount: categories?.length ?? 0,
       itemBuilder: (context, index) {
-        return Container(
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Row(children: [
-              CachedNetworkImage(
-                imageUrl: categories[index].categoryPath,
-                fadeInDuration: Duration(milliseconds: 1),
-                imageBuilder: (context, imageProvider) => Container(
-                  height: Defaults.defaultPadding * 2.5,
-                  width: Defaults.defaultPadding * 2.5,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    image: DecorationImage(
-                      image: imageProvider,
-                      fit: BoxFit.cover,
+        return GestureDetector(
+          onTap: () {
+            //String name = categories[index].toString();
+            Get.find<HomeController>().subcategorypage.value = true;
+            productcontianerContorller.changeCategories('Home');
+            Get.to(() => ProductCategoryView(),
+                arguments: categories[index].categoryName);
+          },
+          child: Container(
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(children: [
+                    CachedNetworkImage(
+                      imageUrl: categories[index].categoryPath,
+                      fadeInDuration: Duration(milliseconds: 1),
+                      imageBuilder: (context, imageProvider) => Container(
+                        height: Defaults.defaultPadding * 2.5,
+                        width: Defaults.defaultPadding * 2.5,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      placeholder: (context, url) => CircularProgressIndicator(
+                        strokeWidth: 0.5,
+                      ),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
                     ),
-                  ),
-                ),
-                placeholder: (context, url) => CircularProgressIndicator(
-                  strokeWidth: 0.5,
-                ),
-                errorWidget: (context, url, error) => Icon(Icons.error),
-              ),
-              SizedBox(width: Defaults.defaultPadding),
-              Text(
-                categories[index].categoryName,
-                overflow: TextOverflow.fade,
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: Defaults.defaultfontsize),
-                maxLines: 2,
-              ),
-            ]),
-            Icon(Icons.arrow_forward_ios),
-          ]),
+                    SizedBox(width: Defaults.defaultPadding),
+                    Text(
+                      categories[index].categoryName,
+                      overflow: TextOverflow.fade,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: Defaults.defaultfontsize),
+                      maxLines: 2,
+                    ),
+                  ]),
+                  Icon(Icons.arrow_forward_ios),
+                ]),
+          ),
         );
       });
 
@@ -115,43 +129,52 @@ class CategoriesGridView extends GetView {
           categories.length > 8 ? 8 : categories?.length,
           (index) {
             // print(categories[index].categoryPath);
-            return Container(
-              width: MediaQuery.of(context).size.width * 0.10,
-              alignment: Alignment.center,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CachedNetworkImage(
-                    imageUrl: categories[index].categoryPath,
-                    fadeInDuration: Duration(milliseconds: 1),
-                    imageBuilder: (context, imageProvider) => Container(
-                      height: Defaults.defaultPadding * 2,
-                      width: Defaults.defaultPadding * 2,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        image: DecorationImage(
-                          image: imageProvider,
-                          fit: BoxFit.cover,
+            return GestureDetector(
+              onTap: () {
+                Get.find<HomeController>().subcategorypage.value = true;
+                //String name = categories[index].toString();
+                productcontianerContorller.changeCategories('Home');
+                Get.to(() => ProductCategoryView(),
+                    arguments: categories[index].categoryName);
+              },
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.10,
+                alignment: Alignment.center,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CachedNetworkImage(
+                      imageUrl: categories[index].categoryPath,
+                      fadeInDuration: Duration(milliseconds: 1),
+                      imageBuilder: (context, imageProvider) => Container(
+                        height: Defaults.defaultPadding * 2,
+                        width: Defaults.defaultPadding * 2,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
+                      placeholder: (context, url) => CircularProgressIndicator(
+                        strokeWidth: 0.5,
+                      ),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
                     ),
-                    placeholder: (context, url) => CircularProgressIndicator(
-                      strokeWidth: 0.5,
+                    SizedBox(height: Defaults.defaultfontsize / 3),
+                    Text(
+                      categories[index].categoryName,
+                      overflow: TextOverflow.fade,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: Defaults.defaultfontsize / 1.2),
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
                     ),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
-                  ),
-                  SizedBox(height: Defaults.defaultfontsize / 3),
-                  Text(
-                    categories[index].categoryName,
-                    overflow: TextOverflow.fade,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: Defaults.defaultfontsize / 1.2),
-                    textAlign: TextAlign.center,
-                    maxLines: 2,
-                  ),
-                ],
+                  ],
+                ),
               ),
             );
           },

@@ -19,10 +19,16 @@ class CustomebodyviewView extends StatefulWidget {
 
 class _CustomebodyviewViewState extends State<CustomebodyviewView> {
   final productContainerController = Get.find<CustomeproductpageController>();
+
   int _productindex = -1;
   // int _preproduct = 0;
 
   int _gridindex = 0;
+  @override
+  void initState() {
+    //productContainerController.onInit();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

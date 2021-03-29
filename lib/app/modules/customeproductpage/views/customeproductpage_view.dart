@@ -31,7 +31,9 @@ class CustomeproductpageView extends GetView<CustomeproductpageController> {
                     ],
                   ))
                 : ListView.builder(
-                    controller: homecontroller.scrollController,
+                    controller: homecontroller.subcategorypage.value
+                        ? homecontroller.scrollController1
+                        : homecontroller.scrollController,
                     itemCount: customeController.productContianerList?.length,
                     shrinkWrap: true,
                     scrollDirection: Axis.vertical,

@@ -38,7 +38,7 @@ class CartView extends GetView<CartController> {
                               product: controller.cartList[index].product,
                               cartId: controller.cartList[index].cartId,
                               index: index,
-                              horizental: false,
+                              horizental: true,
                             );
                           },
                           shrinkWrap: true,

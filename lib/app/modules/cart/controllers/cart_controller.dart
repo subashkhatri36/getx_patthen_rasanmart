@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -23,24 +24,31 @@ class CartController extends GetxController {
 
   @override
   void onInit() async {
-    await loadCart(firebase.firebaseAuth.currentUser.uid);
+    var id = firebase.firebaseAuth.currentUser?.uid ?? '';
+
+    await loadCart(id);
     super.onInit();
   }
 
   Future<void> loadCart(String data) async {
     List<CartModel> newcartList = [];
-    Either<String, List<CartModel>> cart = await cartRepo.fetchCart(data);
-    cart.fold((l) {
-      CustomeSnackbar(
-          title: 'Error Loading Cart',
-          message: l.toString(),
-          icon: Icon(Icons.warning));
-      print(l);
-    }, (r) {
-      newcartList = r.toList();
+    if (data != null && data.isNotEmpty) {
+      Either<String, List<CartModel>> cart = await cartRepo.fetchCart(data);
+      cart.fold((l) {
+        CustomeSnackbar(
+            title: 'Error Loading Cart',
+            message: l.toString(),
+            icon: Icon(Icons.warning));
+        print(l);
+      }, (r) {
+        newcartList = r.toList();
+        cartList = newcartList.obs;
+        cartTotal = cartList.length.obs;
+      });
+    } else {
       cartList = newcartList.obs;
       cartTotal = cartList.length.obs;
-    });
+    }
   }
 
   removeCart({@required int index, @required String productId}) async {
@@ -74,48 +82,52 @@ class CartController extends GetxController {
   }
 
   addCart({@required Product product}) async {
-    Either<String, String> cart;
-    bool checkdata = false;
-    CartModel cartModel;
-    int qty = product.qty;
-    double pprice = product.price;
+    if (FirebaseAuth.instance.currentUser != null) {
+      Either<String, String> cart;
+      bool checkdata = false;
+      CartModel cartModel;
+      int qty = product.qty;
+      double pprice = product.price;
 
-    cartList.forEach((value) {
-      if (value.product.productId == product.productId) {
-        Product product = value.product;
-        product.setQty(qty);
-        product.setPrice(pprice);
-        cartModel = new CartModel(product: product, cartId: value.cartId);
-        checkdata = true;
+      cartList.forEach((value) {
+        if (value.product.productId == product.productId) {
+          Product product = value.product;
+          product.setQty(qty);
+          product.setPrice(pprice);
+          cartModel = new CartModel(product: product, cartId: value.cartId);
+          checkdata = true;
+        }
+      });
+
+      if (checkdata) {
+        cart = await cartRepo.updateCart(cartModel: cartModel);
+        //if there is already a data then update it
+      } else {
+        cart = await cartRepo.addCart(
+          product: product,
+        );
       }
-    });
 
-    if (checkdata) {
-      cart = await cartRepo.updateCart(cartModel: cartModel);
-      //if there is already a data then update it
+      //else add to
+      cart.fold(
+          (l) => CustomeSnackbar(
+                title: 'Error on adding to Cart',
+                message: l.toString(),
+                icon: Icon(Icons.warning),
+              ), (r) {
+        CustomeSnackbar(
+          title: 'Successful',
+          message: Strings.successMessage,
+          icon: Icon(Icons.arrow_right),
+        );
+        if (!checkdata) if (r.length > 0) {
+          cartTotal.value += 1;
+          cartList.add(CartModel(product: product, cartId: r));
+        }
+      });
     } else {
-      cart = await cartRepo.addCart(
-        product: product,
-      );
+        
     }
-
-    //else add to
-    cart.fold(
-        (l) => CustomeSnackbar(
-              title: 'Error on adding to Cart',
-              message: l.toString(),
-              icon: Icon(Icons.warning),
-            ), (r) {
-      CustomeSnackbar(
-        title: 'Successful',
-        message: Strings.successMessage,
-        icon: Icon(Icons.arrow_right),
-      );
-      if (!checkdata) if (r.length > 0) {
-        cartTotal.value += 1;
-        cartList.add(CartModel(product: product, cartId: r));
-      }
-    });
   }
 
   @override

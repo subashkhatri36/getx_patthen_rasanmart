@@ -5,6 +5,7 @@ import 'package:rasan_mart/app/Widgets/Product/Gridview_categories.dart';
 import 'package:rasan_mart/app/Widgets/app_drawer.dart';
 import 'package:rasan_mart/app/Widgets/appbar/custome_appbar.dart';
 import 'package:rasan_mart/app/Widgets/bottom_navigationbar.dart';
+import 'package:rasan_mart/app/modules/account/views/account_view.dart';
 import 'package:rasan_mart/app/modules/customeproductpage/controllers/customeproductpage_controller.dart';
 import 'package:rasan_mart/app/modules/customeproductpage/views/customeproductpage_view.dart';
 
@@ -25,6 +26,7 @@ class _HomeViewState extends State<HomeView> {
   Widget returnScreenValue(int _index) {
     switch (_index) {
       case 0:
+        data.subcategorypage.value = false;
         productcontianerContorller.changeCategories('Home');
         return CustomeproductpageView();
         break;
@@ -32,7 +34,7 @@ class _HomeViewState extends State<HomeView> {
         return CategoriesGridView(true);
         break;
       case 2:
-        return Text('Account');
+        return AccountView();
         break;
       default:
         return Container();
@@ -46,8 +48,8 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return Obx(
       () => Scaffold(
-          key: globalScafold,
-        appBar: buildAppBar(context,globalScafold),
+        key: globalScafold,
+        appBar: buildAppBar(context, globalScafold),
         drawer: AppDrawer(),
         body: returnScreenValue(_selectedIndex),
         // drawer: AppDrawer(),

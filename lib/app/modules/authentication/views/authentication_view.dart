@@ -8,6 +8,7 @@ import 'package:rasan_mart/app/core/constant/default_value.dart';
 import 'package:rasan_mart/app/core/constant/strings.dart';
 import 'package:rasan_mart/app/core/enum/enums.dart';
 import 'package:rasan_mart/app/core/utils/validators.dart';
+import 'package:rasan_mart/app/modules/home/views/home_view.dart';
 
 import '../controllers/authentication_controller.dart';
 
@@ -32,6 +33,7 @@ class AuthenticationView extends GetView<AuthenticationController> {
                     GestureDetector(
                       onTap: () {
                         //close Icons
+                        Get.to(() => HomeView());
                       },
                       child: Padding(
                         padding:

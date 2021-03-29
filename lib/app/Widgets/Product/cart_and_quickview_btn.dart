@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rasan_mart/app/core/constant/default_value.dart';
@@ -30,6 +31,7 @@ Container buildCartAndQuick(
               if (price == 0) product.setPrice(product.productPrice);
 
               if (qty == 1) product.setQty(qty);
+
 
               cartController.addCart(
                 product: product,

@@ -7,19 +7,20 @@ import 'package:rasan_mart/app/modules/searchpage/providers/searchpage_provider.
 
 class SearchpageController extends GetxController {
   RxList<Product> productsearch;
-  RxList<Product> productsearchtemp;
-  ScrollController searchscroll = new ScrollController();
+
   TextEditingController textEditingController = new TextEditingController();
   SearchpageProvider searchrepository = SearchRepository();
 
   RxInt count = 10.obs;
+  RxBool isLoading = false.obs;
   @override
   void onInit() {
     super.onInit();
     textEditingController.addListener(() {
-      if (textEditingController.text.length > 3) {
-        doSearch(textEditingController.text);
+      if (textEditingController.text.length == 0) {
+        if (productsearch.length > 0) productsearch.clear();
       }
+     // if (textEditingController.text.length > 3) doSearch();
     });
   }
 
@@ -28,21 +29,28 @@ class SearchpageController extends GetxController {
     super.onReady();
   }
 
-  Future<void> doSearch(String text) async {
+  Future<void> doSearch() async {
+    isLoading.toggle();
     List<Product> mainlist = [];
-    Either<String, List<Product>> result =
-        await searchrepository.fetchingProductWithTags(text);
-    result.fold((l) {
-      print(l);
-    }, (r) {
-      mainlist = r?.toList();
-      productsearch = mainlist.obs;
-      print(mainlist.length);
-    });
+    if (textEditingController.text.length > 0) {
+      Either<String, List<Product>> result = await searchrepository
+          .fetchingProductWithTags(textEditingController.text);
+      result.fold((l) {
+        print(l);
+        print('Data Failed');
+      }, (productlist) {
+        mainlist = productlist?.toList();
+        productsearch = mainlist.obs;
+      });
+      isLoading.toggle();
+    }
   }
   //List<Product> serch
 
   @override
-  void onClose() {}
+  void onClose() {
+    textEditingController.dispose();
+  }
+
   void increment() => count.value++;
 }

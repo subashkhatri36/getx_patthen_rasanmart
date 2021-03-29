@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rasan_mart/app/modules/customeproductpage/product_model.dart';
 import 'package:dartz/dartz.dart';
@@ -7,13 +9,15 @@ class SearchRepository implements SearchpageProvider {
   @override
   Future<Either<String, List<Product>>> fetchingProductWithTags(
       String text) async {
-    List<Product> searchlist;
+    List<Product> searchlist = [];
+    List result = text.split(' ');
+
     try {
       await FirebaseFirestore.instance
           .collection('Product')
-          .where('tags', arrayContains: text)
-          .snapshots()
-          .forEach((value) {
+          .where('tags', arrayContainsAny: result.toList())
+          .get()
+          .then((value) {
         value.docs.forEach((element) {
           searchlist.add(Product(
             productId: element['productId'],
@@ -28,20 +32,17 @@ class SearchRepository implements SearchpageProvider {
             productOnDiscount: element['productOnDiscount'] as bool,
             backgroundColor: element['backgroundColor'].toString(),
             productStock: element['productStock'] as bool,
-            qty: element['qty'] as int,
-            price: element['price'].toDouble(),
+            qty: 1,
+            price: element['productPrice'].toDouble(),
             similarproduct: List.from(element['similarproduct']),
             tags: List.from(element['tags']),
           ));
         });
       });
-      // searchlist =
-      //     value.docs.map<Product>((e) => Product.fromMap(e.data())).toList();
-
-      print(searchlist);
 
       return right(searchlist);
     } catch (error) {
+      print(error);
       return left('Error While Searching');
     }
   }

@@ -12,6 +12,8 @@ import 'package:rasan_mart/app/modules/nointernet/bindings/nointernet_binding.da
 import 'package:rasan_mart/app/modules/nointernet/views/nointernet_view.dart';
 import 'package:rasan_mart/app/modules/notificationpage/bindings/notificationpage_binding.dart';
 import 'package:rasan_mart/app/modules/notificationpage/views/notificationpage_view.dart';
+import 'package:rasan_mart/app/modules/productCategory/bindings/product_category_binding.dart';
+import 'package:rasan_mart/app/modules/productCategory/views/product_category_view.dart';
 import 'package:rasan_mart/app/modules/productdetail/bindings/productdetail_binding.dart';
 import 'package:rasan_mart/app/modules/productdetail/views/productdetail_view.dart';
 import 'package:rasan_mart/app/modules/searchpage/bindings/searchpage_binding.dart';
@@ -69,6 +71,11 @@ class AppPages {
       name: _Paths.NOTIFICATIONPAGE,
       page: () => NotificationpageView(),
       binding: NotificationpageBinding(),
+    ),
+    GetPage(
+      name: _Paths.PRODUCT_CATEGORY,
+      page: () => ProductCategoryView(),
+      binding: ProductCategoryBinding(),
     ),
   ];
 }
