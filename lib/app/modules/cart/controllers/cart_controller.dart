@@ -25,7 +25,6 @@ class CartController extends GetxController {
   @override
   void onInit() async {
     var id = firebase.firebaseAuth.currentUser?.uid ?? '';
-
     await loadCart(id);
     super.onInit();
   }
@@ -82,7 +81,7 @@ class CartController extends GetxController {
   }
 
   addCart({@required Product product}) async {
-    if (FirebaseAuth.instance.currentUser != null) {
+    if (firebase.firebaseAuth.currentUser != null) {
       Either<String, String> cart;
       bool checkdata = false;
       CartModel cartModel;
@@ -125,9 +124,7 @@ class CartController extends GetxController {
           cartList.add(CartModel(product: product, cartId: r));
         }
       });
-    } else {
-        
-    }
+    } else {}
   }
 
   @override

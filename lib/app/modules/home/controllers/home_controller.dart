@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:rasan_mart/app/modules/cart/controllers/cart_controller.dart';
-import 'package:rasan_mart/app/modules/home/controllers/notification_controller.dart';
 
 class HomeController extends GetxController {
   //TODO: Implement HomeController
@@ -16,8 +14,6 @@ class HomeController extends GetxController {
 
   @override
   void onInit() {
-    Get.put(CartController(), permanent: true);
-    Get.put(NotificationController(), permanent: true);
     subcategorypage.value = false;
     scrollController.addListener(_scrollListener);
     super.onInit();

@@ -8,9 +8,10 @@ class AddressModel {
   final String city;
   final String muncipalit;
   final String state;
-  final zipcode;
-  final phoneno;
-  final landmark;
+  final String zipcode;
+  final String phoneno;
+  final String landmark;
+  final bool isSelected;
 
   AddressModel({
     @required this.place,
@@ -21,28 +22,8 @@ class AddressModel {
     @required this.zipcode,
     @required this.phoneno,
     this.landmark,
+    @required this.isSelected,
   });
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is AddressModel &&
-        other.place == place &&
-        other.tol == tol &&
-        other.city == city &&
-        other.muncipalit == muncipalit &&
-        other.state == state;
-  }
-
-  @override
-  int get hashCode {
-    return place.hashCode ^
-        tol.hashCode ^
-        city.hashCode ^
-        muncipalit.hashCode ^
-        state.hashCode;
-  }
 
   Map<String, dynamic> toMap() {
     return {
@@ -51,6 +32,10 @@ class AddressModel {
       'city': city,
       'muncipalit': muncipalit,
       'state': state,
+      'zipcode': zipcode,
+      'phoneno': phoneno,
+      'landmark': landmark,
+      'isSelected': isSelected,
     };
   }
 
@@ -61,6 +46,10 @@ class AddressModel {
       city: map['city'],
       muncipalit: map['muncipalit'],
       state: map['state'],
+      zipcode: map['zipcode'],
+      phoneno: map['phoneno'],
+      landmark: map['landmark'],
+      isSelected: map['isSelected'],
     );
   }
 
@@ -68,4 +57,33 @@ class AddressModel {
 
   factory AddressModel.fromJson(String source) =>
       AddressModel.fromMap(json.decode(source));
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is AddressModel &&
+        other.place == place &&
+        other.tol == tol &&
+        other.city == city &&
+        other.muncipalit == muncipalit &&
+        other.state == state &&
+        other.zipcode == zipcode &&
+        other.phoneno == phoneno &&
+        other.landmark == landmark &&
+        other.isSelected == isSelected;
+  }
+
+  @override
+  int get hashCode {
+    return place.hashCode ^
+        tol.hashCode ^
+        city.hashCode ^
+        muncipalit.hashCode ^
+        state.hashCode ^
+        zipcode.hashCode ^
+        phoneno.hashCode ^
+        landmark.hashCode ^
+        isSelected.hashCode;
+  }
 }

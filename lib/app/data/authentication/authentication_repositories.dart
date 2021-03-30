@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:rasan_mart/app/data/local_data/get_storage.dart';
 import 'package:rasan_mart/app/modules/authentication/controllers/mainauth_controller.dart';
 import 'package:rasan_mart/app/modules/authentication/views/user_model.dart';
@@ -62,6 +64,7 @@ class UserAuthenticationRepositories implements AuthRepositories {
       )
           .then((value) {
         // splash.userId.value = splash.userCredential.user.uid;
+        savingData(value.user.uid, value.user.email);
         splash.userCredential = value;
 
         local.writeToDB(value.user.uid);
@@ -80,6 +83,24 @@ class UserAuthenticationRepositories implements AuthRepositories {
     } on FirebaseAuthException {
       return left(
           "Registration Failed !\n Please Try again with valid email and password !");
+    }
+  }
+
+  void savingData(String userId, String userEmail) async {
+    Map<String, String> userdata = {
+      'phone': "",
+      'email': userEmail,
+      'photo': '',
+      'name': '',
+    };
+    try {
+      await FirebaseFirestore.instance
+          .collection('User')
+          .doc(userId)
+          .set(userdata)
+          .then((value) => print('Saved User'));
+    } catch (error) {
+      print(error);
     }
   }
 
