@@ -14,4 +14,6 @@ class LocalDB {
   String removeFromDB() {
     box.remove('userId');
   }
+
+  
 }

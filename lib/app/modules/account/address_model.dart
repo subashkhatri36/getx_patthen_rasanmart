@@ -11,7 +11,8 @@ class AddressModel {
   final String zipcode;
   final String phoneno;
   final String landmark;
-  final bool isSelected;
+   bool isSelected;
+  String id;
 
   AddressModel({
     @required this.place,
@@ -21,9 +22,11 @@ class AddressModel {
     @required this.state,
     @required this.zipcode,
     @required this.phoneno,
-    this.landmark,
+    this.landmark = '',
     @required this.isSelected,
+    this.id,
   });
+  //bool setSelected(bool val) => this.isSelected = val;
 
   Map<String, dynamic> toMap() {
     return {
@@ -48,7 +51,7 @@ class AddressModel {
       state: map['state'],
       zipcode: map['zipcode'],
       phoneno: map['phoneno'],
-      landmark: map['landmark'],
+      landmark: map['landmark'] ?? "",
       isSelected: map['isSelected'],
     );
   }
@@ -85,5 +88,37 @@ class AddressModel {
         phoneno.hashCode ^
         landmark.hashCode ^
         isSelected.hashCode;
+  }
+
+  @override
+  String toString() {
+    return 'AddressModel(place: $place, tol: $tol, city: $city, muncipalit: $muncipalit, state: $state, zipcode: $zipcode, phoneno: $phoneno, landmark: $landmark, isSelected: $isSelected, id: $id)';
+  }
+
+  String get fullAddress =>
+      landmark.capitalize() +
+      ' ' +
+      tol.capitalize() +
+      ' ' +
+      place +
+      ', ' +
+      city +
+      ', ' +
+      muncipalit +
+      ', ' +
+      state +
+      ',' +
+      zipcode +
+      ' \n' +
+      'Phone : ' +
+      phoneno;
+}
+
+extension StringExtension on String {
+  String capitalize() {
+    if (this[0].isNotEmpty)
+      return "${this[0].toUpperCase()}${this.substring(1)}";
+
+    return '';
   }
 }

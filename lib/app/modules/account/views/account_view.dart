@@ -7,6 +7,7 @@ import 'package:rasan_mart/app/Widgets/buttons/buttons_widgets.dart';
 import 'package:rasan_mart/app/core/constant/default_value.dart';
 import 'package:rasan_mart/app/core/theme/app_theme.dart';
 import 'package:rasan_mart/app/modules/account/views/user_info_edit.dart';
+import 'package:rasan_mart/app/modules/addAddress/views/add_address_view.dart';
 import 'package:rasan_mart/app/modules/authentication/views/authentication_view.dart';
 
 import '../controllers/account_controller.dart';
@@ -28,7 +29,9 @@ class AccountView extends GetView<AccountController> {
               children: [
                 AccountHeader(),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Get.to(() => AddAddressView(), arguments: true);
+                  },
                   child: Container(
                       padding: EdgeInsets.all(Defaults.defaultPadding - 5),
                       decoration: BoxDecoration(
@@ -42,29 +45,44 @@ class AccountView extends GetView<AccountController> {
                         ],
                       )),
                 ),
-                Container(
-                    height: Defaults.defaultPadding * 6,
-                    padding: EdgeInsets.all(Defaults.defaultPadding / 2),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Selected Address : \n',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: Defaults.defaultfontsize + 3),
-                          textAlign: TextAlign.left,
-                        ),
-                        Text(
-                          controller.fetchingSingleAddress(),
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: Defaults.defaultfontsize),
-                          textAlign: TextAlign.left,
-                        ),
-                      ],
-                    )),
+                InkWell(
+                  onTap: () {
+                    Get.to(() => AddAddressView(), arguments: false);
+                  },
+                  child: Container(
+                      height: Defaults.defaultPadding * 6,
+                      padding: EdgeInsets.all(Defaults.defaultPadding / 2),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Selected Address',
+                                style: TextStyle(
+                                    decoration: TextDecoration.underline,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: Defaults.defaultfontsize + 3),
+                                textAlign: TextAlign.left,
+                              ),
+                              Icon(
+                                Icons.arrow_right_alt,
+                                size: 30,
+                                color: Themes.lightSalesolor,
+                              )
+                            ],
+                          ),
+                          Text(
+                            controller.fetchingSingleAddress(),
+                            style:
+                                TextStyle(fontSize: Defaults.defaultfontsize),
+                            textAlign: TextAlign.left,
+                          ),
+                        ],
+                      )),
+                ),
                 Container(
                     padding: EdgeInsets.all(Defaults.defaultPadding - 5),
                     decoration: BoxDecoration(

@@ -152,6 +152,7 @@ class AccountRepositiories implements UserdataProvider {
   Future<Either<String, List<AddressModel>>> getUserAddress(
       String userId) async {
     List<AddressModel> addresses = [];
+    print(userId);
     try {
       await FirebaseFirestore.instance
           .collection('User')
@@ -170,6 +171,7 @@ class AccountRepositiories implements UserdataProvider {
             state: element['state'].toString(),
             tol: element['tol'].toString(),
             zipcode: element['zipcode'].toString(),
+            id: element.id,
           ));
         });
       });
@@ -184,6 +186,8 @@ class AccountRepositiories implements UserdataProvider {
       AddressModel address, String userId) async {
     bool comp = false;
     try {
+      if (address.id == null && address.id.isEmpty) address.id = '';
+
       await FirebaseFirestore.instance
           .collection('User')
           .doc(userId)

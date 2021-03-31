@@ -15,12 +15,13 @@ class InputField extends StatelessWidget {
       this.iconColor,
       this.textFieldColor,
       this.controller,
+      this.borderColor = Colors.white,
       this.autovalidateMode});
 
   final IconData icon;
   final String hintText;
   final TextInputType textInputType;
-  final Color textFieldColor, iconColor;
+  final Color textFieldColor, iconColor, borderColor;
   final bool obscureText;
   final validator;
   final ValueChanged<String> onFieldSubmitted;
@@ -71,4 +72,72 @@ class InputField extends StatelessWidget {
         borderSide: BorderSide(color: Theme.of(context).primaryColor, width: 1),
         borderRadius: BorderRadius.circular(Defaults.defaultfontsize));
   }
+}
+
+class TextInputField extends StatelessWidget {
+  const TextInputField({
+    Key key,
+    @required this.controller,
+    this.texttype,
+    @required this.lable,
+    @required this.hinttext,
+    this.validator,
+    this.onFieldSubmitted,
+    this.icon,
+    this.errortext,
+    this.focus = false,
+  }) : super(key: key);
+
+  final controller;
+  final texttype;
+  final String lable;
+  final String hinttext;
+  final validator;
+  final onFieldSubmitted;
+  final IconData icon;
+  final String errortext;
+  final bool focus;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: controller,
+      style: TextStyle(color: Theme.of(context).backgroundColor),
+      keyboardType: texttype ?? TextInputType.text,
+      validator: validator ?? null,
+      onFieldSubmitted: onFieldSubmitted ?? null,
+      autofocus: focus,
+      decoration: new InputDecoration(
+        prefixIcon: icon != null
+            ? new Icon(
+                icon,
+                color: Theme.of(context).backgroundColor,
+              )
+            : null,
+        //contentPadding: EdgeInsets.all(default),
+        border: newbuildOutlineInputBorder(context),
+        enabledBorder: newbuildOutlineInputBorder(context),
+        focusColor: Theme.of(context).backgroundColor,
+
+        errorBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.yellow[300], width: 1),
+            borderRadius: BorderRadius.circular(Defaults.defaultfontsize)),
+
+        labelText: lable,
+        labelStyle: TextStyle(color: Theme.of(context).backgroundColor),
+        hintText: hinttext,
+        errorStyle: TextStyle(color: Colors.red),
+        errorText: errortext,
+        hintStyle: const TextStyle(
+            color: Color(0xFFD32F2F), fontSize: Defaults.defaultfontsize),
+      ),
+    );
+  }
+}
+
+OutlineInputBorder newbuildOutlineInputBorder(BuildContext context) {
+  return OutlineInputBorder(
+      borderSide:
+          BorderSide(color: Theme.of(context).backgroundColor, width: 1),
+      borderRadius: BorderRadius.circular(Defaults.defaultfontsize));
 }

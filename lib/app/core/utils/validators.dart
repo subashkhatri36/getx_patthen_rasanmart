@@ -13,3 +13,25 @@ String checkEmail(String value) {
   }
   return null;
 }
+
+String checkPhone(value) {
+  if (value.length != 10) {
+    return 'Phone no is too short.';
+  } else
+    return null;
+}
+
+String checkPlace(value) {
+  if (value.length > 3) {
+    return null;
+  } else
+    return 'Data must be at least of  3 character.';
+}
+
+String checkCode(value) {
+  if (value.length > 3 && value.length < 7) {
+    return null;
+  } else {
+    return 'zipcode must be greater than 3 character.';
+  }
+}

@@ -21,10 +21,12 @@ class AccountController extends GetxController {
   var user;
   RxString userImage = 'assets/images/logo.PNG'.obs;
   RxString uId = ''.obs;
+
   RxBool isImageNetwork = false.obs;
   RxBool isImageUploading = false.obs;
   RxBool isLoading = false.obs;
   RxBool isLogOut = true.obs;
+
   RxList<AddressModel> userAddress;
 
   File image;
@@ -42,10 +44,10 @@ class AccountController extends GetxController {
     print(user);
     super.onInit();
     fetchUserInfo();
-    fetchUserAddress();
+     fetchUserAddress();
   }
 
-  void fetchUserAddress() async {
+  Future<void> fetchUserAddress() async {
     List<AddressModel> newuserAddress = [];
 
     Either<String, List<AddressModel>> myAddress =

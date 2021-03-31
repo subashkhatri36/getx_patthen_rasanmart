@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 
 import 'package:rasan_mart/app/modules/account/bindings/account_binding.dart';
 import 'package:rasan_mart/app/modules/account/views/account_view.dart';
+import 'package:rasan_mart/app/modules/addAddress/bindings/add_address_binding.dart';
+import 'package:rasan_mart/app/modules/addAddress/views/add_address_view.dart';
 import 'package:rasan_mart/app/modules/authentication/bindings/authentication_binding.dart';
 import 'package:rasan_mart/app/modules/authentication/views/authentication_view.dart';
 import 'package:rasan_mart/app/modules/cart/bindings/cart_binding.dart';
@@ -76,6 +78,11 @@ class AppPages {
       name: _Paths.PRODUCT_CATEGORY,
       page: () => ProductCategoryView(),
       binding: ProductCategoryBinding(),
+    ),
+    GetPage(
+      name: _Paths.ADD_ADDRESS,
+      page: () => AddAddressView(),
+      binding: AddAddressBinding(),
     ),
   ];
 }
