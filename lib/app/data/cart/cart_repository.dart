@@ -97,11 +97,6 @@ class CartRepository implements CartProvider {
     }
   }
 
-  @override
-  Future<Either<String, String>> removeCart({String productId, String data}) {
-    // TODO: implement removeCart
-    throw UnimplementedError();
-  }
 
   @override
   Future<Either<String, String>> updateCart(

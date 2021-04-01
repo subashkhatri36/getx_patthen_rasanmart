@@ -7,4 +7,7 @@ abstract class AddressProvider {
       String userId, AddressModel addressModel);
   Future<Either<String, String>> updateAddress(
       String userId, AddressModel addressModel, String id);
+  Future<Either<String, String>> updateSingleFieldAddress(
+      String userId, bool value, String id);
+  Future<Either<String, String>> deleteAddress(String userId, String id);
 }

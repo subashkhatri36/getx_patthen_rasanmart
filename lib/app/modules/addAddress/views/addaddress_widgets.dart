@@ -155,10 +155,7 @@ class AddAddressWidget extends StatelessWidget {
               onPressed: () async {
                 if (selectedState) {
                   if (addresskey.currentState.validate()) {
-                    bool val = await controller.saveAddress(selectedData);
-                    if (val) {
-                      Get.back();
-                    }
+                    controller.saveAddress(selectedData);
                   } else {
                     CustomeSnackbar(
                       title: 'Addresses !',

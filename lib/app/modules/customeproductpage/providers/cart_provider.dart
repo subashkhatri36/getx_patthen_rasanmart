@@ -8,8 +8,7 @@ abstract class CartProvider {
   Future<Either<String, List<CartModel>>> fetchCart(String data);
   Future<Either<String, String>> addCart(
       {@required Product product, String data});
-  Future<Either<String, String>> removeCart(
-      {@required String productId, String data});
+
   Future<Either<String, String>> updateCart({
     @required CartModel cartModel,
     String data,

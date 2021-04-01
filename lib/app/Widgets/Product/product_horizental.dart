@@ -22,7 +22,8 @@ class ProductHorizental extends StatefulWidget {
       {Key key,
       @required this.product,
       @required this.index,
-      @required this.cartId, this.horizental})
+      @required this.cartId,
+      this.horizental})
       : super(key: key);
 
   @override
@@ -214,36 +215,67 @@ class _ProductHorizentalState extends State<ProductHorizental> {
                   isdetailpage: false,
                   ishorizentalproduct: true,
                 ),
-                if (!false && !widget.horizental) SizedBox(height: Defaults.defaultfontsize),
                 if (!false && !widget.horizental)
-                  buildCartAndQuick(false, context, _product,widget.horizental),
+                  SizedBox(height: Defaults.defaultfontsize),
+                if (!false && !widget.horizental)
+                  buildCartAndQuick(
+                      false, context, _product, widget.horizental),
               ],
             ),
           ),
-        if(widget.horizental)
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Expanded(
-                  child: CustomeTextButton(
-                label: 'View Details',
-                onPressed: () {
-                  Get.to(() => ProductdetailView(), arguments: _product);
-                },
-                color: Themes.lightBtnColor,
-              )),
-              SizedBox(width: Defaults.defaultPadding),
-              Expanded(
-                  child: CustomeTextButton(
-                label: 'Delete',
-                onPressed: () {
-                  controller.removeCart(
-                      index: widget.index, productId: _cartId);
-                },
-                color: Colors.grey,
-              )),
-            ],
-          )
+          if (widget.horizental)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Expanded(
+                    child: CustomeTextButton(
+                  label: 'View Details',
+                  onPressed: () {
+                    Get.to(() => ProductdetailView(), arguments: _product);
+                  },
+                  color: Themes.lightBtnColor,
+                )),
+                SizedBox(width: Defaults.defaultPadding),
+                Expanded(
+                    child: CustomeTextButton(
+                  label: 'Delete',
+                  onPressed: () {
+                    showDialog(
+                        barrierDismissible: false,
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Row(
+                              children: [
+                                Icon(Icons.warning),
+                                Text("Warning !"),
+                              ],
+                            ),
+                            content: Text("Are you sure to delete Cart Itme"),
+                            actions: [
+                              CustomeTextButton(
+                                label: 'Cancel',
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              CustomeTextButton(
+                                label: 'Delete',
+                                color: Themes.lightBackgroundColor,
+                                onPressed: () async {
+                                  controller.removeCart(
+                                      index: widget.index, productId: _cartId);
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        });
+                  },
+                  color: Colors.grey,
+                )),
+              ],
+            )
         ]))
       ]),
     );

@@ -11,7 +11,7 @@ class AddressModel {
   final String zipcode;
   final String phoneno;
   final String landmark;
-   bool isSelected;
+  bool isSelected;
   String id;
 
   AddressModel({
@@ -116,7 +116,7 @@ class AddressModel {
 
 extension StringExtension on String {
   String capitalize() {
-    if (this[0].isNotEmpty)
+    if (this.isNotEmpty) if (this[0].isNotEmpty)
       return "${this[0].toUpperCase()}${this.substring(1)}";
 
     return '';

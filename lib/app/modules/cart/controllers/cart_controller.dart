@@ -7,6 +7,7 @@ import 'package:rasan_mart/app/Widgets/snakbar.dart';
 import 'package:rasan_mart/app/core/constant/strings.dart';
 import 'package:rasan_mart/app/data/cart/cart_repository.dart';
 import 'package:rasan_mart/app/modules/authentication/controllers/mainauth_controller.dart';
+import 'package:rasan_mart/app/modules/cart/controllers/cart_offline.dart';
 import 'package:rasan_mart/app/modules/cart/views/cart_model.dart';
 import 'package:rasan_mart/app/modules/cart/views/product_total_model.dart';
 import 'package:rasan_mart/app/modules/customeproductpage/product_model.dart';
@@ -21,6 +22,7 @@ class CartController extends GetxController {
   final firebase = Get.find<MainauthController>();
   RxInt cartTotal = 0.obs;
   RxInt cindex = 0.obs;
+  CartOffline offlineCart = new CartOffline();
 
   @override
   void onInit() async {
@@ -39,14 +41,34 @@ class CartController extends GetxController {
             message: l.toString(),
             icon: Icon(Icons.warning));
         print(l);
+        cartList = newcartList.obs;
+        cartTotal = cartList.length.obs;
       }, (r) {
         newcartList = r.toList();
         cartList = newcartList.obs;
         cartTotal = cartList.length.obs;
       });
     } else {
-      cartList = newcartList.obs;
-      cartTotal = cartList.length.obs;
+      //not logged in
+      Either<String, List<CartModel>> cart =
+          await offlineCart.loadCartOffline();
+      cart.fold((l) {
+        // CustomeSnackbar(
+        //     title: 'Error Loading Cart',
+        //     message: l.toString(),
+        //     icon: Icon(Icons.warning));
+        //  newcartList = r.toList();
+        cartList = newcartList.obs;
+        cartTotal = cartList.length.obs;
+        print(l);
+      }, (r) {
+        newcartList = r.toList();
+        cartList = newcartList.obs;
+        cartTotal = cartList.length.obs;
+      });
+
+      // cartList = newcartList.obs;
+      // cartTotal = cartList.length.obs;
     }
   }
 
@@ -124,7 +146,25 @@ class CartController extends GetxController {
           cartList.add(CartModel(product: product, cartId: r));
         }
       });
-    } else {}
+    } else {
+      //not logged in data
+      CartModel cartModel = new CartModel(product: product, cartId: '');
+      loaddataOffline(cartModel);
+    }
+  }
+
+  void loaddataOffline(CartModel cartModel) async {
+    Either<String, String> cart = await offlineCart.addCartOffline(cartModel);
+    cart.fold((l) {
+      CustomeSnackbar(
+          title: 'Error Loading Cart',
+          message: l.toString(),
+          icon: Icon(Icons.warning));
+      print(l);
+    }, (r) {
+      cartList.add(cartModel);
+      cartTotal = cartList.length.obs;
+    });
   }
 
   @override

@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz_unsafe.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -33,6 +34,7 @@ class AddAddressController extends GetxController {
 
   RxString uId = ''.obs;
   RxInt selectedIndex = 0.obs;
+  RxBool isAddressUpdated = false.obs;
 
   List<String> state = [
     'Select State',
@@ -56,6 +58,7 @@ class AddAddressController extends GetxController {
     isAddressLoad.value = true;
     List<AddressModel> newuserAddress = [];
     uId = auth.currentUser.uid.obs;
+    print(uId.value);
     if (uId.isNotEmpty) {
       Either<String, List<AddressModel>> myAddress =
           await accountRepositiories.getUserAddress(uId.value);
@@ -68,18 +71,71 @@ class AddAddressController extends GetxController {
         newuserAddress = r.toList();
         newAddress = newuserAddress.obs;
       });
+    } else {
+      newAddress = newuserAddress.obs;
     }
     isAddressLoad.value = false;
   }
 
-  changeList(int changeIndex) {
-    List<AddressModel> temp = newAddress;
-    temp[changeIndex].isSelected = true;
-    temp[selectedIndex.value].isSelected = false;
-    newAddress = temp.obs;
+  changeList(int changeIndex) async {
+    var id = FirebaseAuth.instance.currentUser?.uid ?? "";
+    if (id.isNotEmpty && id != null) {
+      isAddressUpdated.value = true;
+      //List<AddressModel> temp = newAddress;
+      String id1 = newAddress[changeIndex].id;
+      String id2 = newAddress[selectedIndex.value].id;
+      newAddress[changeIndex].isSelected = true;
+      newAddress[selectedIndex.value].isSelected = false;
+
+      Either<String, String> result =
+          await addressProvider.updateSingleFieldAddress(id, true, id1);
+      result.fold((l) {
+        CustomeSnackbar(
+          title: 'Addresses !',
+          message: 'Failed to Change Selected Address .',
+          icon: Icon(Icons.error),
+        );
+      }, (r) async {
+        Either<String, String> result =
+            await addressProvider.updateSingleFieldAddress(id, false, id2);
+        result.fold((l) {
+          CustomeSnackbar(
+            title: 'Addresses !',
+            message: 'Failed to Change Selected Address .',
+            icon: Icon(Icons.error),
+          );
+        }, (r) {
+          isAddressUpdated.value = false;
+          selectedIndex.value = changeIndex;
+        });
+      });
+    }
+
+    //  newAddress = temp.obs;
   }
 
-  Future<bool> saveAddress(String state) async {
+  void deleteAddress(String docId, AddressModel addressModel) async {
+    var id = FirebaseAuth.instance.currentUser?.uid ?? "";
+    if (id.isNotEmpty && id != null) {
+      Either<String, String> deleteAd =
+          await addressProvider.deleteAddress(id, docId);
+      deleteAd.fold((l) {
+        CustomeSnackbar(
+          title: 'Addresses !',
+          message: 'Failed to Change Selected Address .',
+          icon: Icon(Icons.error),
+        );
+      }, (r) {
+        CustomeSnackbar(
+          title: 'Deleted !',
+          message: 'Successfully Deleted .',
+          icon: Icon(Icons.info),
+        );
+      });
+    }
+  }
+
+  Future<void> saveAddress(String state) async {
     bool val = false;
     AddressModel addressModel = new AddressModel(
       tol: tolController.text,
@@ -90,7 +146,7 @@ class AddAddressController extends GetxController {
       state: state,
       zipcode: zipcodeController.text,
       phoneno: phonenoController.text,
-      isSelected: false,
+      isSelected: true,
     );
     var id = FirebaseAuth.instance.currentUser?.uid ?? "";
     if (id.isNotEmpty && id != null) {
@@ -102,16 +158,53 @@ class AddAddressController extends GetxController {
           message: 'Failed to Save Address \nCheck your data!.',
           icon: Icon(Icons.error),
         );
-      }, (r) {
-        CustomeSnackbar(
-          title: 'Added !',
-          message: 'Successfully Added Address.',
-          icon: Icon(Icons.error),
-        );
-        val = true;
+      }, (r) async {
+        addressModel.id = r;
+        val = await success(id, val, addressModel);
       });
     }
+    isAddressLoad.value = false;
+    Get.back();
+  }
+
+  Future<bool> success(String id, bool val, AddressModel addressModel) async {
+    int length = newAddress?.length ?? 0;
+    isAddressLoad.value = true;
+
+    if (length > 0) {
+      await isselectedchanged(id, newAddress);
+    } else {
+      fetchUserAddress();
+    }
+    print('Here');
+    CustomeSnackbar(
+      title: 'Added !',
+      message: 'Successfully Added Address.',
+      icon: Icon(Icons.error),
+    );
+    val = true;
+    newAddress.add(addressModel);
+    newAddress[selectedIndex.value].isSelected = false;
+    selectedIndex.value = newAddress.length - 1;
+
     return val;
+  }
+
+  clearData() {
+    cityController.text = '';
+    landmarkController.text = '';
+    muncipalityController.text = '';
+    phonenoController.text = '';
+    placeController.text = '';
+    tolController.text = '';
+    zipcodeController.text = '';
+  }
+
+  Future<void> isselectedchanged(String id, List<AddressModel> list) async {
+    for (AddressModel model in list) {
+      if (model.id != null)
+        await addressProvider.updateSingleFieldAddress(id, false, model.id);
+    }
   }
 
   @override

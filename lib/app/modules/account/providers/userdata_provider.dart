@@ -39,9 +39,6 @@ class UserDetail {
 
 abstract class UserdataProvider {
   Future<Either<String, String>> uploadImage(File path, String userId);
-  Future<Either<String, List<AddressModel>>> fetchAddress(String userId);
-  Future<Either<String, AddressModel>> savedAddress(
-      AddressModel address, String userId);
   Future<Either<String, UserDetail>> fetchUserData(String userId);
   Future<Either<String, String>> saveandUpdateUserData(
       UserDetail userDetail, String userId);
@@ -52,4 +49,5 @@ abstract class UserdataProvider {
   Future<Either<String, List<AddressModel>>> getUserAddress(String userId);
   Future<Either<String, String>> updateUserAddress(
       AddressModel address, String userId, String docId);
+  
 }

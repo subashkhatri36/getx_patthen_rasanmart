@@ -44,7 +44,7 @@ class AccountController extends GetxController {
     print(user);
     super.onInit();
     fetchUserInfo();
-     fetchUserAddress();
+    fetchUserAddress();
   }
 
   Future<void> fetchUserAddress() async {
@@ -61,38 +61,6 @@ class AccountController extends GetxController {
       newuserAddress = r.toList();
       userAddress = newuserAddress.obs;
     });
-  }
-
-  String fetchingSingleAddress() {
-    if (userAddress.length < 1) {
-      fetchUserAddress();
-    }
-    String addressValue = '';
-    AddressModel addressModel;
-    userAddress.asMap().forEach((key, value) {
-      if (value.isSelected) {
-        addressModel = value;
-      }
-    });
-    if (addressModel != null) {
-      addressValue = addressModel.landmark +
-          ' ' +
-          addressModel.tol +
-          ' ' +
-          addressModel.place +
-          ', ' +
-          addressModel.city +
-          ', ' +
-          addressModel.muncipalit +
-          ', ' +
-          addressModel.state +
-          ',' +
-          addressModel.zipcode +
-          ' \n' +
-          'Phone : ' +
-          addressModel.phoneno;
-    }
-    return addressValue;
   }
 
   void fetchUserInfo() async {

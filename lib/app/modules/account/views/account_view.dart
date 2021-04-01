@@ -7,7 +7,9 @@ import 'package:rasan_mart/app/Widgets/buttons/buttons_widgets.dart';
 import 'package:rasan_mart/app/core/constant/default_value.dart';
 import 'package:rasan_mart/app/core/theme/app_theme.dart';
 import 'package:rasan_mart/app/modules/account/views/user_info_edit.dart';
+import 'package:rasan_mart/app/modules/addAddress/controllers/add_address_controller.dart';
 import 'package:rasan_mart/app/modules/addAddress/views/add_address_view.dart';
+import 'package:rasan_mart/app/modules/addAddress/views/address_selected_navigation.dart';
 import 'package:rasan_mart/app/modules/authentication/views/authentication_view.dart';
 
 import '../controllers/account_controller.dart';
@@ -22,6 +24,7 @@ class AccountView extends GetView<AccountController> {
       controller.isLogOut.value = false;
       controller.fetchUserInfo();
     }
+    final addressController = Get.find<AddAddressController>();
     return SingleChildScrollView(
         child: Obx(
       () => !controller.isLogOut.value
@@ -30,7 +33,7 @@ class AccountView extends GetView<AccountController> {
                 AccountHeader(),
                 GestureDetector(
                   onTap: () {
-                    Get.to(() => AddAddressView(), arguments: true);
+                    Get.to(() => AddAddressView(), arguments: [true, false]);
                   },
                   child: Container(
                       padding: EdgeInsets.all(Defaults.defaultPadding - 5),
@@ -45,44 +48,15 @@ class AccountView extends GetView<AccountController> {
                         ],
                       )),
                 ),
-                InkWell(
-                  onTap: () {
-                    Get.to(() => AddAddressView(), arguments: false);
-                  },
-                  child: Container(
-                      height: Defaults.defaultPadding * 6,
-                      padding: EdgeInsets.all(Defaults.defaultPadding / 2),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Selected Address',
-                                style: TextStyle(
-                                    decoration: TextDecoration.underline,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: Defaults.defaultfontsize + 3),
-                                textAlign: TextAlign.left,
-                              ),
-                              Icon(
-                                Icons.arrow_right_alt,
-                                size: 30,
-                                color: Themes.lightSalesolor,
-                              )
-                            ],
-                          ),
-                          Text(
-                            controller.fetchingSingleAddress(),
-                            style:
-                                TextStyle(fontSize: Defaults.defaultfontsize),
-                            textAlign: TextAlign.left,
-                          ),
-                        ],
-                      )),
-                ),
+                Obx(() => addressController.isAddressUpdated.value
+                    ? AddressSelectedWidget(
+                        controller: addressController,
+                        ischange: false,
+                        isadd: false)
+                    : AddressSelectedWidget(
+                        controller: addressController,
+                        ischange: false,
+                        isadd: false)),
                 Container(
                     padding: EdgeInsets.all(Defaults.defaultPadding - 5),
                     decoration: BoxDecoration(

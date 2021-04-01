@@ -7,6 +7,7 @@ import 'package:rasan_mart/app/Widgets/appbar/custome_appbar.dart';
 import 'package:rasan_mart/app/Widgets/bottom_navigationbar.dart';
 import 'package:rasan_mart/app/modules/account/controllers/account_controller.dart';
 import 'package:rasan_mart/app/modules/account/views/account_view.dart';
+import 'package:rasan_mart/app/modules/addAddress/controllers/add_address_controller.dart';
 import 'package:rasan_mart/app/modules/customeproductpage/controllers/customeproductpage_controller.dart';
 import 'package:rasan_mart/app/modules/customeproductpage/views/customeproductpage_view.dart';
 
@@ -24,6 +25,7 @@ class _HomeViewState extends State<HomeView> {
   final productcontianerContorller = Get.put(CustomeproductpageController());
   final data = Get.put(HomeController());
   final account = Get.put(AccountController());
+  final addressController = Get.put(AddAddressController());
 
   Widget returnScreenValue(int _index) {
     switch (_index) {

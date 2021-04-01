@@ -27,11 +27,8 @@ Container buildCartAndQuick(
             onTap: () {
               int qty = product?.qty ?? 1;
               double price = product?.price ?? 0;
-
               if (price == 0) product.setPrice(product.productPrice);
-
               if (qty == 1) product.setQty(qty);
-
 
               cartController.addCart(
                 product: product,

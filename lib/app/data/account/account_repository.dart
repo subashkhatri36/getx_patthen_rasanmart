@@ -9,18 +9,7 @@ import 'package:rasan_mart/app/modules/account/providers/userdata_provider.dart'
 class AccountRepositiories implements UserdataProvider {
   final _firebaseStorage = FirebaseStorage.instance;
 
-  @override
-  Future<Either<String, List<AddressModel>>> fetchAddress(String userId) {
-    // TODO: implement fetchAddress
-    throw UnimplementedError();
-  }
 
-  @override
-  Future<Either<String, AddressModel>> savedAddress(
-      AddressModel address, String userId) {
-    // TODO: implement savedAddress
-    throw UnimplementedError();
-  }
 
   @override
   Future<Either<String, String>> uploadImage(File path, String userId) async {

@@ -11,9 +11,9 @@ class LocalDB {
     return box.read('userId');
   }
 
-  String removeFromDB() {
+  void removeFromDB() {
     box.remove('userId');
   }
 
-  
+
 }

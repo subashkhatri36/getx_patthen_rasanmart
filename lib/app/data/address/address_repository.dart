@@ -26,7 +26,7 @@ class AddressRepository implements AddressProvider {
           .collection('address')
           .add(map)
           .then((value) {
-        message = 'Success';
+        message = value.id;
       });
       return right(message);
     } catch (error) {
@@ -45,6 +45,44 @@ class AddressRepository implements AddressProvider {
           .collection('address')
           .doc(id)
           .update(addressModel.toMap())
+          .then((value) {
+        message = 'Success';
+      });
+      return right(message);
+    } catch (error) {
+      return left(error);
+    }
+  }
+
+  @override
+  Future<Either<String, String>> updateSingleFieldAddress(
+      String userId, bool value, String id) async {
+    String message = 'Failed';
+    try {
+      await FirebaseFirestore.instance
+          .collection('User')
+          .doc(userId)
+          .collection('address')
+          .doc(id)
+          .update({'isSelected': value}).then((value) {
+        message = 'Success';
+      });
+      return right(message);
+    } catch (error) {
+      return left(error);
+    }
+  }
+
+  @override
+  Future<Either<String, String>> deleteAddress(String userId, String id) async {
+    String message = 'Failed';
+    try {
+      await FirebaseFirestore.instance
+          .collection('User')
+          .doc(userId)
+          .collection('address')
+          .doc(id)
+          .delete()
           .then((value) {
         message = 'Success';
       });
