@@ -34,7 +34,9 @@ class AddressSelectedWidget extends StatelessWidget {
               Get.to(() => AddAddressView(), arguments: [isadd, ischange]);
             },
             child: Container(
-                height: Defaults.defaultPadding * 6,
+                height: ischange
+                    ? Defaults.defaultPadding * 4.6
+                    : Defaults.defaultPadding * 5,
                 padding: EdgeInsets.all(Defaults.defaultPadding / 2),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -44,7 +46,7 @@ class AddressSelectedWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Selected Address',
+                          ischange ? 'Shipping Address' : 'Selected Address',
                           style: TextStyle(
                               decoration: TextDecoration.underline,
                               fontWeight: FontWeight.bold,
@@ -57,11 +59,23 @@ class AddressSelectedWidget extends StatelessWidget {
                                 size: 30,
                                 color: Themes.lightSalesolor,
                               )
-                            : Icon(
-                                Icons.change_history,
-                                size: 30,
-                                color: Themes.lightSalesolor,
-                              )
+                            : Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: Defaults.defaultfontsize,
+                                    vertical: Defaults.defaultfontsize / 5),
+                                decoration: BoxDecoration(
+                                  color: Themes.lightcounterbtnColor,
+                                  borderRadius: BorderRadius.circular(
+                                      Defaults.defaultfontsize),
+                                  border: Border.all(
+                                      color: Themes.lightcounterbtnColor),
+                                ),
+                                child: Text(
+                                  'Change',
+                                  style: TextStyle(
+                                      fontSize: Defaults.defaultfontsize - 4,
+                                      fontWeight: FontWeight.bold),
+                                ))
                       ],
                     ),
                     Text(

@@ -23,6 +23,7 @@ class CartController extends GetxController {
   RxInt cartTotal = 0.obs;
   RxInt cindex = 0.obs;
   CartOffline offlineCart = new CartOffline();
+  RxBool cartUpdate = false.obs;
 
   @override
   void onInit() async {

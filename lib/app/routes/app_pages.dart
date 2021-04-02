@@ -8,6 +8,10 @@ import 'package:rasan_mart/app/modules/authentication/bindings/authentication_bi
 import 'package:rasan_mart/app/modules/authentication/views/authentication_view.dart';
 import 'package:rasan_mart/app/modules/cart/bindings/cart_binding.dart';
 import 'package:rasan_mart/app/modules/cart/views/cart_view.dart';
+import 'package:rasan_mart/app/modules/checkout/bindings/checkout_binding.dart';
+import 'package:rasan_mart/app/modules/checkout/views/checkout_view.dart';
+import 'package:rasan_mart/app/modules/conformation/bindings/conformation_binding.dart';
+import 'package:rasan_mart/app/modules/conformation/views/conformation_view.dart';
 import 'package:rasan_mart/app/modules/home/bindings/home_binding.dart';
 import 'package:rasan_mart/app/modules/home/views/home_view.dart';
 import 'package:rasan_mart/app/modules/nointernet/bindings/nointernet_binding.dart';
@@ -83,6 +87,16 @@ class AppPages {
       name: _Paths.ADD_ADDRESS,
       page: () => AddAddressView(),
       binding: AddAddressBinding(),
+    ),
+    GetPage(
+      name: _Paths.CHECKOUT,
+      page: () => CheckoutView(),
+      binding: CheckoutBinding(),
+    ),
+    GetPage(
+      name: _Paths.CONFORMATION,
+      page: () => ConformationView(),
+      binding: ConformationBinding(),
     ),
   ];
 }

@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rasan_mart/app/Widgets/snakbar.dart';
 import 'package:rasan_mart/app/data/account/account_repository.dart';
+import 'package:rasan_mart/app/data/local_data/get_storage.dart';
 import 'package:rasan_mart/app/modules/account/address_model.dart';
 import 'package:rasan_mart/app/modules/account/providers/userdata_provider.dart';
 import 'package:rasan_mart/app/modules/authentication/controllers/mainauth_controller.dart';
@@ -90,6 +91,8 @@ class AccountController extends GetxController {
   void logOut() {
     auth.signOut();
     isLogOut.value = true;
+    LocalDB localDB = new LocalDB();
+    localDB.removeFromDB();
     clearData();
   }
 

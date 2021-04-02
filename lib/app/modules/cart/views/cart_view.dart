@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:rasan_mart/app/Widgets/Product/product_horizental.dart';
 import 'package:rasan_mart/app/Widgets/buttons/buttons_widgets.dart';
 import 'package:rasan_mart/app/core/constant/default_value.dart';
+import 'package:rasan_mart/app/modules/checkout/views/checkout_view.dart';
 
 import '../controllers/cart_controller.dart';
 
@@ -77,10 +78,10 @@ class CartView extends GetView<CartController> {
                             Expanded(
                               flex: 4,
                               child: CustomeTextButton(
-                                label: 'Continue Buy',
+                                label: 'Continue',
                                 color: Theme.of(context).backgroundColor,
                                 onPressed: () {
-                                  //Get.to(page)
+                                  Get.to(() => CheckoutView());
                                 },
                               ),
                             ),

@@ -1,4 +1,3 @@
-import 'package:dartz/dartz_unsafe.dart';
 import 'package:flutter/material.dart';
 import 'package:rasan_mart/app/Widgets/Product/cart_and_quickview_btn.dart';
 import 'package:rasan_mart/app/Widgets/Product/total_product_price.dart';
@@ -200,6 +199,7 @@ class _QuantityContainerState extends State<QuantityAndTotalpriceContainer> {
   }
 
   void countermethod(CounterType counterType, bool iscart) {
+    cartcontroller.cartUpdate.value = !cartcontroller.cartUpdate.value;
     switch (counterType) {
       case CounterType.Increament:
         setState(() {

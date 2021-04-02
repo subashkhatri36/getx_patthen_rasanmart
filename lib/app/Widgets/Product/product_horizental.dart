@@ -17,14 +17,16 @@ class ProductHorizental extends StatefulWidget {
   final int index;
   final String cartId;
   final bool horizental;
+  final bool checkout;
 
-  const ProductHorizental(
-      {Key key,
-      @required this.product,
-      @required this.index,
-      @required this.cartId,
-      this.horizental})
-      : super(key: key);
+  const ProductHorizental({
+    Key key,
+    @required this.product,
+    @required this.index,
+    @required this.cartId,
+    this.horizental,
+    this.checkout = false,
+  }) : super(key: key);
 
   @override
   _ProductHorizentalState createState() => _ProductHorizentalState();
@@ -33,15 +35,23 @@ class ProductHorizental extends StatefulWidget {
 class _ProductHorizentalState extends State<ProductHorizental> {
   Product get _product => widget.product;
   String get _cartId => widget.cartId;
+  bool get checkout => widget.checkout;
   final controller = Get.find<CartController>();
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.symmetric(
         horizontal: Defaults.defaultfontsize,
         vertical: Defaults.defaultPadding / 2,
       ),
+      margin: EdgeInsets.symmetric(
+          horizontal: checkout ? Defaults.defaultPadding / 3 : 0),
+      decoration: checkout
+          ? BoxDecoration(
+              border: Border.all(color: Themes.lightcounterbtnColor))
+          : BoxDecoration(border: Border.all(color: Colors.transparent)),
       child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
         Column(
           children: [

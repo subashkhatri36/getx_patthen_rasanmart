@@ -13,6 +13,8 @@ abstract class Routes {
   static const NOTIFICATIONPAGE = _Paths.NOTIFICATIONPAGE;
   static const PRODUCT_CATEGORY = _Paths.PRODUCT_CATEGORY;
   static const ADD_ADDRESS = _Paths.ADD_ADDRESS;
+  static const CHECKOUT = _Paths.CHECKOUT;
+  static const CONFORMATION = _Paths.CONFORMATION;
 }
 
 abstract class _Paths {
@@ -27,4 +29,6 @@ abstract class _Paths {
   static const NOTIFICATIONPAGE = '/notificationpage';
   static const PRODUCT_CATEGORY = '/product-category';
   static const ADD_ADDRESS = '/add-address';
+  static const CHECKOUT = '/checkout';
+  static const CONFORMATION = '/conformation';
 }
