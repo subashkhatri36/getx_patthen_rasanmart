@@ -11,3 +11,11 @@ enum DiscountType {
   Percentage,
 }
 enum CounterType { Decreament, Increament }
+enum PaymentMode {
+  CashOnDelivery,
+  Khalti,
+  ImePay,
+  Esewa,
+  PayPal,
+  MasterCard,
+}

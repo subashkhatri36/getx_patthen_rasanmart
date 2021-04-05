@@ -34,4 +34,50 @@ class EnumConvertor {
         break;
     }
   }
+
+  PaymentMode paymentMode(int val) {
+    switch (val) {
+      case 1:
+        return PaymentMode.Khalti;
+        break;
+      case 2:
+        return PaymentMode.ImePay;
+        break;
+      case 3:
+        return PaymentMode.Esewa;
+        break;
+      case 4:
+        return PaymentMode.PayPal;
+        break;
+      case 5:
+        return PaymentMode.MasterCard;
+        break;
+      default:
+        return PaymentMode.CashOnDelivery;
+        break;
+    }
+  }
+
+  String paymentString(PaymentMode paymentMode) {
+    switch (paymentMode) {
+      case PaymentMode.Khalti:
+        return 'Khalti';
+        break;
+      case PaymentMode.ImePay:
+        return 'Ime Pay';
+        break;
+      case PaymentMode.Esewa:
+        return 'Esewa';
+        break;
+      case PaymentMode.PayPal:
+        return 'Paypal';
+        break;
+      case PaymentMode.MasterCard:
+        return 'Master or Visa Card';
+        break;
+      default:
+        return 'Cash On Delivery';
+        break;
+    }
+  }
 }

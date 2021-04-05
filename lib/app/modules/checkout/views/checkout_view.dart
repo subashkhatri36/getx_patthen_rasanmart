@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:rasan_mart/app/Widgets/Product/product_horizental.dart';
 import 'package:rasan_mart/app/Widgets/buttons/buttons_widgets.dart';
 import 'package:rasan_mart/app/core/constant/default_value.dart';
 import 'package:rasan_mart/app/core/constant/strings.dart';
@@ -26,161 +25,165 @@ class CheckoutView extends GetView<CheckoutController> {
         backgroundColor: Theme.of(context).backgroundColor,
         title: Text('Checkout'),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          SizedBox(height: Defaults.defaultfontsize / 6),
-          Container(
-            margin: EdgeInsets.symmetric(
-              horizontal: Defaults.defaultPadding / 4,
-            ),
-            decoration: BoxDecoration(
-                border: Border.all(
-                    color: Theme.of(context).backgroundColor, width: 1)),
-            child: SingleChildScrollView(
-              child: Column(children: [
-                Container(
-                    //width: MediaQuery.of(context).size.width,
-                    padding: EdgeInsets.all(Defaults.defaultfontsize / 2),
-                    color: Theme.of(context).backgroundColor,
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(height: Defaults.defaultfontsize / 6),
+            Container(
+              margin: EdgeInsets.symmetric(
+                horizontal: Defaults.defaultPadding / 4,
+              ),
+              decoration: BoxDecoration(
+                  border: Border.all(
+                      color: Theme.of(context).backgroundColor, width: 1)),
+              child: SingleChildScrollView(
+                child: Column(children: [
+                  Container(
+                      //width: MediaQuery.of(context).size.width,
+                      padding: EdgeInsets.all(Defaults.defaultfontsize / 2),
+                      color: Theme.of(context).backgroundColor,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Billing and Payments',
+                            style: TextStyle(
+                                color: Theme.of(context).primaryColor),
+                          ),
+                        ],
+                      )),
+                  BillingSection(),
+                  Container(
+                    height: 40,
+                    margin: EdgeInsets.symmetric(
+                        vertical: Defaults.defaultfontsize),
+                    padding: EdgeInsets.all(Defaults.defaultPadding / 6),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Billing and Payments',
-                          style:
-                              TextStyle(color: Theme.of(context).primaryColor),
-                        ),
-                      ],
-                    )),
-                BillingSection(),
-                Container(
-                  height: 40,
-                  margin:
-                      EdgeInsets.symmetric(vertical: Defaults.defaultfontsize),
-                  padding: EdgeInsets.all(Defaults.defaultPadding / 6),
-                  child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Payment Mode',
-                          textAlign: TextAlign.center,
-                          softWrap: true,
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        Expanded(
-                          child: ListView.builder(
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              itemCount:
-                                  checkoutController.paymentModeImage.length,
-                              itemBuilder: (context, index) {
-                                return Obx(
-                                  () => InkWell(
-                                    onTap: () {
-                                      checkoutController
-                                          .paymentSelectedMode.value = index;
-                                    },
-                                    child: Container(
-                                      height: 30,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                        color: checkoutController
-                                                    .paymentSelectedMode
-                                                    .value ==
-                                                index
-                                            ? Theme.of(context).backgroundColor
-                                            : Theme.of(context).primaryColor,
-                                      )),
-                                      margin: EdgeInsets.symmetric(
-                                          horizontal:
-                                              Defaults.defaultfontsize / 2),
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal:
-                                              Defaults.defaultfontsize / 2),
-                                      child: Image.asset(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Payment Mode',
+                            textAlign: TextAlign.center,
+                            softWrap: true,
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Expanded(
+                            child: ListView.builder(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemCount:
+                                    checkoutController.paymentModeImage.length,
+                                itemBuilder: (context, index) {
+                                  return Obx(
+                                    () => InkWell(
+                                      onTap: () {
                                         checkoutController
-                                            .paymentModeImage[index],
-                                        height: 50,
-                                        width: 50,
-                                        fit: BoxFit.fitWidth,
+                                            .paymentSelectedMode.value = index;
+                                      },
+                                      child: Container(
+                                        height: 30,
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                          color: checkoutController
+                                                      .paymentSelectedMode
+                                                      .value ==
+                                                  index
+                                              ? Theme.of(context)
+                                                  .backgroundColor
+                                              : Theme.of(context).primaryColor,
+                                        )),
+                                        margin: EdgeInsets.symmetric(
+                                            horizontal:
+                                                Defaults.defaultfontsize / 2),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal:
+                                                Defaults.defaultfontsize / 2),
+                                        child: Image.asset(
+                                          checkoutController
+                                              .paymentModeImage[index],
+                                          height: 50,
+                                          width: 50,
+                                          fit: BoxFit.fitWidth,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                );
-                              }),
-                        )
-                      ]),
-                ),
-                Obx(() => Column(children: [
-                      if (addressController.newAddress.length < 1)
-                        GestureDetector(
-                          onTap: () {
-                            Get.to(() => AddAddressView(),
-                                arguments: [true, false]);
-                          },
-                          child: Container(
-                              padding:
-                                  EdgeInsets.all(Defaults.defaultPadding - 5),
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: Themes.lightcounterbtnColor)),
-                              child: Row(
-                                children: [
-                                  Icon(Icons.add),
-                                  SizedBox(width: Defaults.defaultPadding / 2),
-                                  Text('Add Address')
-                                ],
-                              )),
+                                  );
+                                }),
+                          )
+                        ]),
+                  ),
+                  Obx(() => Column(children: [
+                        if (addressController.newAddress.length < 1)
+                          GestureDetector(
+                            onTap: () {
+                              Get.to(() => AddAddressView(),
+                                  arguments: [true, false]);
+                            },
+                            child: Container(
+                                padding:
+                                    EdgeInsets.all(Defaults.defaultPadding - 5),
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: Themes.lightcounterbtnColor)),
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.add),
+                                    SizedBox(
+                                        width: Defaults.defaultPadding / 2),
+                                    Text('Add Address')
+                                  ],
+                                )),
+                          ),
+                        Card(
+                          child: addressController.isAddressUpdated.value
+                              ? AddressSelectedWidget(
+                                  controller: addressController,
+                                  ischange: true,
+                                  isadd: false)
+                              : AddressSelectedWidget(
+                                  controller: addressController,
+                                  ischange: true,
+                                  isadd: false),
                         ),
-                      Card(
-                        child: addressController.isAddressUpdated.value
-                            ? AddressSelectedWidget(
-                                controller: addressController,
-                                ischange: true,
-                                isadd: false)
-                            : AddressSelectedWidget(
-                                controller: addressController,
-                                ischange: true,
-                                isadd: false),
-                      ),
-                    ])),
-                SizedBox(height: Defaults.defaultPadding),
-                Container(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: Defaults.defaultPadding / 2),
-                  child: Text(
-                    'Note*\nOnce you buy our product and the order product is shipping then you wont able to cancel the order. ${Strings.appName} always at your service.',
-                    textAlign: TextAlign.justify,
-                    style: TextStyle(
-                        color: Theme.of(context).backgroundColor,
-                        fontStyle: FontStyle.italic),
+                      ])),
+                  SizedBox(height: Defaults.defaultPadding),
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: Defaults.defaultPadding / 2),
+                    child: Text(
+                      'Note*\nOnce you buy our product and the order product is shipping then you wont able to cancel the order. ${Strings.appName} always at your service.',
+                      textAlign: TextAlign.justify,
+                      style: TextStyle(
+                          color: Theme.of(context).backgroundColor,
+                          fontStyle: FontStyle.italic),
+                    ),
                   ),
-                ),
-                SizedBox(height: Defaults.defaultPadding),
-              ]),
+                  SizedBox(height: Defaults.defaultPadding),
+                ]),
+              ),
             ),
-          ),
-          Container(
-            alignment: Alignment.bottomCenter,
-            padding:
-                EdgeInsets.symmetric(horizontal: Defaults.defaultPadding / 4),
-            child: Row(
-              children: [
-                Expanded(
-                  child: CustomeTextButton(
-                    label: 'Buy',
-                    color: Theme.of(context).backgroundColor,
-                    onPressed: () {
-                      Get.to(() => CheckoutView());
-                    },
+            Container(
+              alignment: Alignment.bottomCenter,
+              padding:
+                  EdgeInsets.symmetric(horizontal: Defaults.defaultPadding / 4),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: CustomeTextButton(
+                      label: 'Buy',
+                      color: Theme.of(context).backgroundColor,
+                      onPressed: () {
+                        controller.checkoutAuthenticationCheck();
+                      },
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -195,25 +198,23 @@ class BillingSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final cartController = Get.find<CartController>();
     int i = 1;
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          SizedBox(height: Defaults.defaultfontsize / 4),
+    return Column(
+      children: [
+        SizedBox(height: Defaults.defaultfontsize / 4),
+        ItemsofCart(
+          subheader: false,
+        ),
+        for (CartModel cmodel in cartController.cartList)
           ItemsofCart(
-            subheader: false,
+            subheader: true,
+            serial: i++,
+            product: cmodel.product.productName,
+            qty: cmodel.product.qty,
+            rate: cmodel.product.productPrice,
+            total: cmodel.product.price,
           ),
-          for (CartModel cmodel in cartController.cartList)
-            ItemsofCart(
-              subheader: true,
-              serial: i++,
-              product: cmodel.product.productName,
-              qty: cmodel.product.qty,
-              rate: cmodel.product.productPrice,
-              total: cmodel.product.price,
-            ),
-          TotalcalculationsummaryView(),
-        ],
-      ),
+        TotalcalculationsummaryView(),
+      ],
     );
   }
 }

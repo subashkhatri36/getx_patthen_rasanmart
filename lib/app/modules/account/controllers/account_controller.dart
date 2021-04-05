@@ -12,6 +12,7 @@ import 'package:rasan_mart/app/modules/account/address_model.dart';
 import 'package:rasan_mart/app/modules/account/providers/userdata_provider.dart';
 import 'package:rasan_mart/app/modules/authentication/controllers/mainauth_controller.dart';
 import 'package:rasan_mart/app/modules/cart/controllers/cart_controller.dart';
+import 'package:rasan_mart/app/modules/checkout/controllers/delivery_controller.dart';
 
 class AccountController extends GetxController {
   RxList<AddressModel> addressList;
@@ -36,6 +37,8 @@ class AccountController extends GetxController {
   TextEditingController userInputPhone = new TextEditingController();
 
   UserdataProvider accountRepositiories = AccountRepositiories();
+
+  final deliveryController = Get.find<DeliveryController>();
 
   final count = 0.obs;
 

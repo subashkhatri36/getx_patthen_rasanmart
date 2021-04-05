@@ -9,6 +9,7 @@ class DeliveryModel {
   final int qty;
   final double rate;
   final double price;
+
   DeliveryModel({
     @required this.id,
     @required this.productId,
@@ -76,6 +77,15 @@ class DeliveryTotalModel {
   final double totalprice;
   final double discount;
   final double grandtotal;
+  final double deliveryCharge;
+  final String paymentMode;
+  final String paymentStatus;
+  final String orderStatus;
+  final String orderData;
+  final String shippingDate;
+  final String deliveryDate;
+  final double coupen;
+
   DeliveryTotalModel({
     @required this.deliverymodel,
     @required this.id,
@@ -83,6 +93,14 @@ class DeliveryTotalModel {
     @required this.totalprice,
     @required this.discount,
     @required this.grandtotal,
+    @required this.deliveryCharge,
+    this.paymentStatus,
+    this.paymentMode = 'Cash On Delivery',
+    this.orderStatus = 'Order',
+    this.orderData,
+    this.shippingDate,
+    this.deliveryDate,
+    this.coupen = 0,
   });
 
   Map<String, dynamic> toMap() {
@@ -93,6 +111,12 @@ class DeliveryTotalModel {
       'totalprice': totalprice,
       'discount': discount,
       'grandtotal': grandtotal,
+      'deliveryCharge': deliveryCharge,
+      'paymentMode': paymentMode,
+      'orderStatus': orderStatus,
+      'orderData': orderData,
+      'shippingDate': shippingDate,
+      'deliveryDate': deliveryDate,
     };
   }
 
@@ -105,6 +129,12 @@ class DeliveryTotalModel {
       totalprice: map['totalprice'],
       discount: map['discount'],
       grandtotal: map['grandtotal'],
+      deliveryCharge: map['deliveryCharge'],
+      paymentMode: map['paymentMode'],
+      orderStatus: map['orderStatus'],
+      orderData: map['orderData'],
+      shippingDate: map['shippingDate'],
+      deliveryDate: map['deliveryDate'],
     );
   }
 
@@ -123,7 +153,13 @@ class DeliveryTotalModel {
         other.totalproduct == totalproduct &&
         other.totalprice == totalprice &&
         other.discount == discount &&
-        other.grandtotal == grandtotal;
+        other.grandtotal == grandtotal &&
+        other.deliveryCharge == deliveryCharge &&
+        other.paymentMode == paymentMode &&
+        other.orderStatus == orderStatus &&
+        other.orderData == orderData &&
+        other.shippingDate == shippingDate &&
+        other.deliveryDate == deliveryDate;
   }
 
   @override
@@ -133,6 +169,12 @@ class DeliveryTotalModel {
         totalproduct.hashCode ^
         totalprice.hashCode ^
         discount.hashCode ^
-        grandtotal.hashCode;
+        grandtotal.hashCode ^
+        deliveryCharge.hashCode ^
+        paymentMode.hashCode ^
+        orderStatus.hashCode ^
+        orderData.hashCode ^
+        shippingDate.hashCode ^
+        deliveryDate.hashCode;
   }
 }

@@ -6,20 +6,6 @@ import 'package:rasan_mart/app/modules/cart/controllers/cart_controller.dart';
 import 'package:rasan_mart/app/modules/cart/views/product_total_model.dart';
 
 class TotalcalculationsummaryView extends GetView {
-  final cartController = Get.find<CartController>();
-  @override
-  Widget build(BuildContext context) {
-    return Obx(() => cartController.cartUpdate.value
-        ? ChangingTotalValue()
-        : ChangingTotalValue());
-  }
-}
-
-class ChangingTotalValue extends StatelessWidget {
-  const ChangingTotalValue({
-    Key key,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     final cartController = Get.find<CartController>();
@@ -62,10 +48,18 @@ class ChangingTotalValue extends StatelessWidget {
                     value: calculation.totalprice,
                   ),
                   CalculationWidgetItems(
+                    type: 'Delivery Charge',
+                    value: calculation.deliverycharge,
+                  ),
+                  CalculationWidgetItems(
                     type: 'Discount (' +
                         calculation.totaldiscount.toString() +
                         ')',
                     value: calculation.totaldiscountprice,
+                  ),
+                  CalculationWidgetItems(
+                    type: 'Coupen',
+                    value: calculation.coupen,
                   ),
                   CalculationWidgetItems(
                     type: 'Grand Total',

@@ -5,8 +5,12 @@ class ProductPriceCalculation {
   final int totaldiscount;
   final double totalprice;
   final double totaldiscountprice;
+  final double deliverycharge;
+  final double coupen;
   final double grandTotal;
   ProductPriceCalculation({
+    @required this.deliverycharge,
+    @required this.coupen,
     @required this.totalItems,
     @required this.totaldiscount,
     @required this.totalprice,
@@ -23,6 +27,8 @@ class ProductPriceCalculation {
         other.totaldiscount == totaldiscount &&
         other.totalprice == totalprice &&
         other.totaldiscountprice == totaldiscountprice &&
+        other.deliverycharge == deliverycharge &&
+        other.coupen == coupen &&
         other.grandTotal == grandTotal;
   }
 
@@ -32,6 +38,8 @@ class ProductPriceCalculation {
         totaldiscount.hashCode ^
         totalprice.hashCode ^
         totaldiscountprice.hashCode ^
+        deliverycharge.hashCode ^
+        coupen.hashCode ^
         grandTotal.hashCode;
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rasan_mart/app/modules/checkout/controllers/delivery_controller.dart';
 
 class HomeController extends GetxController {
   //TODO: Implement HomeController
@@ -11,6 +12,7 @@ class HomeController extends GetxController {
   RxDouble _scrollPosition = 0.0.obs;
   RxBool isCartClick = false.obs;
   RxBool subcategorypage = false.obs;
+  final deliveryController = Get.put(DeliveryController());
 
   @override
   void onInit() {

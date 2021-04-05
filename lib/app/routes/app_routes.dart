@@ -15,6 +15,8 @@ abstract class Routes {
   static const ADD_ADDRESS = _Paths.ADD_ADDRESS;
   static const CHECKOUT = _Paths.CHECKOUT;
   static const CONFORMATION = _Paths.CONFORMATION;
+  static const OTPVERIFICATION = _Paths.OTPVERIFICATION;
+  static const CONFORMDELIVERY = _Paths.CONFORMDELIVERY;
 }
 
 abstract class _Paths {
@@ -31,4 +33,6 @@ abstract class _Paths {
   static const ADD_ADDRESS = '/add-address';
   static const CHECKOUT = '/checkout';
   static const CONFORMATION = '/conformation';
+  static const OTPVERIFICATION = '/otpverification';
+  static const CONFORMDELIVERY = '/conformdelivery';
 }

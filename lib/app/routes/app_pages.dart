@@ -12,12 +12,16 @@ import 'package:rasan_mart/app/modules/checkout/bindings/checkout_binding.dart';
 import 'package:rasan_mart/app/modules/checkout/views/checkout_view.dart';
 import 'package:rasan_mart/app/modules/conformation/bindings/conformation_binding.dart';
 import 'package:rasan_mart/app/modules/conformation/views/conformation_view.dart';
+import 'package:rasan_mart/app/modules/conformdelivery/bindings/conformdelivery_binding.dart';
+import 'package:rasan_mart/app/modules/conformdelivery/views/conformdelivery_view.dart';
 import 'package:rasan_mart/app/modules/home/bindings/home_binding.dart';
 import 'package:rasan_mart/app/modules/home/views/home_view.dart';
 import 'package:rasan_mart/app/modules/nointernet/bindings/nointernet_binding.dart';
 import 'package:rasan_mart/app/modules/nointernet/views/nointernet_view.dart';
 import 'package:rasan_mart/app/modules/notificationpage/bindings/notificationpage_binding.dart';
 import 'package:rasan_mart/app/modules/notificationpage/views/notificationpage_view.dart';
+import 'package:rasan_mart/app/modules/otpverification/bindings/otpverification_binding.dart';
+import 'package:rasan_mart/app/modules/otpverification/views/otpverification_view.dart';
 import 'package:rasan_mart/app/modules/productCategory/bindings/product_category_binding.dart';
 import 'package:rasan_mart/app/modules/productCategory/views/product_category_view.dart';
 import 'package:rasan_mart/app/modules/productdetail/bindings/productdetail_binding.dart';
@@ -97,6 +101,16 @@ class AppPages {
       name: _Paths.CONFORMATION,
       page: () => ConformationView(),
       binding: ConformationBinding(),
+    ),
+    GetPage(
+      name: _Paths.OTPVERIFICATION,
+      page: () => OtpverificationView(),
+      binding: OtpverificationBinding(),
+    ),
+    GetPage(
+      name: _Paths.CONFORMDELIVERY,
+      page: () => ConformdeliveryView(),
+      binding: ConformdeliveryBinding(),
     ),
   ];
 }
