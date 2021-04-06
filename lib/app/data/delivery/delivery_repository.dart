@@ -10,6 +10,9 @@ class DeliveryRepository implements DeliveryProvider {
     try {
       bool complete = false;
       bool alreadyshiped = false;
+      print(userId);
+      print(docId);
+      print(model);
 
       await FirebaseFirestore.instance
           .collection('Delivery')
@@ -18,7 +21,7 @@ class DeliveryRepository implements DeliveryProvider {
           .doc(docId)
           .get()
           .then((value) {
-        if (value['OrderStatus'] == 'Ordered') {
+        if (value['orderStatus'] != 'Ordered') {
           alreadyshiped = true;
         }
       });
@@ -55,10 +58,10 @@ class DeliveryRepository implements DeliveryProvider {
           .collection('Delivery')
           .doc(userId)
           .collection('userOrder')
-          .where(
-            'orderStatus',
-            isNotEqualTo: 'Completed',
-          )
+          //   .where(
+          //     'orderStatus',
+          //     isNotEqualTo: 'Completed',
+          //   )
           .get()
           .then((value) async {
         for (QueryDocumentSnapshot element in value.docs) {
@@ -73,31 +76,32 @@ class DeliveryRepository implements DeliveryProvider {
               .then((value) {
             value.docs.forEach((model) {
               deliveryMode.add(DeliveryModel(
-                id: model.id,
-                price: model['price'],
-                productId: model['productId'],
-                productName: model['productName'],
-                qty: model['qty'],
-                rate: model['rate'],
+                id: model.id.toString(),
+                price: model['price'] as double,
+                productId: model['productId'].toString(),
+                productName: model['productName'].toString(),
+                qty: model['qty'] as int,
+                rate: model['rate'] as double,
+                image: model['image'].toString(),
               ));
             });
 
             userOrders.add(DeliveryTotalModel(
-              deliverymodel: deliveryMode,
-              deliveryDate: element['dekuvertDate'],
-              deliveryCharge: element['deliverycharge'],
-              shippingDate: element['shippingDate'],
-              grandtotal: element['grandtotal'],
-              orderStatus: element['orderStatus'],
-              orderData: element['orderDate'],
-              paymentStatus: element['paymentStatus'],
-              paymentMode: element['paymentMode'],
-              totalprice: element['totalprice'],
-              totalproduct: element['totalitems'],
-              discount: element['totaldiscountprice'],
-              id: element.id,
-              coupen: element['coupen'],
-            ));
+                deliverymodel: deliveryMode,
+                deliveryDate: element['deliveryDate'],
+                deliveryCharge: element['deliverycharge'],
+                shippingDate: element['shippingDate'],
+                grandtotal: element['grandtotal'],
+                orderStatus: element['orderStatus'],
+                orderData: element['orderDate'],
+                paymentStatus: element['paymentStatus'],
+                paymentMode: element['paymentMode'],
+                totalprice: element['totalprice'],
+                totalproduct: element['totalitems'],
+                discount: element['totaldiscountprice'],
+                id: element.id,
+                coupen: element['coupen'],
+                deliveryaddress: element['deliveryaddress']));
           });
         }
       }).whenComplete(() => complete = true);

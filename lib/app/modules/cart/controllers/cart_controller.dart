@@ -25,6 +25,7 @@ class CartController extends GetxController {
   CartOffline offlineCart = new CartOffline();
   RxBool cartUpdate = false.obs;
 
+
   @override
   void onInit() async {
     var id = firebase.firebaseAuth.currentUser?.uid ?? '';
@@ -48,6 +49,7 @@ class CartController extends GetxController {
         newcartList = r.toList();
         cartList = newcartList.obs;
         cartTotal = cartList.length.obs;
+        
       });
     } else {
       //not logged in

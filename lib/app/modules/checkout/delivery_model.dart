@@ -9,6 +9,7 @@ class DeliveryModel {
   final int qty;
   final double rate;
   final double price;
+  final String image;
 
   DeliveryModel({
     @required this.id,
@@ -17,6 +18,7 @@ class DeliveryModel {
     @required this.qty,
     @required this.rate,
     @required this.price,
+    @required this.image,
   });
 
   Map<String, dynamic> toMap() {
@@ -27,6 +29,7 @@ class DeliveryModel {
       'qty': qty,
       'rate': rate,
       'price': price,
+      'image': image,
     };
   }
 
@@ -38,6 +41,7 @@ class DeliveryModel {
       qty: map['qty'],
       rate: map['rate'],
       price: map['price'],
+      image: map['image'],
     );
   }
 
@@ -56,7 +60,8 @@ class DeliveryModel {
         other.productName == productName &&
         other.qty == qty &&
         other.rate == rate &&
-        other.price == price;
+        other.price == price &&
+        other.image == image;
   }
 
   @override
@@ -66,7 +71,8 @@ class DeliveryModel {
         productName.hashCode ^
         qty.hashCode ^
         rate.hashCode ^
-        price.hashCode;
+        price.hashCode ^
+        image.hashCode;
   }
 }
 
@@ -85,6 +91,7 @@ class DeliveryTotalModel {
   final String shippingDate;
   final String deliveryDate;
   final double coupen;
+  final String deliveryaddress;
 
   DeliveryTotalModel({
     @required this.deliverymodel,
@@ -101,6 +108,7 @@ class DeliveryTotalModel {
     this.shippingDate,
     this.deliveryDate,
     this.coupen = 0,
+    @required this.deliveryaddress,
   });
 
   Map<String, dynamic> toMap() {

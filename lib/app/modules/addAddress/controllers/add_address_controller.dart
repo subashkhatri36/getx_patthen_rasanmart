@@ -35,6 +35,7 @@ class AddAddressController extends GetxController {
   RxString uId = ''.obs;
   RxInt selectedIndex = 0.obs;
   RxBool isAddressUpdated = false.obs;
+  RxString selectedAddressString = ''.obs;
 
   List<String> state = [
     'Select State',

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rasan_mart/app/core/enum/enum_convert.dart';
 import 'package:rasan_mart/app/data/checkout/checkout_repository.dart';
+import 'package:rasan_mart/app/modules/addAddress/controllers/add_address_controller.dart';
 import 'package:rasan_mart/app/modules/authentication/controllers/mainauth_controller.dart';
 import 'package:rasan_mart/app/modules/cart/controllers/cart_controller.dart';
 import 'package:rasan_mart/app/modules/cart/views/product_total_model.dart';
@@ -27,9 +28,11 @@ class CheckoutController extends GetxController {
 
   final auth = Get.find<MainauthController>().firebaseAuth;
   final cartController = Get.find<CartController>();
+  final addressControllr = Get.find<AddAddressController>();
 
   CheckoutProvider checkoutProvider = CheckoutRepository();
   final deliveryController = Get.find<DeliveryController>();
+  RxBool showdialog = false.obs;
 
   @override
   void onInit() {
@@ -37,10 +40,11 @@ class CheckoutController extends GetxController {
   }
 
   void checkoutAuthenticationCheck() async {
+    showdialog.value = true;
     if (auth.currentUser != null) {
       //userLogged In and process to delivery cart.
       //delivery charge
-      List<DeliveryTotalModel> deliveryTotalModel = [];
+
       var id = auth.currentUser?.uid ?? '';
       if (id.isNotEmpty && id != null) {
         ProductPriceCalculation productPriceCalculation =
@@ -55,19 +59,34 @@ class CheckoutController extends GetxController {
           //check of the payment method
 
         } else {
-          Either<String, DeliveryTotalModel> savetodeliver =
-              await checkoutProvider.saveToDelivery(id, cartController.cartList,
-                  productPriceCalculation, paymentType, paymentStaus);
-          savetodeliver.fold(
-            (l) => print(l),
-            (r) {
-              deliveryTotalModel.add(r);
-              deliveryController.deliveryModel = deliveryTotalModel.obs;
-              cartController.cartList.clear();
-              Get.to(() => ConformdeliveryView());
-              print('Saved Successfully');
-            },
-          );
+          String address = addressControllr.selectedAddressString.value;
+          if (address.isNotEmpty) {
+            Either<String, DeliveryTotalModel> savetodeliver =
+                await checkoutProvider.saveToDelivery(
+              id,
+              cartController.cartList,
+              productPriceCalculation,
+              paymentType,
+              paymentStaus,
+              address,
+            );
+            savetodeliver.fold(
+              (l) => print(l),
+              (r) {
+                List<DeliveryTotalModel> model = [];
+                model.add(r);
+                if (deliveryController.deliveryModel == null)
+                  deliveryController.deliveryModel = model.obs;
+                else
+                  deliveryController.deliveryModel.add(r);
+
+                cartController.cartList.clear();
+                Get.to(() => ConformdeliveryView());
+                print('Saved Successfully');
+              },
+            );
+          } else
+            print('address is empty');
         }
       }
     } else {
@@ -75,6 +94,7 @@ class CheckoutController extends GetxController {
       Get.dialog(Container(child: Text('Nothing to show')),
           barrierDismissible: true);
     }
+    showdialog.value = false;
   }
 
   @override

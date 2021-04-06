@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:rasan_mart/app/modules/cart/views/cart_model.dart';
 import 'package:rasan_mart/app/modules/cart/views/product_total_model.dart';
 import 'package:rasan_mart/app/modules/checkout/delivery_model.dart';
@@ -24,11 +23,13 @@ class CheckoutRepository implements CheckoutProvider {
 
   @override
   Future<Either<String, DeliveryTotalModel>> saveToDelivery(
-      String userId,
-      List<CartModel> model,
-      ProductPriceCalculation calculation,
-      String paymentType,
-      String paymentStatus) async {
+    String userId,
+    List<CartModel> model,
+    ProductPriceCalculation calculation,
+    String paymentType,
+    String paymentStatus,
+    String address,
+  ) async {
     try {
       List<DeliveryModel> deliveryModel = [];
       bool complete = false;
@@ -50,6 +51,7 @@ class CheckoutRepository implements CheckoutProvider {
         'paymentStatus': paymentStatus,
         'shippingDate': '',
         'deliveryDate': '',
+        'deliveryaddress': address,
       };
 
       await FirebaseFirestore.instance
@@ -61,6 +63,7 @@ class CheckoutRepository implements CheckoutProvider {
         for (CartModel element in model) {
           deliveryModel.add(DeliveryModel(
               id: value.id,
+              image: element.product.productImages[0],
               productId: element.product.productId,
               productName: element.product.productName,
               rate: element.product.productPrice,
@@ -71,6 +74,7 @@ class CheckoutRepository implements CheckoutProvider {
 
           Map<String, dynamic> data = {
             'Id': value.id,
+            'image': element.product.productImages[0],
             'productId': element.product.productId,
             'productName': element.product.productName,
             'rate': element.product.productPrice,
@@ -96,6 +100,7 @@ class CheckoutRepository implements CheckoutProvider {
       }).whenComplete(() => complete = true);
 
       if (complete) {
+        //deliveryaddress:element['deliveryaddress']
         return right(DeliveryTotalModel(
             id: id,
             deliverymodel: deliveryModel,
@@ -109,7 +114,8 @@ class CheckoutRepository implements CheckoutProvider {
             orderData: formatter.format(now),
             orderStatus: 'Ordered',
             shippingDate: '',
-            deliveryDate: ''));
+            deliveryDate: '',
+            deliveryaddress: address));
       } else {
         return left('Error while Ordering please try again!');
       }

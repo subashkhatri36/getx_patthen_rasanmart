@@ -6,11 +6,14 @@ import 'package:get/get.dart';
 import 'package:rasan_mart/app/Widgets/buttons/buttons_widgets.dart';
 import 'package:rasan_mart/app/core/constant/default_value.dart';
 import 'package:rasan_mart/app/core/theme/app_theme.dart';
+import 'package:rasan_mart/app/modules/account/views/order_view.dart';
 import 'package:rasan_mart/app/modules/account/views/user_info_edit.dart';
 import 'package:rasan_mart/app/modules/addAddress/controllers/add_address_controller.dart';
 import 'package:rasan_mart/app/modules/addAddress/views/add_address_view.dart';
 import 'package:rasan_mart/app/modules/addAddress/views/address_selected_navigation.dart';
 import 'package:rasan_mart/app/modules/authentication/views/authentication_view.dart';
+import 'package:rasan_mart/app/modules/checkout/controllers/delivery_controller.dart';
+import 'package:rasan_mart/app/modules/checkout/delivery_model.dart';
 
 import '../controllers/account_controller.dart';
 
@@ -25,6 +28,7 @@ class AccountView extends GetView<AccountController> {
       controller.fetchUserInfo();
     }
     final addressController = Get.find<AddAddressController>();
+    final deliveryController = Get.find<DeliveryController>();
     return SingleChildScrollView(
         child: Obx(
       () => !controller.isLogOut.value
@@ -62,32 +66,67 @@ class AccountView extends GetView<AccountController> {
                     decoration: BoxDecoration(
                         border: Border.all(color: Themes.lightcounterbtnColor)),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Icon(Icons.shopping_bag),
                         SizedBox(width: Defaults.defaultPadding / 2),
-                        Text(
-                          'Current Order',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        )
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Current Order',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              InkWell(
+                                onTap: () {},
+                                child: Text(
+                                  'View All',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context).backgroundColor),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
                       ],
                     )),
+                Obx(() {
+                  int lenght = deliveryController.deliveryModel?.length ?? 0;
+
+                  return deliveryController.isDeliveryLoaded.isTrue
+                      ? CircularProgressIndicator()
+                      : lenght > 0
+                          ? Container(
+                              //   width: MediaQuery.of(context).size.width,
+                              height: Defaults.defaultPadding * 10,
+                              child: ListView.builder(
+                                  reverse: true,
+                                  scrollDirection: Axis.horizontal,
+                                  shrinkWrap: true,
+                                  itemCount: lenght,
+                                  itemBuilder: (context, index) {
+                                    DeliveryTotalModel model =
+                                        deliveryController.deliveryModel[index];
+                                    return model.orderStatus.toUpperCase() !=
+                                            'Completed'.toUpperCase()
+                                        ? OrderContiainer(model)
+                                        : Container();
+                                  }),
+                            )
+                          : Text('No Data');
+                }),
                 Container(
+                  padding: EdgeInsets.all(Defaults.defaultfontsize / 2),
                   width: MediaQuery.of(context).size.width,
-                  height: Defaults.defaultPadding * 4,
-                  child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      itemCount: 2,
-                      itemBuilder: (context, index) {
-                        return Text('Order1...');
-                      }),
-                ),
-                CustomeTextButton(
-                  label: 'Log Out',
-                  onPressed: () {
-                    controller.logOut();
-                  },
-                  color: Theme.of(context).backgroundColor,
+                  child: CustomeTextButton(
+                    label: 'Log Out',
+                    onPressed: () {
+                      controller.logOut();
+                    },
+                    color: Theme.of(context).backgroundColor,
+                  ),
                 )
               ],
             )

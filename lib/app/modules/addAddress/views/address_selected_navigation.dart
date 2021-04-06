@@ -22,9 +22,10 @@ class AddressSelectedWidget extends StatelessWidget {
     String selectedaddress = '';
 
     controller.newAddress.forEach((element) {
-      if (element.isSelected)
+      if (element.isSelected) {
         selectedaddress = element.fullAddress;
-      else
+        controller.selectedAddressString.value = selectedaddress;
+      } else
         address = element.fullAddress;
     });
 

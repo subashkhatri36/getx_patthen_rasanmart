@@ -30,7 +30,6 @@ class _HomeViewState extends State<HomeView> {
   Widget returnScreenValue(int _index) {
     switch (_index) {
       case 0:
-        data.subcategorypage.value = false;
         productcontianerContorller.changeCategories('Home');
         return CustomeproductpageView();
         break;
@@ -74,7 +73,12 @@ class _HomeViewState extends State<HomeView> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
-      if (_selectedIndex != 0) data.showSearchBar(false);
+      if (_selectedIndex != 0) {
+        data.showSearchBar(false);
+        data.subcategorypage.value = false;
+      } else {
+        data.subcategorypage.value = true;
+      }
     });
   }
 }
