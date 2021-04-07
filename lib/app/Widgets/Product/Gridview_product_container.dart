@@ -6,6 +6,7 @@ import 'package:rasan_mart/app/core/enum/enums.dart';
 import 'package:rasan_mart/app/modules/customeproductpage/controllers/gridview_controller.dart';
 import 'package:rasan_mart/app/modules/customeproductpage/product_model.dart';
 import 'package:get/get.dart';
+import 'package:rasan_mart/app/modules/productview/views/productview_view.dart';
 
 class GridViewProduct extends StatefulWidget {
   final String containerTitle;
@@ -63,7 +64,13 @@ class _GridViewProductState extends State<GridViewProduct> {
                     primary: Colors.transparent,
                     onPrimary: Theme.of(context).primaryColor,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.to(() => ProductviewView(
+                          productList: productController.productList,
+                          horizental: false,
+                          title: widget.containerTitle,
+                        ));
+                  },
                   child: Text(
                     Strings.btnview,
                     style: TextStyle(color: Theme.of(context).backgroundColor),

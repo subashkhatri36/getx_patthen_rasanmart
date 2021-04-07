@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -55,13 +53,23 @@ class CustomeList extends StatelessWidget {
             confirmDismiss: (direction) async {
               if (direction == DismissDirection.endToStart) {
                 //delete
-                await deleteAddress(addressModel, context);
-
+                bool value = await deleteAddress(addressModel, context);
                 controllerAddress.newAddress.removeAt(index);
-                return true;
+                return value;
               } else {
                 //Edit
-                Navigator.of(context).pop();
+                controllerAddress.oldModel = addressModel;
+                controllerAddress.isAddressEdit.value = true;
+                controllerAddress.cityController.text = addressModel.city;
+                controllerAddress.tolController.text = addressModel.tol;
+                controllerAddress.landmarkController.text =
+                    addressModel.landmark;
+                controllerAddress.muncipalityController.text =
+                    addressModel.muncipalit;
+                controllerAddress.zipcodeController.text = addressModel.zipcode;
+                controllerAddress.phonenoController.text = addressModel.phoneno;
+                controllerAddress.placeController.text = addressModel.place;
+                controllerAddress.stateValue.value = addressModel.state;
                 return false;
               }
             },
@@ -76,7 +84,8 @@ class CustomeList extends StatelessWidget {
   }
 
   deleteAddress(AddressModel addressModel, BuildContext context) async {
-    return await showDialog(
+    bool val = false;
+    await showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
@@ -91,8 +100,8 @@ class CustomeList extends StatelessWidget {
               CustomeTextButton(
                 label: 'Cancel',
                 onPressed: () {
-                  //Navigator.of(context).pop();
-                  return true;
+                  Navigator.of(context).pop();
+                  val = false;
                 },
               ),
               CustomeTextButton(
@@ -101,13 +110,14 @@ class CustomeList extends StatelessWidget {
                 onPressed: () async {
                   controllerAddress.deleteAddress(
                       addressModel.id, addressModel);
-
                   Navigator.of(context).pop();
+                  val = true;
                 },
               ),
             ],
           );
         });
+    return val;
   }
 }
 

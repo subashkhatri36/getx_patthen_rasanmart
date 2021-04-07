@@ -10,6 +10,7 @@ class GridviewController extends GetxController {
   // RxList<List<Product>> productlist;
   ProductRepo productRepo = new ProductRepositories();
   RxBool isProductLoading = false.obs;
+  List productList;
 
   final count = 0.obs;
   @override
@@ -30,6 +31,7 @@ class GridviewController extends GetxController {
         icon: Icon(Icons.warning),
       );
     }, (r) {
+      productList = r.toList().obs;
       isProductLoading.toggle();
       myproduct = r.toList().obs;
       // print('I store data');

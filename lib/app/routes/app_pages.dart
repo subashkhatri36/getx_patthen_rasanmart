@@ -14,18 +14,24 @@ import 'package:rasan_mart/app/modules/conformation/bindings/conformation_bindin
 import 'package:rasan_mart/app/modules/conformation/views/conformation_view.dart';
 import 'package:rasan_mart/app/modules/conformdelivery/bindings/conformdelivery_binding.dart';
 import 'package:rasan_mart/app/modules/conformdelivery/views/conformdelivery_view.dart';
+import 'package:rasan_mart/app/modules/deliveryviewall/bindings/deliveryviewall_binding.dart';
+import 'package:rasan_mart/app/modules/deliveryviewall/views/deliveryviewall_view.dart';
 import 'package:rasan_mart/app/modules/home/bindings/home_binding.dart';
 import 'package:rasan_mart/app/modules/home/views/home_view.dart';
 import 'package:rasan_mart/app/modules/nointernet/bindings/nointernet_binding.dart';
 import 'package:rasan_mart/app/modules/nointernet/views/nointernet_view.dart';
 import 'package:rasan_mart/app/modules/notificationpage/bindings/notificationpage_binding.dart';
 import 'package:rasan_mart/app/modules/notificationpage/views/notificationpage_view.dart';
+import 'package:rasan_mart/app/modules/orderdetails/bindings/orderdetails_binding.dart';
+import 'package:rasan_mart/app/modules/orderdetails/views/orderdetails_view.dart';
 import 'package:rasan_mart/app/modules/otpverification/bindings/otpverification_binding.dart';
 import 'package:rasan_mart/app/modules/otpverification/views/otpverification_view.dart';
 import 'package:rasan_mart/app/modules/productCategory/bindings/product_category_binding.dart';
 import 'package:rasan_mart/app/modules/productCategory/views/product_category_view.dart';
 import 'package:rasan_mart/app/modules/productdetail/bindings/productdetail_binding.dart';
 import 'package:rasan_mart/app/modules/productdetail/views/productdetail_view.dart';
+import 'package:rasan_mart/app/modules/productview/bindings/productview_binding.dart';
+import 'package:rasan_mart/app/modules/productview/views/productview_view.dart';
 import 'package:rasan_mart/app/modules/searchpage/bindings/searchpage_binding.dart';
 import 'package:rasan_mart/app/modules/searchpage/views/searchpage_view.dart';
 import 'package:rasan_mart/app/modules/splash/bindings/splash_binding.dart';
@@ -111,6 +117,21 @@ class AppPages {
       name: _Paths.CONFORMDELIVERY,
       page: () => ConformdeliveryView(),
       binding: ConformdeliveryBinding(),
+    ),
+    GetPage(
+      name: _Paths.DELIVERYVIEWALL,
+      page: () => DeliveryviewallView(),
+      binding: DeliveryviewallBinding(),
+    ),
+    GetPage(
+      name: _Paths.ORDERDETAILS,
+      page: () => OrderdetailsView(),
+      binding: OrderdetailsBinding(),
+    ),
+    GetPage(
+      name: _Paths.PRODUCTVIEW,
+      page: () => ProductviewView(),
+      binding: ProductviewBinding(),
     ),
   ];
 }

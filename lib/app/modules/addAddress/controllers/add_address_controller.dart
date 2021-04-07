@@ -26,6 +26,7 @@ class AddAddressController extends GetxController {
   UserdataProvider accountRepositiories = AccountRepositiories();
 
   RxList<AddressModel> newAddress;
+  AddressModel oldModel;
   RxBool isAddressLoad = false.obs;
 
   AddressProvider addressProvider = AddressRepository();
@@ -36,6 +37,8 @@ class AddAddressController extends GetxController {
   RxInt selectedIndex = 0.obs;
   RxBool isAddressUpdated = false.obs;
   RxString selectedAddressString = ''.obs;
+  RxBool isAddressEdit = false.obs;
+  String id = '';
 
   List<String> state = [
     'Select State',
@@ -97,6 +100,7 @@ class AddAddressController extends GetxController {
           icon: Icon(Icons.error),
         );
       }, (r) async {
+        
         Either<String, String> result =
             await addressProvider.updateSingleFieldAddress(id, false, id2);
         result.fold((l) {
@@ -115,6 +119,48 @@ class AddAddressController extends GetxController {
     //  newAddress = temp.obs;
   }
 
+  void updateAddress(String address) async {
+    AddressModel addressModel = new AddressModel(
+      tol: tolController.text,
+      landmark: landmarkController?.text ?? '',
+      place: placeController.text,
+      city: cityController.text,
+      muncipalit: muncipalityController.text,
+      state: address,
+      zipcode: zipcodeController.text,
+      phoneno: phonenoController.text,
+      isSelected: oldModel.isSelected,
+    );
+    String upId = oldModel.id;
+
+    var id = FirebaseAuth.instance.currentUser?.uid ?? "";
+    if (id.isNotEmpty && id != null) {
+      Either<String, String> result =
+          await addressProvider.updateAddress(id, addressModel, upId);
+      result.fold((l) {
+        CustomeSnackbar(
+          title: 'Addresses !',
+          message: 'Failed to Update Address \nCheck your data!.',
+          icon: Icon(Icons.error),
+        );
+      }, (r) async {
+        addressModel.id = r;
+        newAddress.remove(oldModel);
+        oldModel = null;
+        newAddress.add(addressModel);
+        clearData();
+        CustomeSnackbar(
+          title: 'Addresses !',
+          message: 'Successfully Updated Address \nCheck your data!.',
+          icon: Icon(Icons.info),
+        );
+        isAddressUpdated.toggle();
+        Get.back();
+      });
+    }
+    isAddressEdit.value = false;
+  }
+
   void deleteAddress(String docId, AddressModel addressModel) async {
     var id = FirebaseAuth.instance.currentUser?.uid ?? "";
     if (id.isNotEmpty && id != null) {
@@ -127,6 +173,7 @@ class AddAddressController extends GetxController {
           icon: Icon(Icons.error),
         );
       }, (r) {
+        isAddressUpdated.toggle();
         CustomeSnackbar(
           title: 'Deleted !',
           message: 'Successfully Deleted .',
@@ -160,6 +207,7 @@ class AddAddressController extends GetxController {
           icon: Icon(Icons.error),
         );
       }, (r) async {
+        print(r);
         addressModel.id = r;
         val = await success(id, val, addressModel);
       });
@@ -179,7 +227,7 @@ class AddAddressController extends GetxController {
     }
     print('Here');
     CustomeSnackbar(
-      title: 'Added !',
+      title: 'Saved and Updated !',
       message: 'Successfully Added Address.',
       icon: Icon(Icons.error),
     );
@@ -187,11 +235,13 @@ class AddAddressController extends GetxController {
     newAddress.add(addressModel);
     newAddress[selectedIndex.value].isSelected = false;
     selectedIndex.value = newAddress.length - 1;
-
+    clearData();
+    isAddressUpdated.toggle();
     return val;
   }
 
   clearData() {
+    isAddressUpdated.toggle();
     cityController.text = '';
     landmarkController.text = '';
     muncipalityController.text = '';

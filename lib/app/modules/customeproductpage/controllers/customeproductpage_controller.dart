@@ -3,9 +3,8 @@ import 'package:get/get.dart';
 import 'package:rasan_mart/app/data/Product/product_container_repositories.dart';
 import 'package:rasan_mart/app/modules/customeproductpage/product_contianer_model.dart';
 
-
 class CustomeproductpageController extends GetxController {
-  final categories = 'Home'.toUpperCase().obs;
+  RxString categories = 'Home'.toUpperCase().obs;
   RxList<ProductContianer> productContianerList;
   RxBool isProductContianerLioading = false.obs;
 
@@ -18,7 +17,6 @@ class CustomeproductpageController extends GetxController {
 
   @override
   void onInit() {
-
     loadproductContianer();
     super.onInit();
   }

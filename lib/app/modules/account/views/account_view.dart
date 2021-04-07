@@ -14,6 +14,7 @@ import 'package:rasan_mart/app/modules/addAddress/views/address_selected_navigat
 import 'package:rasan_mart/app/modules/authentication/views/authentication_view.dart';
 import 'package:rasan_mart/app/modules/checkout/controllers/delivery_controller.dart';
 import 'package:rasan_mart/app/modules/checkout/delivery_model.dart';
+import 'package:rasan_mart/app/modules/deliveryviewall/views/deliveryviewall_view.dart';
 
 import '../controllers/account_controller.dart';
 
@@ -37,6 +38,7 @@ class AccountView extends GetView<AccountController> {
                 AccountHeader(),
                 GestureDetector(
                   onTap: () {
+                      
                     Get.to(() => AddAddressView(), arguments: [true, false]);
                   },
                   child: Container(
@@ -79,7 +81,9 @@ class AccountView extends GetView<AccountController> {
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                               InkWell(
-                                onTap: () {},
+                                onTap: () {
+                                  Get.to(() => DeliveryviewallView());
+                                },
                                 child: Text(
                                   'View All',
                                   style: TextStyle(
@@ -207,11 +211,16 @@ class AccountHeader extends StatelessWidget {
                         Positioned(
                           bottom: 0,
                           right: 0,
-                          child: IconButton(
-                              onPressed: () {
-                                userInfo.getImage(true);
-                              },
-                              icon: Icon(FontAwesomeIcons.camera)),
+                          child: CircleAvatar(
+                            child: IconButton(
+                                onPressed: () {
+                                  userInfo.getImage(true);
+                                },
+                                icon: Icon(
+                                  FontAwesomeIcons.camera,
+                                  size: Defaults.defaultfontsize,
+                                )),
+                          ),
                         )
                       ],
                     ),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:rasan_mart/app/Widgets/buttons/buttons_widgets.dart';
-import 'package:rasan_mart/app/Widgets/inputs/text_fields.dart';
 import 'package:rasan_mart/app/Widgets/snakbar.dart';
 import 'package:rasan_mart/app/core/constant/default_value.dart';
 import 'package:rasan_mart/app/core/theme/app_theme.dart';
@@ -40,49 +39,133 @@ class AddAddressWidget extends StatelessWidget {
           Container(
             padding: EdgeInsets.symmetric(horizontal: Defaults.defaultfontsize),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TextInputField(
-                  focus: true,
+                SizedBox(height: Defaults.defaultfontsize),
+                Text(
+                  ' Enter your Place *\n',
+                  style: TextStyle(fontSize: Defaults.defaultfontsize),
+                ),
+                TextFormField(
                   controller: controller.placeController,
-                  lable: 'Enter Place *',
-                  hinttext: 'Enter Place',
-                  texttype: TextInputType.text,
-                  icon: Icons.place,
+                  keyboardType: TextInputType.text,
+                  autofocus: true,
                   validator: (value) => checkPlace(value),
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.place),
+                    hintText: 'Enter place *',
+                    border: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: Theme.of(context).backgroundColor, width: 1),
+                        borderRadius:
+                            BorderRadius.circular(Defaults.defaultfontsize)),
+                  ),
                 ),
                 SizedBox(height: Defaults.defaultfontsize / 2),
-                TextInputField(
-                  controller: controller.tolController,
-                  lable: 'Enter tol *',
-                  hinttext: 'Enter tol',
-                  texttype: TextInputType.text,
-                  validator: (value) => checkPlace(value),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            ' Enter your tol *\n',
+                            style:
+                                TextStyle(fontSize: Defaults.defaultfontsize),
+                          ),
+                          TextFormField(
+                            controller: controller.tolController,
+                            keyboardType: TextInputType.text,
+                            validator: (value) => checkPlace(value),
+                            decoration: InputDecoration(
+                                hintText: 'Enter your tol *',
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color:
+                                            Theme.of(context).backgroundColor,
+                                        width: 1),
+                                    borderRadius: BorderRadius.circular(
+                                        Defaults.defaultfontsize)),
+                                focusColor: Theme.of(context).backgroundColor),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(width: Defaults.defaultfontsize / 2),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            ' Enter Landmark *\n',
+                            style:
+                                TextStyle(fontSize: Defaults.defaultfontsize),
+                          ),
+                          TextFormField(
+                            controller: controller.landmarkController,
+                            keyboardType: TextInputType.text,
+                            validator: (value) => null,
+                            decoration: InputDecoration(
+                                hintText: 'Enter Landmark',
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color:
+                                            Theme.of(context).backgroundColor,
+                                        width: 1),
+                                    borderRadius: BorderRadius.circular(
+                                        Defaults.defaultfontsize)),
+                                focusColor: Theme.of(context).backgroundColor),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(height: Defaults.defaultfontsize / 2),
-                TextInputField(
-                  controller: controller.landmarkController,
-                  lable: 'Enter landmark',
-                  hinttext: 'Enter landmark',
-                  texttype: TextInputType.text,
-                  validator: (value) => null,
+                Text(
+                  ' Enter City*\n',
+                  style: TextStyle(fontSize: Defaults.defaultfontsize),
                 ),
-                SizedBox(height: Defaults.defaultfontsize / 2),
-                TextInputField(
+                TextFormField(
                   controller: controller.cityController,
-                  lable: 'Enter City *',
-                  hinttext: 'Enter City',
-                  texttype: TextInputType.text,
+                  keyboardType: TextInputType.text,
                   validator: (value) => checkPlace(value),
+                  decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.place),
+                      hintText: 'Enter City',
+                      border: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Theme.of(context).backgroundColor,
+                              width: 1),
+                          borderRadius:
+                              BorderRadius.circular(Defaults.defaultfontsize)),
+                      focusColor: Theme.of(context).backgroundColor),
                 ),
                 SizedBox(height: Defaults.defaultfontsize / 2),
-                TextInputField(
+                Text(
+                  ' Enter Muncipality*\n',
+                  style: TextStyle(fontSize: Defaults.defaultfontsize),
+                ),
+                TextFormField(
                   controller: controller.muncipalityController,
-                  lable: 'Enter Muncipality *',
-                  hinttext: 'Enter Muncipality',
-                  texttype: TextInputType.text,
+                  keyboardType: TextInputType.text,
                   validator: (value) => checkPlace(value),
+                  decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.place),
+                      hintText: 'Enter Muncipality',
+                      border: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Theme.of(context).backgroundColor,
+                              width: 1),
+                          borderRadius:
+                              BorderRadius.circular(Defaults.defaultfontsize)),
+                      focusColor: Theme.of(context).backgroundColor),
                 ),
                 SizedBox(height: Defaults.defaultfontsize / 2),
+                Text(
+                  ' Select State *\n',
+                  style: TextStyle(fontSize: Defaults.defaultfontsize),
+                ),
                 Obx(
                   () => Container(
                     width: MediaQuery.of(context).size.width,
@@ -91,8 +174,7 @@ class AddAddressWidget extends StatelessWidget {
                     decoration: BoxDecoration(
                         borderRadius:
                             BorderRadius.circular(Defaults.defaultPadding),
-                        border: Border.all(
-                            color: Theme.of(context).backgroundColor)),
+                        border: Border.all(color: Colors.grey[300])),
                     child: DropdownButton<String>(
                       isExpanded: true,
                       value: controller.stateValue.value.isEmpty
@@ -117,45 +199,94 @@ class AddAddressWidget extends StatelessWidget {
                           value: value,
                           child: Text(
                             value,
-                            style: TextStyle(
-                                color: Theme.of(context).backgroundColor),
+                            style: TextStyle(color: Colors.black87),
                           ),
                         );
                       }).toList(),
                     ),
                   ),
                 ),
-                SizedBox(height: Defaults.defaultfontsize / 2),
-                TextInputField(
-                  icon: Icons.code,
-                  validator: (value) => checkCode(value),
-                  controller: controller.zipcodeController,
-                  lable: 'Enter zip code *',
-                  hinttext: 'Enter zip code',
-                  texttype: TextInputType.number,
+                SizedBox(height: Defaults.defaultfontsize),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            ' Zip Code *\n',
+                            style:
+                                TextStyle(fontSize: Defaults.defaultfontsize),
+                          ),
+                          TextFormField(
+                            controller: controller.zipcodeController,
+                            keyboardType: TextInputType.text,
+                            validator: (value) => checkCode(value),
+                            decoration: InputDecoration(
+                                prefixIcon: Icon(Icons.code),
+                                hintText: 'Enter zip code',
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color:
+                                            Theme.of(context).backgroundColor,
+                                        width: 1),
+                                    borderRadius: BorderRadius.circular(
+                                        Defaults.defaultfontsize)),
+                                focusColor: Theme.of(context).backgroundColor),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(width: Defaults.defaultfontsize / 2),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            ' Enter your phone no *\n',
+                            style:
+                                TextStyle(fontSize: Defaults.defaultfontsize),
+                          ),
+                          TextFormField(
+                            controller: controller.phonenoController,
+                            keyboardType: TextInputType.number,
+                            validator: (value) => checkPhone(value),
+                            decoration: InputDecoration(
+                                prefixIcon: Icon(Icons.phone),
+                                hintText: 'Enter your phone no',
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color:
+                                            Theme.of(context).backgroundColor,
+                                        width: 1),
+                                    borderRadius: BorderRadius.circular(
+                                        Defaults.defaultfontsize)),
+                                focusColor: Theme.of(context).backgroundColor),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(height: Defaults.defaultfontsize / 2),
-                TextInputField(
-                  validator: (value) => checkPhone(value),
-                  icon: Icons.phone,
-                  controller: controller.phonenoController,
-                  lable: 'Enter phone No *',
-                  hinttext: 'Enter phone No',
-                  texttype: TextInputType.number,
-                ),
-                SizedBox(height: Defaults.defaultfontsize / 2),
+                // SizedBox(height: Defaults.defaultfontsize / 2),
+
+                SizedBox(height: Defaults.defaultfontsize),
               ],
             ),
           ),
           Container(
             width: MediaQuery.of(context).size.width,
             margin: EdgeInsets.symmetric(horizontal: Defaults.defaultfontsize),
+            height: 50,
             child: CustomeTextButton(
-              label: 'Save',
+              label: controller.isAddressEdit.value ? 'Update' : 'Save',
               onPressed: () async {
                 if (selectedState) {
                   if (addresskey.currentState.validate()) {
-                    controller.saveAddress(selectedData);
+                    if (controller.isAddressEdit.value)
+                      controller.updateAddress(selectedData);
+                    else
+                      controller.saveAddress(selectedData);
                   } else {
                     CustomeSnackbar(
                       title: 'Addresses !',
@@ -174,7 +305,7 @@ class AddAddressWidget extends StatelessWidget {
               color: Theme.of(context).backgroundColor,
             ),
           ),
-          SizedBox(height: Defaults.defaultfontsize / 2),
+          SizedBox(height: Defaults.defaultfontsize),
         ],
       ),
     ));

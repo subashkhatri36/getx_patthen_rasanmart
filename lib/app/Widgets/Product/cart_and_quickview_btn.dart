@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rasan_mart/app/core/constant/default_value.dart';
@@ -23,7 +22,7 @@ Container buildCartAndQuick(
           : MainAxisAlignment.center,
       children: [
         Expanded(
-          child: GestureDetector(
+          child: InkWell(
             onTap: () {
               int qty = product?.qty ?? 1;
               double price = product?.price ?? 0;
@@ -83,7 +82,7 @@ Container buildCartAndQuick(
               padding: EdgeInsets.all(Defaults.defaultfontsize / 4),
               decoration:
                   buildBoxDecoration(bgcolor: null, round: true, shadow: false),
-              child: GestureDetector(
+              child: InkWell(
                 onTap: () {
                   Get.to(() => ProductdetailView(), arguments: product);
                 },

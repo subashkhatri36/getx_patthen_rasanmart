@@ -15,7 +15,7 @@ class HomeController extends GetxController {
 
   @override
   void onInit() {
-    scrollController.addListener(_scrollListener);
+    if (subcategorypage.value) scrollController.addListener(_scrollListener);
     super.onInit();
   }
 

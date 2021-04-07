@@ -4,8 +4,13 @@ import 'package:get/get.dart';
 import 'package:rasan_mart/app/core/theme/app_theme.dart';
 import 'package:rasan_mart/app/modules/cart/controllers/cart_controller.dart';
 import 'package:rasan_mart/app/modules/cart/views/product_total_model.dart';
+import 'package:rasan_mart/app/modules/checkout/delivery_model.dart';
 
 class TotalcalculationsummaryView extends GetView {
+  final bool ischeckout;
+  final DeliveryTotalModel model;
+  TotalcalculationsummaryView({this.ischeckout = true, this.model});
+
   @override
   Widget build(BuildContext context) {
     final cartController = Get.find<CartController>();
@@ -40,30 +45,40 @@ class TotalcalculationsummaryView extends GetView {
                 children: [
                   CalculationWidgetItems(
                     type: 'Total Item(s)',
-                    value: calculation.totalItems,
+                    value: ischeckout
+                        ? calculation.totalItems
+                        : model.deliverymodel.length.toString(),
                     i: 0,
                   ),
                   CalculationWidgetItems(
                     type: 'Total Price',
-                    value: calculation.totalprice,
+                    value:
+                        ischeckout ? calculation.totalprice : model.totalprice,
                   ),
                   CalculationWidgetItems(
                     type: 'Delivery Charge',
-                    value: calculation.deliverycharge,
+                    value: ischeckout
+                        ? calculation.deliverycharge
+                        : model.deliveryCharge,
                   ),
                   CalculationWidgetItems(
-                    type: 'Discount (' +
-                        calculation.totaldiscount.toString() +
-                        ')',
-                    value: calculation.totaldiscountprice,
+                    type: ischeckout
+                        ? 'Discount (' +
+                            calculation.totaldiscount.toString() +
+                            ')'
+                        : 'Discount',
+                    value: ischeckout
+                        ? calculation.totaldiscountprice
+                        : model.discount,
                   ),
                   CalculationWidgetItems(
                     type: 'Coupen',
-                    value: calculation.coupen,
+                    value: ischeckout ? calculation.coupen : model.coupen,
                   ),
                   CalculationWidgetItems(
                     type: 'Grand Total',
-                    value: calculation.grandTotal,
+                    value:
+                        ischeckout ? calculation.grandTotal : model.grandtotal,
                     i: -1,
                   ),
                 ],

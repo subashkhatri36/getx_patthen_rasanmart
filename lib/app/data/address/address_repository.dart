@@ -69,7 +69,7 @@ class AddressRepository implements AddressProvider {
       });
       return right(message);
     } catch (error) {
-      return left(error);
+      return left(error.toString());
     }
   }
 

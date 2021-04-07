@@ -15,7 +15,7 @@ class ProductCategoryView extends GetView<ProductCategoryController> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        productCat.subcategorypage.value = false;
+        productCat.subcategorypage.value = true;
         return true;
       },
       child: Scaffold(

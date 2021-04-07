@@ -10,6 +10,8 @@ import 'package:rasan_mart/app/modules/addAddress/views/add_address_view.dart';
 import 'package:rasan_mart/app/modules/addAddress/views/address_selected_navigation.dart';
 import 'package:rasan_mart/app/modules/cart/controllers/cart_controller.dart';
 import 'package:rasan_mart/app/modules/cart/views/cart_model.dart';
+import 'package:rasan_mart/app/modules/checkout/controllers/delivery_controller.dart';
+import 'package:rasan_mart/app/modules/checkout/delivery_model.dart';
 import 'package:rasan_mart/app/modules/checkout/views/totalcalculationsummary_view.dart';
 
 import '../controllers/checkout_controller.dart';
@@ -20,7 +22,6 @@ class CheckoutView extends GetView<CheckoutController> {
   final checkoutController = Get.put(CheckoutController());
   @override
   Widget build(BuildContext context) {
- 
     return Obx(() => checkoutController.showdialog.value
         ? Scaffold(
             body: Container(
@@ -221,11 +222,16 @@ class CheckoutView extends GetView<CheckoutController> {
 class BillingSection extends StatelessWidget {
   const BillingSection({
     Key key,
+    this.ischeckout = true,
+    this.model,
   }) : super(key: key);
+  final bool ischeckout;
+  final DeliveryTotalModel model;
 
   @override
   Widget build(BuildContext context) {
     final cartController = Get.find<CartController>();
+
     int i = 1;
     return Column(
       children: [
@@ -233,16 +239,35 @@ class BillingSection extends StatelessWidget {
         ItemsofCart(
           subheader: false,
         ),
-        for (CartModel cmodel in cartController.cartList)
-          ItemsofCart(
-            subheader: true,
-            serial: i++,
-            product: cmodel.product.productName,
-            qty: cmodel.product.qty,
-            rate: cmodel.product.productPrice,
-            total: cmodel.product.price,
+        if (ischeckout)
+          for (CartModel cmodel in cartController.cartList)
+            ItemsofCart(
+              subheader: true,
+              serial: i++,
+              product: cmodel.product.productName,
+              qty: cmodel.product.qty,
+              rate: cmodel.product.productPrice,
+              total: cmodel.product.price,
+            )
+        else
+          for (DeliveryModel model in model.deliverymodel)
+            ItemsofCart(
+              subheader: true,
+              serial: i++,
+              product: model.productName,
+              qty: model.qty,
+              rate: model.rate,
+              total: model.price,
+            ),
+        if (ischeckout)
+          TotalcalculationsummaryView(
+            ischeckout: ischeckout,
+          )
+        else
+          TotalcalculationsummaryView(
+            ischeckout: ischeckout,
+            model: model,
           ),
-        TotalcalculationsummaryView(),
       ],
     );
   }

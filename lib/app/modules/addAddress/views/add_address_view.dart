@@ -11,14 +11,26 @@ class AddAddressView extends GetView<AddAddressController> {
   final controller = Get.put(AddAddressController());
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).backgroundColor,
-        title: Text(addAddress[0] ? 'Add Address' : 'View Address'),
-      ),
-      body: addAddress[0]
-          ? AddAddressWidget()
-          : ViewAddressWidget(change: addAddress[1]),
+    return WillPopScope(
+      onWillPop: () async {
+        if (controller.isAddressEdit.value) {
+          controller.isAddressEdit.value = false;
+          return false;
+        } else {
+          Get.back();
+          return true;
+        }
+      },
+      child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Theme.of(context).backgroundColor,
+            title: Text(addAddress[0] ? 'Add Address' : 'View Address'),
+          ),
+          body: Obx(
+            () => controller.isAddressEdit.value || addAddress[0]
+                ? AddAddressWidget()
+                : ViewAddressWidget(change: addAddress[1]),
+          )),
     );
   }
 }

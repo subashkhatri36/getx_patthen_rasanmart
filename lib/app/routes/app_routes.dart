@@ -17,6 +17,9 @@ abstract class Routes {
   static const CONFORMATION = _Paths.CONFORMATION;
   static const OTPVERIFICATION = _Paths.OTPVERIFICATION;
   static const CONFORMDELIVERY = _Paths.CONFORMDELIVERY;
+  static const DELIVERYVIEWALL = _Paths.DELIVERYVIEWALL;
+  static const ORDERDETAILS = _Paths.ORDERDETAILS;
+  static const PRODUCTVIEW = _Paths.PRODUCTVIEW;
 }
 
 abstract class _Paths {
@@ -35,4 +38,7 @@ abstract class _Paths {
   static const CONFORMATION = '/conformation';
   static const OTPVERIFICATION = '/otpverification';
   static const CONFORMDELIVERY = '/conformdelivery';
+  static const DELIVERYVIEWALL = '/deliveryviewall';
+  static const ORDERDETAILS = '/orderdetails';
+  static const PRODUCTVIEW = '/productview';
 }

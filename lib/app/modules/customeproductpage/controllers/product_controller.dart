@@ -7,7 +7,7 @@ import 'package:rasan_mart/app/modules/customeproductpage/product_model.dart';
 import 'package:rasan_mart/app/modules/customeproductpage/providers/product_provider.dart';
 
 class ProductController extends GetxController {
-  RxList<Product> productlist;
+  List<Product> productlist;
   ProductRepo productRepo = new ProductRepositories();
   RxBool isProductLoading = false.obs;
 
@@ -31,6 +31,7 @@ class ProductController extends GetxController {
     }, (r) {
       isProductLoading.toggle();
       myproduct = r.toList().obs;
+      productlist = myproduct.obs;
       // print('I store data');
     });
     isProductLoading.toggle();

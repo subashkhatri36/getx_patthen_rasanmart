@@ -4,6 +4,7 @@ import 'package:rasan_mart/app/core/theme/app_theme.dart';
 import 'package:rasan_mart/app/modules/checkout/controllers/delivery_controller.dart';
 import 'package:rasan_mart/app/modules/checkout/delivery_model.dart';
 import 'package:get/get.dart';
+import 'package:rasan_mart/app/modules/orderdetails/views/orderdetails_view.dart';
 
 class OrderContiainer extends StatelessWidget {
   OrderContiainer(this.model);
@@ -13,7 +14,9 @@ class OrderContiainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Get.to(() => OrderdetailsView(), arguments: model);
+      },
       child: Container(
         width: Defaults.defaultPadding * 7.5,
         decoration: BoxDecoration(border: Border.all(color: Colors.black12)),
