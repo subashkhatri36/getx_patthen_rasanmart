@@ -85,7 +85,7 @@ class _HorizentalProductContainerState
         ),
         SizedBox(height: Defaults.defaultfontsize / 4),
         Container(
-            height: MediaQuery.of(context).size.height * 0.33,
+            height: 250,
             child: FutureBuilder(
               builder: (context, snapshot) {
                 return snapshot.data != null

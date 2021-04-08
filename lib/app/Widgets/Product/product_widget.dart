@@ -1,6 +1,5 @@
 import 'dart:core';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:rasan_mart/app/Widgets/Product/amount_box.dart';
@@ -11,8 +10,8 @@ import 'package:rasan_mart/app/core/constant/default_value.dart';
 import 'package:rasan_mart/app/core/enum/enums.dart';
 import 'package:rasan_mart/app/core/utils/styles.dart';
 import 'package:rasan_mart/app/modules/customeproductpage/product_model.dart';
-import 'package:get/get.dart';
-import 'package:rasan_mart/app/modules/productdetail/views/productdetail_view.dart';
+// import 'package:get/get.dart';
+// import 'package:rasan_mart/app/modules/productdetail/views/productdetail_view.dart';
 
 class ProductWidget extends StatefulWidget {
   final ContianerType contianerType;
@@ -42,7 +41,7 @@ class _ProductWidgetState extends State<ProductWidget> {
   Widget build(BuildContext context) {
     return Container(
         alignment: Alignment.center,
-        width: MediaQuery.of(context).size.width * 0.41,
+        width: 165,
         decoration: buildBoxDecoration(
             bgcolor: widget.product.backgroundColor.isEmpty
                 ? Colors.transparent

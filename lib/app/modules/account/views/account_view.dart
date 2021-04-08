@@ -181,7 +181,7 @@ class AccountHeader extends StatelessWidget {
       Obx(() => Container(
           padding: EdgeInsets.only(top: Defaults.defaultfontsize),
           width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height * .30,
+          height: MediaQuery.of(context).size.height * .40,
           color: Theme.of(context).backgroundColor,
           child: userInfo.isLoading.isTrue
               ? Center(child: CircularProgressIndicator())

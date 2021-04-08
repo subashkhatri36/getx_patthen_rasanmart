@@ -82,7 +82,7 @@ class _GridViewProductState extends State<GridViewProduct> {
           SizedBox(height: Defaults.defaultfontsize / 4),
           Container(
             alignment: Alignment.center,
-            height: MediaQuery.of(context).size.height * .70,
+            height: 490,
             padding:
                 EdgeInsets.symmetric(horizontal: Defaults.defaultfontsize / 2),
             child: Column(
