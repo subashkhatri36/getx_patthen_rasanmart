@@ -1,11 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:rasan_mart/app/data/local_data/get_storage.dart';
-import 'package:rasan_mart/app/modules/authentication/controllers/mainauth_controller.dart';
 import 'package:rasan_mart/app/modules/authentication/views/user_model.dart';
-import 'package:get/get.dart';
 
 abstract class AuthRepositories {
   Future<Either<String, String>> userLogIn(UserAuth user);
@@ -15,7 +12,6 @@ abstract class AuthRepositories {
 }
 
 class UserAuthenticationRepositories implements AuthRepositories {
-  var splash = Get.find<MainauthController>();
   LocalDB local = new LocalDB();
 
   @override
@@ -28,14 +24,13 @@ class UserAuthenticationRepositories implements AuthRepositories {
   Future<Either<String, String>> userLogIn(UserAuth user) async {
     bool userMsg = false;
     try {
-      splash.userCredential = await splash.firebaseAuth
+      await FirebaseAuth.instance
           .signInWithEmailAndPassword(
         email: user.email,
         password: user.password,
       )
           .then((value) {
         // splash.userId.value = splash.userCredential.user.uid;
-        splash.userCredential = value;
 
         local.writeToDB(value.user.uid);
         userMsg = true;
@@ -57,7 +52,7 @@ class UserAuthenticationRepositories implements AuthRepositories {
   Future<Either<String, String>> userRegister(UserAuth user) async {
     bool userMsg = false;
     try {
-      await splash.firebaseAuth
+      await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
         email: user.email,
         password: user.password,
@@ -65,7 +60,6 @@ class UserAuthenticationRepositories implements AuthRepositories {
           .then((value) {
         // splash.userId.value = splash.userCredential.user.uid;
         savingData(value.user.uid, value.user.email);
-        splash.userCredential = value;
 
         local.writeToDB(value.user.uid);
         userMsg = true;

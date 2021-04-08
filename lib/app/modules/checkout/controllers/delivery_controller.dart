@@ -1,15 +1,16 @@
 import 'package:dartz/dartz.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:rasan_mart/app/Widgets/snakbar.dart';
 import 'package:rasan_mart/app/data/delivery/delivery_repository.dart';
-import 'package:rasan_mart/app/modules/authentication/controllers/mainauth_controller.dart';
+
 import 'package:rasan_mart/app/modules/checkout/delivery_model.dart';
 import 'package:rasan_mart/app/modules/checkout/providers/delivery_provider.dart';
 
 class DeliveryController extends GetxController {
   RxList<DeliveryTotalModel> deliveryModel;
   RxBool isDeliveryLoaded = false.obs;
-  final auth = Get.find<MainauthController>().firebaseAuth;
+  final auth = FirebaseAuth.instance;
   DeliveryProvider providerdelivery = DeliveryRepository();
 
   @override

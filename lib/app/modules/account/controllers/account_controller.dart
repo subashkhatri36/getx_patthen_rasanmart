@@ -10,19 +10,18 @@ import 'package:rasan_mart/app/data/account/account_repository.dart';
 import 'package:rasan_mart/app/data/local_data/get_storage.dart';
 import 'package:rasan_mart/app/modules/account/address_model.dart';
 import 'package:rasan_mart/app/modules/account/providers/userdata_provider.dart';
-import 'package:rasan_mart/app/modules/authentication/controllers/mainauth_controller.dart';
 import 'package:rasan_mart/app/modules/cart/controllers/cart_controller.dart';
 import 'package:rasan_mart/app/modules/checkout/controllers/delivery_controller.dart';
+import 'package:rasan_mart/app/modules/notificationpage/controllers/notification_controller.dart';
 
 class AccountController extends GetxController {
   RxList<AddressModel> addressList;
   RxString userName = 'Profile Name'.obs;
   RxString userEmail = 'Email Address'.obs;
   RxString userPhone = 'User phone No'.obs;
-  final auth = Get.find<MainauthController>().firebaseAuth;
+
   var user;
   RxString userImage = 'assets/images/logo.PNG'.obs;
-  RxString uId = ''.obs;
 
   RxBool isImageNetwork = false.obs;
   RxBool isImageUploading = false.obs;
@@ -40,12 +39,8 @@ class AccountController extends GetxController {
 
   final deliveryController = Get.find<DeliveryController>();
 
-  final count = 0.obs;
-
   @override
   void onInit() {
-    user = auth.currentUser.obs;
-    print(user);
     super.onInit();
     fetchUserInfo();
     fetchUserAddress();
@@ -53,25 +48,26 @@ class AccountController extends GetxController {
 
   Future<void> fetchUserAddress() async {
     List<AddressModel> newuserAddress = [];
-
-    Either<String, List<AddressModel>> myAddress =
-        await accountRepositiories.getUserAddress(uId.value);
-    myAddress.fold(
-        (l) => CustomeSnackbar(
-              title: 'Failed',
-              icon: Icon(Icons.warning),
-              message: l.toString(),
-            ), (r) {
-      newuserAddress = r.toList();
-      userAddress = newuserAddress.obs;
-    });
+    var id = FirebaseAuth.instance.currentUser?.uid ?? '';
+    if (id.isNotEmpty) {
+      Either<String, List<AddressModel>> myAddress =
+          await accountRepositiories.getUserAddress(id);
+      myAddress.fold(
+          (l) => CustomeSnackbar(
+                title: 'Failed',
+                icon: Icon(Icons.warning),
+                message: l.toString(),
+              ), (r) {
+        newuserAddress = r.toList();
+        userAddress = newuserAddress.obs;
+      });
+    }
   }
 
   void fetchUserInfo() async {
     isLoading.value = true;
     var id = FirebaseAuth.instance.currentUser?.uid ?? '';
     if (id.isNotEmpty) {
-      uId.value = id;
       Either<String, UserDetail> value =
           await accountRepositiories.fetchUserData(id);
       value.fold((l) => print('Error on Fetching data'), (r) {
@@ -92,7 +88,7 @@ class AccountController extends GetxController {
   }
 
   void logOut() {
-    auth.signOut();
+    FirebaseAuth.instance.signOut();
     isLogOut.value = true;
     LocalDB localDB = new LocalDB();
     localDB.removeFromDB();
@@ -101,6 +97,8 @@ class AccountController extends GetxController {
 
   void clearData() {
     Get.find<CartController>().cartList.clear();
+    Get.find<NotificationController>().notificationList.clear();
+
     userEmail.value = 'User Email';
 
     userPhone.value = 'User Phone Number';
@@ -108,35 +106,38 @@ class AccountController extends GetxController {
   }
 
   void updateUserInfo() async {
-    if (userInputPhone.text.length == 10 && userInputName.text.length > 2) {
-      UserDetail userDetail = new UserDetail(
-          userName: userInputName.text,
-          userEmail: userEmail.value,
-          photo: userImage.value,
-          phone: userInputPhone.text);
+    var id = FirebaseAuth.instance.currentUser?.uid ?? '';
+    if (id.isNotEmpty) {
+      if (userInputPhone.text.length == 10 && userInputName.text.length > 2) {
+        UserDetail userDetail = new UserDetail(
+            userName: userInputName.text,
+            userEmail: userEmail.value,
+            photo: userImage.value,
+            phone: userInputPhone.text);
 
-      Either<String, String> userUpdate =
-          await accountRepositiories.updateUserData(userDetail, uId.value);
-      userUpdate.fold(
-          (l) => CustomeSnackbar(
-                title: 'Updating Failed !',
-                icon: Icon(Icons.warning),
-                message: l.toString(),
-              ), (r) {
+        Either<String, String> userUpdate =
+            await accountRepositiories.updateUserData(userDetail, id);
+        userUpdate.fold(
+            (l) => CustomeSnackbar(
+                  title: 'Updating Failed !',
+                  icon: Icon(Icons.warning),
+                  message: l.toString(),
+                ), (r) {
+          CustomeSnackbar(
+            title: 'Successful',
+            icon: Icon(Icons.info),
+            message: r,
+          );
+          userName.value = userInputName.text;
+          userPhone.value = userInputPhone.text;
+        });
+      } else {
         CustomeSnackbar(
-          title: 'Successful',
-          icon: Icon(Icons.info),
-          message: r,
+          title: 'Updating Failed !',
+          icon: Icon(Icons.warning),
+          message: 'Not a valid Data.',
         );
-        userName.value = userInputName.text;
-        userPhone.value = userInputPhone.text;
-      });
-    } else {
-      CustomeSnackbar(
-        title: 'Updating Failed !',
-        icon: Icon(Icons.warning),
-        message: 'Not a valid Data.',
-      );
+      }
     }
   }
 

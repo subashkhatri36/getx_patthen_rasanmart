@@ -19,7 +19,7 @@ import 'package:rasan_mart/app/modules/deliveryviewall/views/deliveryviewall_vie
 import '../controllers/account_controller.dart';
 
 class AccountView extends GetView<AccountController> {
-  //final user = Get.put(AccountController());
+  // final user = Get.put(AccountController());
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class AccountView extends GetView<AccountController> {
       controller.fetchUserInfo();
     }
     final addressController = Get.find<AddAddressController>();
-    final deliveryController = Get.find<DeliveryController>();
+    final deliveryController = Get.put(DeliveryController());
     return SingleChildScrollView(
         child: Obx(
       () => !controller.isLogOut.value
@@ -38,7 +38,6 @@ class AccountView extends GetView<AccountController> {
                 AccountHeader(),
                 GestureDetector(
                   onTap: () {
-                      
                     Get.to(() => AddAddressView(), arguments: [true, false]);
                   },
                   child: Container(

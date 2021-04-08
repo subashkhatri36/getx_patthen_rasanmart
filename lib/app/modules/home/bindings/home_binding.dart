@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import 'package:rasan_mart/app/modules/home/controllers/notification_controller.dart';
+import 'package:rasan_mart/app/modules/notificationpage/controllers/notification_controller.dart';
 import 'package:rasan_mart/app/modules/home/controllers/productcontainercontroller_controller.dart';
 
 import '../controllers/home_controller.dart';

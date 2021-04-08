@@ -1,12 +1,12 @@
 import 'package:get/get.dart';
 
-import '../controllers/notificationpage_controller.dart';
+import '../controllers/notification_controller.dart';
 
 class NotificationpageBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<NotificationpageController>(
-      () => NotificationpageController(),
+    Get.lazyPut<NotificationController>(
+      () => NotificationController(),
     );
   }
 }

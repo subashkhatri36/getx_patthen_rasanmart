@@ -1,10 +1,11 @@
 import 'package:dartz/dartz.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rasan_mart/app/core/enum/enum_convert.dart';
 import 'package:rasan_mart/app/data/checkout/checkout_repository.dart';
 import 'package:rasan_mart/app/modules/addAddress/controllers/add_address_controller.dart';
-import 'package:rasan_mart/app/modules/authentication/controllers/mainauth_controller.dart';
+
 import 'package:rasan_mart/app/modules/cart/controllers/cart_controller.dart';
 import 'package:rasan_mart/app/modules/cart/views/product_total_model.dart';
 import 'package:rasan_mart/app/modules/checkout/controllers/delivery_controller.dart';
@@ -26,7 +27,7 @@ class CheckoutController extends GetxController {
     'assets/images/visamaster.png'
   ];
 
-  final auth = Get.find<MainauthController>().firebaseAuth;
+  final auth = FirebaseAuth.instance;
   final cartController = Get.find<CartController>();
   final addressControllr = Get.find<AddAddressController>();
 

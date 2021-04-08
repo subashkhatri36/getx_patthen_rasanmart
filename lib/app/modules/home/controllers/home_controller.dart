@@ -3,8 +3,6 @@ import 'package:get/get.dart';
 import 'package:rasan_mart/app/modules/checkout/controllers/delivery_controller.dart';
 
 class HomeController extends GetxController {
-  //TODO: Implement HomeController
-
   //RxInt navSelectedIndex = 0.obs;
   ScrollController scrollController = new ScrollController();
   RxBool searchBar = false.obs;

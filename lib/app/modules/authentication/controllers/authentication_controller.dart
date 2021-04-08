@@ -1,12 +1,19 @@
 import 'package:dartz/dartz.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rasan_mart/app/Widgets/snakbar.dart';
 import 'package:rasan_mart/app/core/enum/enums.dart';
-import 'package:rasan_mart/app/core/theme/app_theme.dart';
+import 'package:rasan_mart/app/modules/account/controllers/account_controller.dart';
 import 'package:rasan_mart/app/modules/authentication/providers/authentication_provider.dart';
 import 'package:rasan_mart/app/modules/authentication/views/user_model.dart';
+import 'package:rasan_mart/app/modules/cart/controllers/cart_controller.dart';
+import 'package:rasan_mart/app/modules/checkout/controllers/delivery_controller.dart';
+
 import 'package:rasan_mart/app/modules/home/views/home_view.dart';
+
+import 'package:rasan_mart/app/modules/notificationpage/controllers/notification_controller.dart';
 
 class AuthenticationController extends GetxController {
   final RxBool isLoading = false.obs;
@@ -17,6 +24,10 @@ class AuthenticationController extends GetxController {
       TextEditingController();
 
   AuthenticationProvider _authenticationProvider = new AuthenticationProvider();
+  final accountController = Get.put(AccountController());
+  final cartController = Get.find<CartController>();
+  final notifyController = Get.find<NotificationController>();
+  // final deliveryController = Get.put(DeliveryController());
 
   @override
   void onInit() {
@@ -36,8 +47,16 @@ class AuthenticationController extends GetxController {
               title: 'Authentication Failed !',
               icon: Icon(Icons.warning),
               message: 'Incorrect Email and Password!',
-            ),
-        (r) => Get.off(() => HomeView()));
+            ), (r) {
+      accountController.isLogOut.value = false;
+      if (!accountController.isLogOut.value) {
+        cartController.loadCart(FirebaseAuth.instance.currentUser.uid);
+        notifyController.fetchNotification();
+        //deliveryController.fetchDeliveryModel();
+      }
+
+      Get.off(() => HomeView());
+    });
   }
 
   @override

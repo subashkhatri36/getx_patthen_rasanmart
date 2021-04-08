@@ -10,7 +10,6 @@ import 'package:rasan_mart/app/modules/account/address_model.dart';
 import 'package:rasan_mart/app/modules/account/controllers/account_controller.dart';
 import 'package:rasan_mart/app/modules/account/providers/userdata_provider.dart';
 import 'package:rasan_mart/app/modules/addAddress/providers/address_provider.dart';
-import 'package:rasan_mart/app/modules/authentication/controllers/mainauth_controller.dart';
 
 class AddAddressController extends GetxController {
   TextEditingController cityController = new TextEditingController();
@@ -31,9 +30,6 @@ class AddAddressController extends GetxController {
 
   AddressProvider addressProvider = AddressRepository();
 
-  final auth = Get.find<MainauthController>().firebaseAuth;
-
-  RxString uId = ''.obs;
   RxInt selectedIndex = 0.obs;
   RxBool isAddressUpdated = false.obs;
   RxString selectedAddressString = ''.obs;
@@ -61,17 +57,12 @@ class AddAddressController extends GetxController {
   Future<void> fetchUserAddress() async {
     isAddressLoad.value = true;
     List<AddressModel> newuserAddress = [];
-    uId = auth.currentUser.uid.obs;
-    print(uId.value);
-    if (uId.isNotEmpty) {
+    var id = FirebaseAuth.instance.currentUser.uid;
+    print(id);
+    if (id.isNotEmpty) {
       Either<String, List<AddressModel>> myAddress =
-          await accountRepositiories.getUserAddress(uId.value);
-      myAddress.fold(
-          (l) => CustomeSnackbar(
-                title: 'Failed',
-                icon: Icon(Icons.warning),
-                message: l.toString(),
-              ), (r) {
+          await accountRepositiories.getUserAddress(id);
+      myAddress.fold((l) => print('no data found in address'), (r) {
         newuserAddress = r.toList();
         newAddress = newuserAddress.obs;
       });
@@ -100,7 +91,6 @@ class AddAddressController extends GetxController {
           icon: Icon(Icons.error),
         );
       }, (r) async {
-        
         Either<String, String> result =
             await addressProvider.updateSingleFieldAddress(id, false, id2);
         result.fold((l) {
@@ -144,8 +134,8 @@ class AddAddressController extends GetxController {
           icon: Icon(Icons.error),
         );
       }, (r) async {
-        addressModel.id = r;
         newAddress.remove(oldModel);
+        addressModel.id = oldModel.id;
         oldModel = null;
         newAddress.add(addressModel);
         clearData();

@@ -1,16 +1,17 @@
 import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:rasan_mart/app/modules/account/controllers/account_controller.dart';
-import 'package:rasan_mart/app/modules/authentication/controllers/mainauth_controller.dart';
+
 import 'package:rasan_mart/app/modules/authentication/views/authentication_view.dart';
 import 'package:rasan_mart/app/modules/cart/controllers/cart_controller.dart';
-import 'package:rasan_mart/app/modules/home/controllers/notification_controller.dart';
+import 'package:rasan_mart/app/modules/checkout/controllers/delivery_controller.dart';
+import 'package:rasan_mart/app/modules/notificationpage/controllers/notification_controller.dart';
 import 'package:rasan_mart/app/modules/home/views/home_view.dart';
 
 class SplashController extends GetxController {
   final splashDelay = 3;
   final String versionName = 'V1.0'.obs();
-  final authcontroller = Get.put(MainauthController(), permanent: true);
+
 //  final logInfo = Get.put(AccountController());
 
   @override
@@ -18,6 +19,7 @@ class SplashController extends GetxController {
     _loadWidget();
     Get.put(CartController(), permanent: true);
     Get.put(NotificationController(), permanent: true);
+    Get.put(DeliveryController());
     // if (authcontroller.firebaseAuth.currentUser != null)
     // logInfo.isLogOut.value = false;
 
@@ -30,7 +32,7 @@ class SplashController extends GetxController {
   }
 
   void navigation() {
-    if (authcontroller.firebaseAuth.currentUser != null) {
+    if (FirebaseAuth.instance.currentUser != null) {
       Get.off(() => HomeView());
     } else {
       Get.off(() => AuthenticationView());

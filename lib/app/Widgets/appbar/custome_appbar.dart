@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rasan_mart/app/Widgets/notification_icons_circulation.dart';
@@ -9,7 +7,7 @@ import 'package:rasan_mart/app/core/theme/app_theme.dart';
 import 'package:rasan_mart/app/modules/cart/views/cart_view.dart';
 import 'package:rasan_mart/app/modules/cart/controllers/cart_controller.dart';
 import 'package:rasan_mart/app/modules/home/controllers/home_controller.dart';
-import 'package:rasan_mart/app/modules/home/controllers/notification_controller.dart';
+import 'package:rasan_mart/app/modules/notificationpage/controllers/notification_controller.dart';
 import 'package:rasan_mart/app/modules/notificationpage/views/notificationpage_view.dart';
 import 'package:rasan_mart/app/modules/searchpage/views/searchpage_view.dart';
 
@@ -86,7 +84,7 @@ AppBar buildAppBar(
                           Get.to(() => NotificationpageView());
                         },
                         child: Notification(
-                          length: notification.notificationList?.length ?? 0,
+                          length: notification.notification.value ?? 0,
                         ),
                       ),
                       SizedBox(width: Defaults.defaultfontsize / 2),

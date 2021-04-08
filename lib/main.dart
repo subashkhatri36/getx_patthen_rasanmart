@@ -9,6 +9,7 @@ import 'app/routes/app_pages.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+ 
 
   runApp(
     GetMaterialApp(

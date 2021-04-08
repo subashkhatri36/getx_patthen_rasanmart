@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:rasan_mart/app/Widgets/snakbar.dart';
 import 'package:rasan_mart/app/core/constant/strings.dart';
 import 'package:rasan_mart/app/data/cart/cart_repository.dart';
-import 'package:rasan_mart/app/modules/authentication/controllers/mainauth_controller.dart';
+
 import 'package:rasan_mart/app/modules/cart/controllers/cart_offline.dart';
 import 'package:rasan_mart/app/modules/cart/views/cart_model.dart';
 import 'package:rasan_mart/app/modules/cart/views/product_total_model.dart';
@@ -19,16 +19,14 @@ class CartController extends GetxController {
   CartProvider cartRepo = CartRepository();
   RxDouble grandTotal = 0.0.obs;
 
-  final firebase = Get.find<MainauthController>();
   RxInt cartTotal = 0.obs;
   RxInt cindex = 0.obs;
   CartOffline offlineCart = new CartOffline();
   RxBool cartUpdate = false.obs;
 
-
   @override
   void onInit() async {
-    var id = firebase.firebaseAuth.currentUser?.uid ?? '';
+    var id = FirebaseAuth.instance.currentUser?.uid ?? '';
     await loadCart(id);
     super.onInit();
   }
@@ -49,7 +47,6 @@ class CartController extends GetxController {
         newcartList = r.toList();
         cartList = newcartList.obs;
         cartTotal = cartList.length.obs;
-        
       });
     } else {
       //not logged in
@@ -106,7 +103,7 @@ class CartController extends GetxController {
   }
 
   addCart({@required Product product}) async {
-    if (firebase.firebaseAuth.currentUser != null) {
+    if (FirebaseAuth.instance.currentUser != null) {
       Either<String, String> cart;
       bool checkdata = false;
       CartModel cartModel;

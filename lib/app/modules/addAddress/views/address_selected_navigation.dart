@@ -21,15 +21,17 @@ class AddressSelectedWidget extends StatelessWidget {
     String address = '';
     String selectedaddress = '';
 
-    controller.newAddress.forEach((element) {
-      if (element.isSelected) {
-        selectedaddress = element.fullAddress;
-        controller.selectedAddressString.value = selectedaddress;
-      } else
-        address = element.fullAddress;
-    });
+    if (controller.newAddress != null)
+      controller.newAddress.forEach((element) {
+        if (element.isSelected) {
+          selectedaddress = element.fullAddress;
+          controller.selectedAddressString.value = selectedaddress;
+        } else
+          address = element.fullAddress;
+      });
+    int v = controller.newAddress?.length ?? 0;
 
-    return controller.newAddress.length > 0
+    return v > 0
         ? InkWell(
             onTap: () {
               Get.to(() => AddAddressView(), arguments: [isadd, ischange]);
