@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:rasan_mart/app/Widgets/buttons/buttons_widgets.dart';
+import 'package:rasan_mart/app/Widgets/snakbar.dart';
 import 'package:rasan_mart/app/core/constant/default_value.dart';
 import 'package:rasan_mart/app/core/constant/strings.dart';
 import 'package:rasan_mart/app/core/theme/app_theme.dart';
@@ -10,7 +11,8 @@ import 'package:rasan_mart/app/modules/addAddress/views/add_address_view.dart';
 import 'package:rasan_mart/app/modules/addAddress/views/address_selected_navigation.dart';
 import 'package:rasan_mart/app/modules/cart/controllers/cart_controller.dart';
 import 'package:rasan_mart/app/modules/cart/views/cart_model.dart';
-import 'package:rasan_mart/app/modules/checkout/controllers/delivery_controller.dart';
+import 'package:rasan_mart/app/modules/checkout/controllers/setting_controller.dart';
+
 import 'package:rasan_mart/app/modules/checkout/delivery_model.dart';
 import 'package:rasan_mart/app/modules/checkout/views/totalcalculationsummary_view.dart';
 
@@ -20,6 +22,8 @@ class CheckoutView extends GetView<CheckoutController> {
   final cartController = Get.find<CartController>();
   final addressController = Get.find<AddAddressController>();
   final checkoutController = Get.put(CheckoutController());
+  final settings = Get.find<SettingController>();
+
   @override
   Widget build(BuildContext context) {
     return Obx(() => checkoutController.showdialog.value
@@ -78,6 +82,59 @@ class CheckoutView extends GetView<CheckoutController> {
                               ],
                             )),
                         BillingSection(),
+                        Obx(() => settings.showCoupen.value
+                            ? Container(
+                                margin: EdgeInsets.all(
+                                    Defaults.defaultfontsize / 2),
+                                decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Theme.of(context).backgroundColor,
+                                        Colors.orange[700]
+                                      ],
+                                      stops: [0.0, 0.9],
+                                    ),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(
+                                            Defaults.defaultfontsize / 3)),
+                                    border: Border.all(color: Colors.black26)),
+                                padding: EdgeInsets.symmetric(
+                                    vertical: Defaults.defaultfontsize / 2,
+                                    horizontal: Defaults.defaultfontsize),
+                                child: Row(children: [
+                                  Expanded(
+                                    flex: 7,
+                                    child: Text(
+                                        'Use your coupen to get ${settings.coupen.coupenType} (${settings.coupen.coupenAmount})',
+                                        style: TextStyle(
+                                          color: Theme.of(context).primaryColor,
+                                          fontWeight: FontWeight.bold,
+                                        )),
+                                  ),
+                                  Expanded(
+                                    flex: 3,
+                                    child: TextButton(
+                                        style: TextButton.styleFrom(
+                                            primary:
+                                                Theme.of(context).primaryColor,
+                                            backgroundColor: Theme.of(context)
+                                                .backgroundColor),
+                                        onPressed: () {
+                                          if (!settings.coupenContiainer.value)
+                                            settings.coupenContiainer.value =
+                                                true;
+                                          else
+                                            CustomeSnackbar(
+                                                title: 'Already used Coupen',
+                                                message:
+                                                    'Coupen used please proceed. to buy button.',
+                                                icon: Icon(Icons.info));
+                                        },
+                                        child: Text('Use')),
+                                  )
+                                ]),
+                              )
+                            : Container()),
                         Container(
                           height: 40,
                           margin: EdgeInsets.symmetric(
@@ -231,6 +288,7 @@ class BillingSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cartController = Get.find<CartController>();
+    final settings = Get.find<SettingController>();
 
     int i = 1;
     return Column(
@@ -260,9 +318,13 @@ class BillingSection extends StatelessWidget {
               total: model.price,
             ),
         if (ischeckout)
-          TotalcalculationsummaryView(
-            ischeckout: ischeckout,
-          )
+          Obx(() => settings.coupenContiainer.value
+              ? TotalcalculationsummaryView(
+                  ischeckout: ischeckout,
+                )
+              : TotalcalculationsummaryView(
+                  ischeckout: ischeckout,
+                ))
         else
           TotalcalculationsummaryView(
             ischeckout: ischeckout,

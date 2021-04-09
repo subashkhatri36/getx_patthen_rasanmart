@@ -29,13 +29,21 @@ class CheckoutRepository implements CheckoutProvider {
     String paymentType,
     String paymentStatus,
     String address,
+    bool coupenused,
+   int totalpurchase,
+    double totalprices,
   ) async {
+
+
+  
+
     try {
       List<DeliveryModel> deliveryModel = [];
       bool complete = false;
       String id = '';
       DateTime now = DateTime.now();
       DateFormat formatter = DateFormat('yyyy-MM-dd');
+      double totalPrice = calculation.totalprice;
 
       Map<String, dynamic> pricing = {
         'totalitems': calculation.totalItems,
@@ -97,7 +105,28 @@ class CheckoutRepository implements CheckoutProvider {
             }
           });
         }
-      }).whenComplete(() => complete = true);
+      }).whenComplete(() {
+        Map<String, dynamic> update;
+        if (coupenused) {
+          update = {
+            'totalpurchase': 0,
+            'totalpurchaseCash': totalPrice,
+          };
+        } else {
+          update = {
+            'totalpurchase': ++totalpurchase,
+            'totalpurchaseCash': calculation.totalprice+totalprices,
+          };
+        }
+        FirebaseFirestore.instance
+            .collection('User')
+            .doc(userId)
+            .collection('coupen')
+            .doc('coupenId')
+            .update(update);
+
+        complete = true;
+      });
 
       if (complete) {
         //deliveryaddress:element['deliveryaddress']

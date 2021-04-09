@@ -83,14 +83,14 @@ class DeliveryTotalModel {
   final double totalprice;
   final double discount;
   final double grandtotal;
-  final double deliveryCharge;
+   double deliveryCharge;
   final String paymentMode;
   final String paymentStatus;
   final String orderStatus;
   final String orderData;
   final String shippingDate;
   final String deliveryDate;
-  final double coupen;
+   double coupen;
   final String deliveryaddress;
 
   DeliveryTotalModel({
@@ -142,7 +142,7 @@ class DeliveryTotalModel {
       orderStatus: map['orderStatus'],
       orderData: map['orderData'],
       shippingDate: map['shippingDate'],
-      deliveryDate: map['deliveryDate'],
+      deliveryDate: map['deliveryDate'], deliveryaddress: '',
     );
   }
 

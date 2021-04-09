@@ -5,9 +5,9 @@ class ProductPriceCalculation {
   final int totaldiscount;
   final double totalprice;
   final double totaldiscountprice;
-  final double deliverycharge;
-  final double coupen;
-  final double grandTotal;
+  double deliverycharge;
+  double coupen;
+  double grandTotal;
   ProductPriceCalculation({
     @required this.deliverycharge,
     @required this.coupen,

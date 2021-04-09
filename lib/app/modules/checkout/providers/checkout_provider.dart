@@ -11,7 +11,11 @@ abstract class CheckoutProvider {
     String paymentType,
     String paymentStatus,
     String address,
+    bool coupenused,
+    int totalpurchase,
+    double totalprices,
   );
+
   Future<Either<String, String>> deleteFromDelivery(
       String userId, String derliveryId);
   Future<Either<String, List<DeliveryTotalModel>>> fetchFromDelivery(

@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:rasan_mart/app/Widgets/Product/product_horizental.dart';
 import 'package:rasan_mart/app/Widgets/Product/product_widget.dart';
 import 'package:rasan_mart/app/core/enum/enums.dart';
-import 'package:rasan_mart/app/data/local_data/dummy_data.dart';
 
 import 'package:rasan_mart/app/modules/customeproductpage/product_model.dart';
 
@@ -12,9 +11,10 @@ import '../controllers/productview_controller.dart';
 
 class ProductviewView extends GetView<ProductviewController> {
   final bool horizental;
-  final List<Product> productList;
+  final List<Product> productList=Get.arguments;
   final String title;
-  ProductviewView({this.title,this.horizental = true, @required this.productList});
+  //@required this.productList
+  ProductviewView({this.title,this.horizental = true, });
   @override
   Widget build(BuildContext context) {
     // final productController = Get.find<ProductController>();

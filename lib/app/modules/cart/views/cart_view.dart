@@ -4,12 +4,14 @@ import 'package:get/get.dart';
 import 'package:rasan_mart/app/Widgets/Product/product_horizental.dart';
 import 'package:rasan_mart/app/Widgets/buttons/buttons_widgets.dart';
 import 'package:rasan_mart/app/core/constant/default_value.dart';
+import 'package:rasan_mart/app/modules/checkout/controllers/setting_controller.dart';
 import 'package:rasan_mart/app/modules/checkout/views/checkout_view.dart';
 
 import '../controllers/cart_controller.dart';
 
 class CartView extends GetView<CartController> {
   //final cartController = Get.find<CartController>();
+  final settingcontroller = Get.put(SettingController());
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +63,7 @@ class CartView extends GetView<CartController> {
                                         Defaults.defaultfontsize / 2),
                                     child: Obx(
                                       () => Text(
-                                        'Total NRs. ' +
+                                        'Total NRs.(discount) ' +
                                             controller
                                                 .calculateTotalsAmount()
                                                 .grandTotal

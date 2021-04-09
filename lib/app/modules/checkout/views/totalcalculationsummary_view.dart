@@ -1,21 +1,91 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:rasan_mart/app/core/theme/app_theme.dart';
+import 'package:rasan_mart/app/modules/addAddress/controllers/add_address_controller.dart';
+
 import 'package:rasan_mart/app/modules/cart/controllers/cart_controller.dart';
 import 'package:rasan_mart/app/modules/cart/views/product_total_model.dart';
+import 'package:rasan_mart/app/modules/checkout/controllers/checkout_controller.dart';
+import 'package:rasan_mart/app/modules/checkout/controllers/setting_controller.dart';
+
 import 'package:rasan_mart/app/modules/checkout/delivery_model.dart';
 
-class TotalcalculationsummaryView extends GetView {
+class TotalcalculationsummaryView extends StatelessWidget {
   final bool ischeckout;
   final DeliveryTotalModel model;
-  TotalcalculationsummaryView({this.ischeckout = true, this.model});
+
+  TotalcalculationsummaryView({
+    this.ischeckout = true,
+    this.model,
+  });
 
   @override
   Widget build(BuildContext context) {
     final cartController = Get.find<CartController>();
+    final setting = Get.find<SettingController>();
+    final addressController = Get.find<AddAddressController>();
+    final checkout = Get.find<CheckoutController>();
     ProductPriceCalculation calculation =
         cartController.calculateTotalsAmount();
+    double deliverycharge = 0.0;
+    double coupen = 0;
+
+    if (ischeckout) {
+      bool freeaddress = false;
+      String address = '';
+      setting.deliveryPrice.freeDeliveryCity.forEach((element) {
+        if (addressController.newAddress != null)
+          addressController.newAddress.forEach((value) {
+            if (value.city.toUpperCase() == element.toUpperCase()) {
+              address = element;
+              freeaddress = true;
+            }
+          });
+      });
+      if (address.isNotEmpty) {
+        if (freeaddress) {
+          calculation.deliverycharge = 0.0;
+        } else {
+          //cost of delivery
+          if (setting.deliveryPrice.aboveDeliveryFree < calculation.totalprice)
+            calculation.deliverycharge = 0.0;
+          else {
+            if (setting.deliveryPrice.deliveryType.toUpperCase() ==
+                'flat'.toUpperCase()) {
+              calculation.deliverycharge = setting.deliveryPrice.deliveryAmount;
+              calculation.grandTotal += calculation.deliverycharge;
+            } else {
+              calculation.deliverycharge =
+                  calculation.totalprice * setting.deliveryPrice.deliveryAmount;
+              calculation.grandTotal += calculation.deliverycharge;
+            }
+          }
+        }
+      }
+      if (FirebaseAuth.instance.currentUser != null) if (setting
+                  .userCoupen.totalpurchase >
+              setting.coupen.totalpurchase &&
+          setting.userCoupen.totalpurchaseCash > setting.coupen.coupenlimit) {
+        setting.showCoupen.value = true;
+        print('Here');
+        if (setting.coupenContiainer.value) {
+          if (setting.coupen.coupenType.toUpperCase() == 'flat'.toUpperCase()) {
+            calculation.coupen = setting.coupen.coupenAmount;
+            calculation.grandTotal -= calculation.coupen;
+          } else {
+            calculation.coupen =
+                calculation.totalprice * setting.coupen.coupenAmount;
+            calculation.grandTotal -= calculation.coupen;
+          }
+        }
+      } else
+        calculation.coupen = 0.0;
+    }
+    checkout.productPriceCalculation = calculation;
+    print(calculation.deliverycharge);
+
     return Container(
       child: Row(
         children: [

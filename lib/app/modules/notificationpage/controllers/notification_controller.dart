@@ -12,8 +12,10 @@ import 'package:timezone/timezone.dart' as tz;
 
 class NotificationController extends GetxController {
   List<NotificationData> notificationList;
+
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
+
   NotificationProvider notificationProvider = new NotificationRepository();
   RxInt notification = 0.obs;
   RxBool togglenotice = false.obs;
@@ -75,7 +77,7 @@ class NotificationController extends GetxController {
       if (!element.noticeRead) notification.value++;
     });
     print(notification.value);
-    
+
     if (update) {
       notificationList = updated.obs;
       notification.value = 0;
@@ -204,6 +206,8 @@ class NotificationController extends GetxController {
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime);
   }
+
+  
 
   repeatedShowNotification() async {
     const AndroidNotificationDetails androidPlatformChannelSpecifics =

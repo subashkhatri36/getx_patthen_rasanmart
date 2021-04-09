@@ -188,8 +188,7 @@ class CartController extends GetxController {
     int totaldiscount = 0;
     double totalprice = 0;
     double totaldiscountprice = 0;
-    double delivery = 100;
-    double coupen = 0;
+
     // double grandTotalAmount = 0;
 
     cartList.forEach((element) {
@@ -209,8 +208,8 @@ class CartController extends GetxController {
 
       totalprice += element.product.price;
     });
-    grandTotal.value = (totalprice + delivery) - totaldiscountprice;
-    grandTotal.value = grandTotal.value - coupen;
+    grandTotal.value = totalprice - totaldiscountprice;
+    // grandTotal.value = grandTotal.value - coupen;
     //grandTotal.value += delivery;
 
     return ProductPriceCalculation(
@@ -219,7 +218,7 @@ class CartController extends GetxController {
         totaldiscount: totaldiscount,
         totaldiscountprice: totaldiscountprice,
         grandTotal: grandTotal.value,
-        deliverycharge: delivery,
-        coupen: coupen);
+        deliverycharge: 0,
+        coupen: 0);
   }
 }

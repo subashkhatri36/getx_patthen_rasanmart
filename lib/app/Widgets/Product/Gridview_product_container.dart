@@ -66,10 +66,10 @@ class _GridViewProductState extends State<GridViewProduct> {
                   ),
                   onPressed: () {
                     Get.to(() => ProductviewView(
-                          productList: productController.productList,
+
                           horizental: false,
                           title: widget.containerTitle,
-                        ));
+                        ),arguments: productController.productList,);
                   },
                   child: Text(
                     Strings.btnview,

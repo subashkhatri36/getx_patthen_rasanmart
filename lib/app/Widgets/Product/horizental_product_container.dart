@@ -71,9 +71,9 @@ class _HorizentalProductContainerState
                 ),
                 onPressed: () {
                   Get.to(() => ProductviewView(
-                        productList: productController.productlist,
+
                         title: widget.containerTitle,
-                      ));
+                      ),arguments: productController.productlist);
                 },
                 child: Text(
                   Strings.btnview,

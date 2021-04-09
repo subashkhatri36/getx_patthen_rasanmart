@@ -4,13 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rasan_mart/app/core/enum/enum_convert.dart';
 import 'package:rasan_mart/app/data/checkout/checkout_repository.dart';
+
 import 'package:rasan_mart/app/modules/addAddress/controllers/add_address_controller.dart';
 
 import 'package:rasan_mart/app/modules/cart/controllers/cart_controller.dart';
 import 'package:rasan_mart/app/modules/cart/views/product_total_model.dart';
 import 'package:rasan_mart/app/modules/checkout/controllers/delivery_controller.dart';
+import 'package:rasan_mart/app/modules/checkout/controllers/setting_controller.dart';
+
 import 'package:rasan_mart/app/modules/checkout/delivery_model.dart';
 import 'package:rasan_mart/app/modules/checkout/providers/checkout_provider.dart';
+
 import 'package:rasan_mart/app/modules/conformdelivery/views/conformdelivery_view.dart';
 
 class CheckoutController extends GetxController {
@@ -32,8 +36,10 @@ class CheckoutController extends GetxController {
   final addressControllr = Get.find<AddAddressController>();
 
   CheckoutProvider checkoutProvider = CheckoutRepository();
-  final deliveryController = Get.find<DeliveryController>();
+  final deliveryController = Get.put(DeliveryController());
   RxBool showdialog = false.obs;
+  final settings = Get.find<SettingController>();
+  ProductPriceCalculation productPriceCalculation;
 
   @override
   void onInit() {
@@ -47,9 +53,8 @@ class CheckoutController extends GetxController {
       //delivery charge
 
       var id = auth.currentUser?.uid ?? '';
-      if (id.isNotEmpty && id != null) {
-        ProductPriceCalculation productPriceCalculation =
-            cartController.calculateTotalsAmount();
+      if (id.isNotEmpty && id != null && productPriceCalculation!=null) {
+
         String paymentType = 'Cash On Delivery';
         String paymentStaus = 'Not paid';
         EnumConvertor enumConvertor = EnumConvertor();
@@ -70,6 +75,9 @@ class CheckoutController extends GetxController {
               paymentType,
               paymentStaus,
               address,
+              settings.showCoupen.value,
+              settings.coupen.totalpurchase,
+              settings.coupen.coupenAmount,
             );
             savetodeliver.fold(
               (l) => print(l),
