@@ -18,10 +18,12 @@ class CategoriesRepositories implements CategoryRepo {
           .then((value) {
         value.docs.forEach((element) {
           //print(element['imagelink'].toString());
-          container.add(Categories(
-            categoryName: element['name'].toString(),
-            categoryPath: element['imagelink'].toString(),
-          ));
+          if (element['active'] as bool) {
+            container.add(Categories(
+              categoryName: element['name'].toString(),
+              categoryPath: element['imagelink'].toString(),
+            ));
+          }
         });
       });
 

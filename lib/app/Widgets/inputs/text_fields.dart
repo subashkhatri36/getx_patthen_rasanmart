@@ -79,7 +79,7 @@ class TextInputField extends StatelessWidget {
     Key key,
     @required this.controller,
     this.texttype,
-    @required this.lable,
+    this.lable,
     @required this.hinttext,
     this.validator,
     this.onFieldSubmitted,

@@ -56,14 +56,16 @@ class CustomeNotificationList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+        reverse: true,
         itemCount: controller.notificationList?.length ?? 0,
         itemBuilder: (context, index) {
           NotificationData notify = controller.notificationList[index];
           return Dismissible(
-              background: slideRightBackground(),
-              key: Key(notify.id),
+              background: slideLeftBackground(),
+              key: Key(index.toString()),
               onDismissed: (direction) async {
                 bool val = await controller.deleteNotification(notify);
+                //controller.notificationList.removeAt(index);
                 return val;
               },
               child: NotificationItems(notify: notify));

@@ -4,7 +4,8 @@ import 'package:rasan_mart/app/modules/home/views/notification_model.dart';
 abstract class NotificationProvider {
   Future<Either<String, List<NotificationData>>> fetchNotification(
       String userId);
-  Future<Either<String, String>> clearNotification(String userId);
+  Future<Either<String, String>> clearNotification(
+      String userId, List<NotificationData> user);
   Future<Either<String, void>> updateNotification(
       String userId, List<NotificationData> notification);
   Future<Either<String, String>> addNotification(

@@ -1,8 +1,14 @@
-
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:rasan_mart/app/core/constant/default_value.dart';
 import 'package:rasan_mart/app/core/constant/strings.dart';
 import 'package:rasan_mart/app/core/theme/app_theme.dart';
+import 'package:rasan_mart/app/modules/cart/views/cart_view.dart';
+import 'package:rasan_mart/app/modules/checkout/controllers/delivery_controller.dart';
+import 'package:rasan_mart/app/modules/deliveryviewall/views/deliveryviewall_view.dart';
+import 'package:rasan_mart/app/modules/home/views/home_view.dart';
+import 'package:rasan_mart/app/modules/orderdetails/views/orderdetails_view.dart';
 
 class AppDrawer extends StatefulWidget {
   @override
@@ -19,20 +25,37 @@ class _AppDrawerState extends State<AppDrawer> {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(DeliveryController());
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
           _createHeader(),
           _createDrawerItem(
-              icon: Icons.dashboard,
-              text: 'Dashboard',
+              icon: FontAwesomeIcons.home,
+              text: 'Home',
               onTap: () {
+                Get.off(() => HomeView());
                 //Navigator.pushReplacementNamed(context, Routes.dashboard);
               }),
           Divider(),
-          _createDrawerItem(onTap: () {}, icon: Icons.thumb_up, text: 'Like'),
+          _createDrawerItem(
+              onTap: () {
+                Get.to(() => DeliveryviewallView());
+              },
+              icon: FontAwesomeIcons.firstOrder,
+              text: 'My Order'),
+          _createDrawerItem(
+              onTap: () {
+                Get.to(() => CartView());
+              },
+              icon: FontAwesomeIcons.shoppingCart,
+              text: 'My cart'),
+          Divider(),
+          _createDrawerItem(
+              onTap: () {}, icon: Icons.privacy_tip, text: 'privacy Policy'),
           _createDrawerItem(icon: Icons.info, text: 'About Us', onTap: () {}),
+          Divider(),
           ListTile(
             title: Text('0.0.1'),
             onTap: () {},

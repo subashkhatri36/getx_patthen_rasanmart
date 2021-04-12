@@ -10,6 +10,7 @@ import 'package:rasan_mart/app/data/account/account_repository.dart';
 import 'package:rasan_mart/app/data/local_data/get_storage.dart';
 import 'package:rasan_mart/app/modules/account/address_model.dart';
 import 'package:rasan_mart/app/modules/account/providers/userdata_provider.dart';
+import 'package:rasan_mart/app/modules/addAddress/controllers/add_address_controller.dart';
 import 'package:rasan_mart/app/modules/cart/controllers/cart_controller.dart';
 import 'package:rasan_mart/app/modules/checkout/controllers/delivery_controller.dart';
 import 'package:rasan_mart/app/modules/notificationpage/controllers/notification_controller.dart';
@@ -98,6 +99,8 @@ class AccountController extends GetxController {
   void clearData() {
     Get.find<CartController>().cartList.clear();
     Get.find<NotificationController>().notificationList.clear();
+    Get.find<DeliveryController>().deliveryModel.clear();
+    Get.find<AddAddressController>().newAddress.clear();
 
     userEmail.value = 'User Email';
 

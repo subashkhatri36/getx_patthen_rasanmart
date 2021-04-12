@@ -1,20 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
-import 'package:rasan_mart/app/modules/notificationpage/providers/notification_provider.dart';
 import 'package:rasan_mart/app/modules/home/views/notification_model.dart';
+import 'package:rasan_mart/app/modules/notificationpage/providers/notification_provider.dart';
 
 class NotificationRepository implements NotificationProvider {
   //notification
   @override
-  Future<Either<String, String>> clearNotification(String userId) async {
+  Future<Either<String, String>> clearNotification(String userId,List<NotificationData> user) async {
     try {
       bool complete = false;
-
-      await FirebaseFirestore.instance
+     for(NotificationData d in user){
+           await FirebaseFirestore.instance
           .collection('User')
-          .doc(userId)
+          .doc(userId).collection('notification').doc(d.id)
           .delete()
           .whenComplete(() => complete = true);
+     }
 
       if (complete)
         return right('Successfully cleared notifications.');

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +13,8 @@ import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
 class NotificationController extends GetxController {
-  List<NotificationData> notificationList;
+  RxList<NotificationData> notificationList;
+  var rng = new Random();
 
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
@@ -91,6 +94,7 @@ class NotificationController extends GetxController {
   }
 
   void addNotification(NotificationData data) async {
+    if (notificationList == null) notificationList = [].obs;
     var user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       String id = user.uid;
@@ -98,8 +102,19 @@ class NotificationController extends GetxController {
           await notificationProvider.addNotification(id, data);
       adding.fold((l) => print(l), (r) {
         data.id = r;
+
         notificationList.add(data);
-        checkList(true);
+        notification.value++;
+        print(notification.value);
+        print(r);
+        print(notificationList.length);
+        scheduleNotification(
+            id: rng.nextInt(50),
+            title: 'Order Delivery',
+            body:
+                'Thank you for choosing us. Your Orders items will be delivered with in 48 hours.\nYour Order Id: $r\n Thank you.',
+            duration: 5);
+        checkList(false);
       });
     }
   }
@@ -115,7 +130,7 @@ class NotificationController extends GetxController {
         return false;
       }, (r) {
         CustomeSnackbar(title: 'Deletion', message: r, icon: Icon(Icons.info));
-        notificationList.add(data);
+        notificationList.remove(data);
         checkList(false);
         return true;
       });
@@ -130,7 +145,7 @@ class NotificationController extends GetxController {
     if (user != null) {
       String id = user.uid;
       Either<String, void> cancelling =
-          await notificationProvider.clearNotification(id);
+          await notificationProvider.clearNotification(id, notificationList);
       cancelling.fold(
           (l) => CustomeSnackbar(
               title: 'Error !', message: l, icon: Icon(Icons.error)), (r) {
@@ -193,7 +208,10 @@ class NotificationController extends GetxController {
   }
 
   scheduleNotification(
-      {int id, String title, String body, int duration = 5}) async {
+      {@required int id,
+      @required String title,
+      @required String body,
+      @required int duration}) async {
     await flutterLocalNotificationsPlugin.zonedSchedule(
         id,
         title,
@@ -206,8 +224,6 @@ class NotificationController extends GetxController {
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime);
   }
-
-  
 
   repeatedShowNotification() async {
     const AndroidNotificationDetails androidPlatformChannelSpecifics =

@@ -3,9 +3,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rasan_mart/app/Widgets/buttons/buttons_widgets.dart';
 import 'package:rasan_mart/app/Widgets/snakbar.dart';
 import 'package:rasan_mart/app/core/constant/strings.dart';
+import 'package:rasan_mart/app/core/theme/app_theme.dart';
 import 'package:rasan_mart/app/data/cart/cart_repository.dart';
+import 'package:rasan_mart/app/modules/addAddress/controllers/add_address_controller.dart';
+import 'package:rasan_mart/app/modules/authentication/views/authentication_view.dart';
 
 import 'package:rasan_mart/app/modules/cart/controllers/cart_offline.dart';
 import 'package:rasan_mart/app/modules/cart/views/cart_model.dart';
@@ -148,8 +152,30 @@ class CartController extends GetxController {
       });
     } else {
       //not logged in data
-      CartModel cartModel = new CartModel(product: product, cartId: '');
-      loaddataOffline(cartModel);
+      Get.dialog(
+          AlertDialog(
+            title: Text('Warning'),
+            content: Text('You are not logged in please log in first.'),
+            actions: [
+              CustomeTextButton(
+                color: Themes.lightBackgroundColor,
+                label: 'Cancel',
+                onPressed: () {
+                  Get.back();
+                },
+              ),
+              CustomeTextButton(
+                color: Themes.lightSalesolor,
+                label: 'Log In',
+                onPressed: () {
+                  Get.off(() => AuthenticationView());
+                },
+              )
+            ],
+          ),
+          barrierDismissible: true);
+      //   CartModel cartModel = new CartModel(product: product, cartId: '');
+      //   loaddataOffline(cartModel);
     }
   }
 
@@ -188,6 +214,10 @@ class CartController extends GetxController {
     int totaldiscount = 0;
     double totalprice = 0;
     double totaldiscountprice = 0;
+    double deliveryCharge = 0.0;
+    double coupenCharge = 0.0;
+
+    //working on coupen
 
     // double grandTotalAmount = 0;
 
@@ -208,9 +238,10 @@ class CartController extends GetxController {
 
       totalprice += element.product.price;
     });
+
     grandTotal.value = totalprice - totaldiscountprice;
-    // grandTotal.value = grandTotal.value - coupen;
-    //grandTotal.value += delivery;
+    grandTotal.value = grandTotal.value - coupenCharge;
+    grandTotal.value += deliveryCharge;
 
     return ProductPriceCalculation(
         totalprice: totalprice.toPrecision(2),
@@ -218,7 +249,7 @@ class CartController extends GetxController {
         totaldiscount: totaldiscount,
         totaldiscountprice: totaldiscountprice,
         grandTotal: grandTotal.value,
-        deliverycharge: 0,
-        coupen: 0);
+        deliverycharge: deliveryCharge,
+        coupen: coupenCharge);
   }
 }

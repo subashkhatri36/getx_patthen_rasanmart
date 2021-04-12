@@ -20,6 +20,7 @@ abstract class Routes {
   static const DELIVERYVIEWALL = _Paths.DELIVERYVIEWALL;
   static const ORDERDETAILS = _Paths.ORDERDETAILS;
   static const PRODUCTVIEW = _Paths.PRODUCTVIEW;
+  static const FORGETPASSWORD = _Paths.FORGETPASSWORD;
 }
 
 abstract class _Paths {
@@ -41,4 +42,5 @@ abstract class _Paths {
   static const DELIVERYVIEWALL = '/deliveryviewall';
   static const ORDERDETAILS = '/orderdetails';
   static const PRODUCTVIEW = '/productview';
+  static const FORGETPASSWORD = '/forgetpassword';
 }

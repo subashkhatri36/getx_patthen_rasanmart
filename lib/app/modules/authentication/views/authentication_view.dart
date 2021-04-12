@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:get/get.dart';
 import 'package:rasan_mart/app/Widgets/buttons/buttons_widgets.dart';
@@ -7,7 +8,9 @@ import 'package:rasan_mart/app/Widgets/snakbar.dart';
 import 'package:rasan_mart/app/core/constant/default_value.dart';
 import 'package:rasan_mart/app/core/constant/strings.dart';
 import 'package:rasan_mart/app/core/enum/enums.dart';
+import 'package:rasan_mart/app/core/theme/app_theme.dart';
 import 'package:rasan_mart/app/core/utils/validators.dart';
+import 'package:rasan_mart/app/modules/forgetpassword/views/forgetpassword_view.dart';
 
 import 'package:rasan_mart/app/modules/home/views/home_view.dart';
 
@@ -16,7 +19,6 @@ import '../controllers/authentication_controller.dart';
 class AuthenticationView extends GetView<AuthenticationController> {
   final authController = Get.put(AuthenticationController());
   final GlobalKey<FormState> formkey = GlobalKey<FormState>();
-
 
   @override
   Widget build(BuildContext context) {
@@ -88,16 +90,14 @@ class AuthenticationView extends GetView<AuthenticationController> {
                     ? CircularProgressIndicator()
                     : Text('')),
 
-                // GetX<UserAuthController>(builder: (controller) {
-                //   return Text(controller.isloading.toString());
-                // }),
-
-                SizedBox(height: Defaults.defaultfontsize),
+                SizedBox(height: Defaults.defaultfontsize / 2),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Get.to(() => ForgetpasswordView());
+                        },
                         child: Text(
                           Strings.forgetPassword,
                           style: TextStyle(
@@ -112,36 +112,70 @@ class AuthenticationView extends GetView<AuthenticationController> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    CustomOutlinedButton(
-                      label: 'Log In',
-                      onPressed: () {
-                        if (formkey.currentState.validate()) {
-                          authController.onSubmit(AuthenticateType.LogIn);
-                        } else {
-                          CustomeSnackbar(
-                            title: 'Authentication !',
-                            message: 'Check your data!.',
-                            icon: Icon(Icons.warning),
-                          );
-                        }
-                      },
+                    Expanded(
+                      child: CustomeTextButton(
+                        color: Themes.lightSalesolor,
+                        label: 'Log In',
+                        onPressed: () {
+                          if (formkey.currentState.validate()) {
+                            authController.onSubmit(AuthenticateType.LogIn);
+                          } else {
+                            CustomeSnackbar(
+                              title: 'Authentication !',
+                              message: 'Check your data!.',
+                              icon: Icon(Icons.warning),
+                            );
+                          }
+                        },
+                      ),
                     ),
-                    CustomOutlinedButton(
-                      label: 'Register',
-                      onPressed: () {
-                        if (formkey.currentState.validate()) {
-                          authController.onSubmit(AuthenticateType.Register);
-                        } else {
-                          CustomeSnackbar(
-                            title: 'Authentication !',
-                            message: 'Check your data!.',
-                            icon: Icon(Icons.warning),
-                          );
-                        }
-                      },
+                    SizedBox(width: Defaults.defaultPadding),
+                    Expanded(
+                      child: CustomeTextButton(
+                        label: 'Register',
+                        onPressed: () {
+                          if (formkey.currentState.validate()) {
+                            authController.onSubmit(AuthenticateType.Register);
+                          } else {
+                            CustomeSnackbar(
+                              title: 'Authentication !',
+                              message: 'Check your data!.',
+                              icon: Icon(Icons.warning),
+                            );
+                          }
+                        },
+                      ),
                     )
                   ],
-                )
+                ),
+                SizedBox(height: Defaults.defaultfontsize / 2),
+                Row(
+                  children: [
+                    Expanded(
+                        child: Divider(
+                      color: Colors.white,
+                    )),
+                    SizedBox(width: Defaults.defaultfontsize / 2),
+                    Text(
+                      'OR',
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(width: Defaults.defaultfontsize / 2),
+                    Expanded(
+                        child: Divider(
+                      color: Colors.white,
+                    )),
+                  ],
+                ),
+                SizedBox(height: Defaults.defaultPadding / 2),
+                CustomeTextButton(
+                  icon: FontAwesomeIcons.google,
+                  color: Theme.of(context).primaryColor,
+                  fcolor: Theme.of(context).backgroundColor,
+                  label: 'Sign in With Google',
+                  onPressed: () {},
+                ),
               ]),
             ),
           ),

@@ -1,8 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:rasan_mart/app/Widgets/buttons/buttons_widgets.dart';
-import 'package:rasan_mart/app/Widgets/snakbar.dart';
 import 'package:rasan_mart/app/core/constant/default_value.dart';
 import 'package:rasan_mart/app/core/constant/strings.dart';
 import 'package:rasan_mart/app/core/theme/app_theme.dart';
@@ -124,11 +124,8 @@ class CheckoutView extends GetView<CheckoutController> {
                                             settings.coupenContiainer.value =
                                                 true;
                                           else
-                                            CustomeSnackbar(
-                                                title: 'Already used Coupen',
-                                                message:
-                                                    'Coupen used please proceed. to buy button.',
-                                                icon: Icon(Icons.info));
+                                            settings.coupenContiainer.value =
+                                                false;
                                         },
                                         child: Text('Use')),
                                   )
@@ -136,7 +133,7 @@ class CheckoutView extends GetView<CheckoutController> {
                               )
                             : Container()),
                         Container(
-                          height: 40,
+                          height: 30,
                           margin: EdgeInsets.symmetric(
                               vertical: Defaults.defaultfontsize),
                           padding: EdgeInsets.all(Defaults.defaultPadding / 6),
@@ -235,7 +232,7 @@ class CheckoutView extends GetView<CheckoutController> {
                                         isadd: false),
                               ),
                             ])),
-                        SizedBox(height: Defaults.defaultPadding),
+                        SizedBox(height: Defaults.defaultPadding / 3),
                         Container(
                           padding: EdgeInsets.symmetric(
                               horizontal: Defaults.defaultPadding / 2),
@@ -262,7 +259,39 @@ class CheckoutView extends GetView<CheckoutController> {
                             label: 'Buy',
                             color: Theme.of(context).backgroundColor,
                             onPressed: () {
-                              controller.checkoutAuthenticationCheck();
+                              if (FirebaseAuth.instance.currentUser != null)
+                                controller.checkoutAuthenticationCheck();
+                              else
+                                showDialog(
+                                    barrierDismissible: false,
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Row(
+                                          children: [
+                                            Icon(Icons.warning),
+                                            Text("Warning !"),
+                                          ],
+                                        ),
+                                        content: Text(
+                                            "Are you sure to delete Cart Itme"),
+                                        actions: [
+                                          CustomeTextButton(
+                                            label: 'Cancel',
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                          CustomeTextButton(
+                                            label: 'Sign In',
+                                            color: Themes.lightBackgroundColor,
+                                            onPressed: () async {
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                        ],
+                                      );
+                                    });
                             },
                           ),
                         ),
@@ -289,6 +318,8 @@ class BillingSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final cartController = Get.find<CartController>();
     final settings = Get.find<SettingController>();
+    final checkoutController = Get.find<CheckoutController>();
+  
 
     int i = 1;
     return Column(
@@ -321,10 +352,10 @@ class BillingSection extends StatelessWidget {
           Obx(() => settings.coupenContiainer.value
               ? TotalcalculationsummaryView(
                   ischeckout: ischeckout,
-                )
+                  checkoutController: checkoutController)
               : TotalcalculationsummaryView(
                   ischeckout: ischeckout,
-                ))
+                  checkoutController: checkoutController))
         else
           TotalcalculationsummaryView(
             ischeckout: ischeckout,

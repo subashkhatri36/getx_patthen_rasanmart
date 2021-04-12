@@ -58,10 +58,7 @@ class DeliveryRepository implements DeliveryProvider {
           .collection('Delivery')
           .doc(userId)
           .collection('userOrder')
-          //   .where(
-          //     'orderStatus',
-          //     isNotEqualTo: 'Completed',
-          //   )
+          
           .get()
           .then((value) async {
         for (QueryDocumentSnapshot element in value.docs) {

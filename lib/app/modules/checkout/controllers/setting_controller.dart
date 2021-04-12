@@ -13,6 +13,7 @@ class SettingController extends GetxController {
   UserCoupen userCoupen;
   RxBool isLoadingSetting = false.obs;
   SettingRepository settingRepository = new SettingsRepositories();
+
   RxBool coupenContiainer = false.obs;
   RxBool showCoupen = false.obs;
 

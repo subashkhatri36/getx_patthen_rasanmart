@@ -222,6 +222,8 @@ class AddAddressController extends GetxController {
       icon: Icon(Icons.error),
     );
     val = true;
+    if (newAddress == null) newAddress = [].obs;
+
     newAddress.add(addressModel);
     newAddress[selectedIndex.value].isSelected = false;
     selectedIndex.value = newAddress.length - 1;

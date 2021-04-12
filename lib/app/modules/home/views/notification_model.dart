@@ -6,7 +6,7 @@ class NotificationData {
   String id;
   final String title;
   final String message;
-  final String imgpath;
+  String imgpath;
   final String noticedate;
   bool noticeRead;
   final String payload;

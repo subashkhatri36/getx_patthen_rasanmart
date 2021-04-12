@@ -22,7 +22,7 @@ class SettingsRepositories implements SettingRepository {
             coupenlimit: value['coupenlimit'].toDouble(),
             totalpurchase: value['totalpurchase'] as int);
       }).whenComplete(() => complete = true);
-     
+
       if (complete)
         return right(coupen);
       else
@@ -46,7 +46,7 @@ class SettingsRepositories implements SettingRepository {
             aboveDeliveryFree: value['aboveDeliveryFree'].toDouble(),
             deliveryAmount: value['deliveryAmount'].toDouble(),
             deliveryType: value['deliveryType'].toString(),
-            freeDeliveryCity: List<String>.from(value['freeDeliveryCity']));
+            freeDeliveryCity: List<String>.from(value['freeDeliveryCity']), maxDelivery: value['maxDelivery'].toDouble());
       }).whenComplete(() => complete = true);
       if (complete)
         return right(deliveryPrice);

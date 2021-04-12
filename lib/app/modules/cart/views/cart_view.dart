@@ -63,7 +63,7 @@ class CartView extends GetView<CartController> {
                                         Defaults.defaultfontsize / 2),
                                     child: Obx(
                                       () => Text(
-                                        'Total NRs.(discount) ' +
+                                        'Total NRs. ' +
                                             controller
                                                 .calculateTotalsAmount()
                                                 .grandTotal

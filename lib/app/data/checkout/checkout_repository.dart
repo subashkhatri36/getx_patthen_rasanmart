@@ -17,7 +17,6 @@ class CheckoutRepository implements CheckoutProvider {
   @override
   Future<Either<String, List<DeliveryTotalModel>>> fetchFromDelivery(
       String userId) {
-    // TODO: implement fetchFromDelivery
     throw UnimplementedError();
   }
 
@@ -30,13 +29,9 @@ class CheckoutRepository implements CheckoutProvider {
     String paymentStatus,
     String address,
     bool coupenused,
-   int totalpurchase,
+    int totalpurchase,
     double totalprices,
   ) async {
-
-
-  
-
     try {
       List<DeliveryModel> deliveryModel = [];
       bool complete = false;
@@ -112,18 +107,25 @@ class CheckoutRepository implements CheckoutProvider {
             'totalpurchase': 0,
             'totalpurchaseCash': totalPrice,
           };
+
+          FirebaseFirestore.instance
+              .collection('User')
+              .doc(userId)
+              .collection('coupen')
+              .doc('coupenId')
+              .update(update);
         } else {
           update = {
             'totalpurchase': ++totalpurchase,
-            'totalpurchaseCash': calculation.totalprice+totalprices,
+            'totalpurchaseCash': calculation.totalprice + totalprices,
           };
+          FirebaseFirestore.instance
+              .collection('User')
+              .doc(userId)
+              .collection('coupen')
+              .doc('coupenId')
+              .set(update);
         }
-        FirebaseFirestore.instance
-            .collection('User')
-            .doc(userId)
-            .collection('coupen')
-            .doc('coupenId')
-            .update(update);
 
         complete = true;
       });
@@ -141,6 +143,7 @@ class CheckoutRepository implements CheckoutProvider {
             paymentMode: paymentType,
             paymentStatus: paymentStatus,
             orderData: formatter.format(now),
+            coupen: calculation.coupen,
             orderStatus: 'Ordered',
             shippingDate: '',
             deliveryDate: '',

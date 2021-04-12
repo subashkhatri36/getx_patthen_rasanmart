@@ -76,28 +76,26 @@ AppBar buildAppBar(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Obx(
-                  () => Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Get.to(() => NotificationpageView());
-                        },
-                        child: Notification(
-                          length: notification.notification.value ?? 0,
-                        ),
-                      ),
-                      SizedBox(width: Defaults.defaultfontsize / 2),
-                      GestureDetector(
-                        onTap: () {
-                          Get.to(() => CartView());
-                        },
-                        child: ShoppingCart(
-                          length: cart.cartList?.length ?? 0,
-                        ),
-                      ),
-                    ],
-                  ),
+                Row(
+                  children: [
+                    Obx(() => GestureDetector(
+                          onTap: () {
+                            Get.to(() => NotificationpageView());
+                          },
+                          child: Notification(
+                            length: notification.notification.value ?? 0,
+                          ),
+                        )),
+                    SizedBox(width: Defaults.defaultfontsize / 2),
+                    Obx(() => GestureDetector(
+                          onTap: () {
+                            Get.to(() => CartView());
+                          },
+                          child: ShoppingCart(
+                            length: cart.cartList?.length ?? 0,
+                          ),
+                        )),
+                  ],
                 ),
                 SizedBox(width: Defaults.defaultfontsize / 2),
               ],

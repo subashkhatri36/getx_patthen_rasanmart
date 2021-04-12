@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:rasan_mart/app/Widgets/buttons/buttons_widgets.dart';
 import 'package:rasan_mart/app/core/constant/default_value.dart';
 import 'package:rasan_mart/app/modules/checkout/controllers/delivery_controller.dart';
-import 'package:rasan_mart/app/modules/checkout/delivery_model.dart';
 import 'package:rasan_mart/app/modules/checkout/views/checkout_view.dart';
 
 import '../controllers/orderdetails_controller.dart';

@@ -16,6 +16,8 @@ import 'package:rasan_mart/app/modules/conformdelivery/bindings/conformdelivery_
 import 'package:rasan_mart/app/modules/conformdelivery/views/conformdelivery_view.dart';
 import 'package:rasan_mart/app/modules/deliveryviewall/bindings/deliveryviewall_binding.dart';
 import 'package:rasan_mart/app/modules/deliveryviewall/views/deliveryviewall_view.dart';
+import 'package:rasan_mart/app/modules/forgetpassword/bindings/forgetpassword_binding.dart';
+import 'package:rasan_mart/app/modules/forgetpassword/views/forgetpassword_view.dart';
 import 'package:rasan_mart/app/modules/home/bindings/home_binding.dart';
 import 'package:rasan_mart/app/modules/home/views/home_view.dart';
 import 'package:rasan_mart/app/modules/nointernet/bindings/nointernet_binding.dart';
@@ -132,6 +134,11 @@ class AppPages {
       name: _Paths.PRODUCTVIEW,
       page: () => ProductviewView(),
       binding: ProductviewBinding(),
+    ),
+    GetPage(
+      name: _Paths.FORGETPASSWORD,
+      page: () => ForgetpasswordView(),
+      binding: ForgetpasswordBinding(),
     ),
   ];
 }

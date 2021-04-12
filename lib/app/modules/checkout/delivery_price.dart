@@ -7,11 +7,13 @@ class DeliveryPrice {
   final double deliveryAmount;
   final String deliveryType;
   final List<String> freeDeliveryCity;
+  final double maxDelivery;
   DeliveryPrice({
     @required this.aboveDeliveryFree,
     @required this.deliveryAmount,
     @required this.deliveryType,
     @required this.freeDeliveryCity,
+    @required this.maxDelivery,
   });
 
   Map<String, dynamic> toMap() {
@@ -29,6 +31,7 @@ class DeliveryPrice {
       deliveryAmount: map['deliveryAmount'],
       deliveryType: map['deliveryType'],
       freeDeliveryCity: List<String>.from(map['freeDeliveryCity']),
+      maxDelivery: null,
     );
   }
 
