@@ -11,6 +11,7 @@ import 'package:rasan_mart/app/modules/account/views/user_info_edit.dart';
 import 'package:rasan_mart/app/modules/addAddress/controllers/add_address_controller.dart';
 import 'package:rasan_mart/app/modules/addAddress/views/add_address_view.dart';
 import 'package:rasan_mart/app/modules/addAddress/views/address_selected_navigation.dart';
+import 'package:rasan_mart/app/modules/authentication/controllers/authentication_controller.dart';
 import 'package:rasan_mart/app/modules/authentication/views/authentication_view.dart';
 import 'package:rasan_mart/app/modules/cart/controllers/cart_controller.dart';
 import 'package:rasan_mart/app/modules/checkout/controllers/checkout_controller.dart';
@@ -26,6 +27,8 @@ class AccountView extends GetView<AccountController> {
   final cartController = Get.put(CartController());
   final settings = Get.put(SettingController());
   final checkoutController = Get.put(CheckoutController());
+  final account = Get.put(AccountController());
+  final authentication =Get.put(AuthenticationController());
 
   @override
   Widget build(BuildContext context) {

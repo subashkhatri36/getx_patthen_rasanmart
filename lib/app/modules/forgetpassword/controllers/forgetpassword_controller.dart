@@ -6,7 +6,7 @@ class ForgetpasswordController extends GetxController {
   TextEditingController forgetController = new TextEditingController();
   GlobalKey<FormState> reset = new GlobalKey<FormState>();
 
-  RxBool resetpassword = true.obs;
+  RxBool resetpassword = false.obs;
   @override
   void onInit() {
     super.onInit();

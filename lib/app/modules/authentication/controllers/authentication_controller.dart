@@ -9,7 +9,6 @@ import 'package:rasan_mart/app/modules/account/controllers/account_controller.da
 import 'package:rasan_mart/app/modules/authentication/providers/authentication_provider.dart';
 import 'package:rasan_mart/app/modules/authentication/views/user_model.dart';
 import 'package:rasan_mart/app/modules/cart/controllers/cart_controller.dart';
-import 'package:rasan_mart/app/modules/checkout/controllers/delivery_controller.dart';
 
 import 'package:rasan_mart/app/modules/home/views/home_view.dart';
 
@@ -27,6 +26,7 @@ class AuthenticationController extends GetxController {
   final accountController = Get.put(AccountController());
   final cartController = Get.find<CartController>();
   final notifyController = Get.find<NotificationController>();
+  RxBool googleSignIn = false.obs;
   // final deliveryController = Get.put(DeliveryController());
 
   @override
@@ -48,6 +48,27 @@ class AuthenticationController extends GetxController {
               icon: Icon(Icons.warning),
               message: 'Incorrect Email and Password!',
             ), (r) {
+      accountController.isLogOut.value = false;
+      if (!accountController.isLogOut.value) {
+        cartController.loadCart(FirebaseAuth.instance.currentUser.uid);
+        notifyController.fetchNotification();
+        //deliveryController.fetchDeliveryModel();
+      }
+
+      Get.off(() => HomeView());
+    });
+  }
+
+  void SignIngoogle() async {
+    Either<String, String> auth = await _authenticationProvider.logIn(
+        null, AuthenticateType.GoogleSignIn);
+    auth.fold(
+        (l) => CustomeSnackbar(
+              title: 'Authentication Failed !',
+              icon: Icon(Icons.warning),
+              message: l,
+            ), (r) {
+      googleSignIn.value = true;
       accountController.isLogOut.value = false;
       if (!accountController.isLogOut.value) {
         cartController.loadCart(FirebaseAuth.instance.currentUser.uid);

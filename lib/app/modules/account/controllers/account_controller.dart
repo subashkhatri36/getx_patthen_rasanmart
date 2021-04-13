@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rasan_mart/app/Widgets/snakbar.dart';
 import 'package:rasan_mart/app/data/account/account_repository.dart';
@@ -11,6 +12,7 @@ import 'package:rasan_mart/app/data/local_data/get_storage.dart';
 import 'package:rasan_mart/app/modules/account/address_model.dart';
 import 'package:rasan_mart/app/modules/account/providers/userdata_provider.dart';
 import 'package:rasan_mart/app/modules/addAddress/controllers/add_address_controller.dart';
+import 'package:rasan_mart/app/modules/authentication/controllers/authentication_controller.dart';
 import 'package:rasan_mart/app/modules/cart/controllers/cart_controller.dart';
 import 'package:rasan_mart/app/modules/checkout/controllers/delivery_controller.dart';
 import 'package:rasan_mart/app/modules/notificationpage/controllers/notification_controller.dart';
@@ -32,6 +34,8 @@ class AccountController extends GetxController {
   RxList<AddressModel> userAddress;
 
   File image;
+
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   TextEditingController userInputName = new TextEditingController();
   TextEditingController userInputPhone = new TextEditingController();
@@ -88,9 +92,15 @@ class AccountController extends GetxController {
     isLoading.value = false;
   }
 
-  void logOut() {
-    FirebaseAuth.instance.signOut();
+  void logOut() async {
+    await FirebaseAuth.instance.signOut();
     isLogOut.value = true;
+    try {
+      await _googleSignIn.signOut();
+    } catch (error) {
+      print('error');
+    }
+
     LocalDB localDB = new LocalDB();
     localDB.removeFromDB();
     clearData();

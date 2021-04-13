@@ -15,7 +15,6 @@ import 'package:rasan_mart/app/modules/customeproductpage/views/customeproductpa
 
 import 'package:rasan_mart/app/modules/home/controllers/home_controller.dart';
 
-
 class HomeView extends StatefulWidget {
   @override
   _HomeViewState createState() => _HomeViewState();
@@ -24,15 +23,12 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   // final homecontroller = Get.put(HomeController());
 
-
   int _selectedIndex = 0;
 
   final productcontianerContorller = Get.put(CustomeproductpageController());
   final data = Get.put(HomeController());
   final account = Get.put(AccountController());
   final addressController = Get.put(AddAddressController());
-  
-
 
   Widget returnScreenValue(int _index) {
     switch (_index) {
@@ -52,11 +48,9 @@ class _HomeViewState extends State<HomeView> {
     }
   }
 
-
   final globalScafold = GlobalKey<ScaffoldState>();
   @override
   void initState() {
-
     super.initState();
   }
 

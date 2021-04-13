@@ -30,85 +30,87 @@ class ForgetpasswordView extends GetView<ForgetpasswordController> {
             Image.asset('assets/images/forget.png',
                 width: 70, fit: BoxFit.fitWidth),
             SizedBox(height: Defaults.defaultfontsize),
-            controller.resetpassword.value
-                ? Container(
-                    child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            FontAwesomeIcons.checkCircle,
-                            color: Themes.lightSalesolor,
-                          ),
-                          SizedBox(width: Defaults.defaultfontsize),
-                          Text(
-                            'Successfully Send Email',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Themes.lightSalesolor,
-                                fontSize: Defaults.defaultPadding),
-                          )
-                        ],
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(Defaults.defaultfontsize),
-                        child: Row(
+            Obx(
+              () => controller.resetpassword.value
+                  ? Container(
+                      child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(
-                              FontAwesomeIcons.envelopeOpenText,
-                              size: 60,
-                              color: Theme.of(context).backgroundColor,
+                              FontAwesomeIcons.checkCircle,
+                              color: Themes.lightSalesolor,
                             ),
                             SizedBox(width: Defaults.defaultfontsize),
-                            Expanded(
-                              child: Text(
-                                'Please check your email and follow the process to reset password.\nThank you. ',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
+                            Text(
+                              'Successfully Send Email',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Themes.lightSalesolor,
+                                  fontSize: Defaults.defaultPadding),
                             )
                           ],
                         ),
-                      )
-                    ],
-                  ))
-                : Column(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(Defaults.defaultPadding),
-                        child: TextInputField(
-                          validator: (value) => checkEmail(value),
-                          controller: controller.forgetController,
-                          hinttext: 'your Email address',
-                          lable: 'Your Email address',
+                        Container(
+                          padding: EdgeInsets.all(Defaults.defaultfontsize),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                FontAwesomeIcons.envelopeOpenText,
+                                size: 60,
+                                color: Theme.of(context).backgroundColor,
+                              ),
+                              SizedBox(width: Defaults.defaultfontsize),
+                              Expanded(
+                                child: Text(
+                                  'Please check your email and follow the process to reset password.\nThank you. ',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ))
+                  : Column(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(Defaults.defaultPadding),
+                          child: TextInputField(
+                            validator: (value) => checkEmail(value),
+                            controller: controller.forgetController,
+                            hinttext: 'your Email address',
+                            lable: 'Your Email address',
+                          ),
                         ),
-                      ),
-                      Container(
-                        padding:
-                            EdgeInsets.only(right: Defaults.defaultPadding),
-                        alignment: Alignment.centerRight,
-                        child: CustomeTextButton(
-                          color: Theme.of(context).backgroundColor,
-                          label: 'Reset Password',
-                          fcolor: Colors.white,
-                          onPressed: () {
-                            if (controller.reset.currentState.validate()) {
-                              controller.resetPassword();
-                            } else {
-                              CustomeSnackbar(
-                                title: 'Warning !',
-                                message: 'Please type your email correctly.',
-                                icon: Icon(Icons.warning),
-                              );
-                            }
-                          },
-                        ),
-                      )
-                    ],
-                  ),
+                        Container(
+                          padding:
+                              EdgeInsets.only(right: Defaults.defaultPadding),
+                          alignment: Alignment.centerRight,
+                          child: CustomeTextButton(
+                            color: Theme.of(context).backgroundColor,
+                            label: 'Reset Password',
+                            fcolor: Colors.white,
+                            onPressed: () {
+                              if (controller.reset.currentState.validate()) {
+                                controller.resetPassword();
+                              } else {
+                                CustomeSnackbar(
+                                  title: 'Warning !',
+                                  message: 'Please type your email correctly.',
+                                  icon: Icon(Icons.warning),
+                                );
+                              }
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+            ),
           ],
         ),
       ),

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:rasan_mart/app/data/local_data/get_storage.dart';
 import 'package:rasan_mart/app/modules/authentication/views/user_model.dart';
 
@@ -13,11 +14,54 @@ abstract class AuthRepositories {
 
 class UserAuthenticationRepositories implements AuthRepositories {
   LocalDB local = new LocalDB();
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   @override
-  Future<Either<String, String>> userGoogleSignIn() {
-    // TODO: implement userGoogleSignIn
-    throw UnimplementedError();
+  Future<Either<String, String>> userGoogleSignIn() async {
+    try {
+      bool valueexist = false;
+
+      GoogleSignInAccount googleSignInAccount = await _googleSignIn.signIn();
+      GoogleSignInAuthentication googleSignInAuthentication =
+          await googleSignInAccount.authentication;
+
+      AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken,
+      );
+
+      UserCredential authResult =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+      await FirebaseFirestore.instance
+          .collection('User')
+          .doc(authResult.user.uid)
+          .get()
+          .then((value) {
+        if (value.exists) {
+          valueexist = true;
+          print(valueexist);
+        }
+      }).whenComplete(() => null);
+      if (!valueexist) {
+        Map<String, String> userdata = {
+          'phone': "",
+          'email': authResult.user.email,
+          'photo': '',
+          'name': '',
+        };
+
+        await FirebaseFirestore.instance
+            .collection('User')
+            .doc(authResult.user.uid)
+            .set(userdata)
+            .then((value) => print('Saved User'));
+        return right('Successfully Register');
+      } else {
+        return right('Successfully Login');
+      }
+    } catch (error) {
+      return left('Error during google sing in.');
+    }
   }
 
   @override

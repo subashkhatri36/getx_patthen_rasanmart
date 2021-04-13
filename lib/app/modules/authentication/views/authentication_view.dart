@@ -169,12 +169,20 @@ class AuthenticationView extends GetView<AuthenticationController> {
                   ],
                 ),
                 SizedBox(height: Defaults.defaultPadding / 2),
+                if (authController.googleSignIn.value)
+                  Container(
+                      width: 40,
+                      height: 40,
+                      margin: EdgeInsets.all(Defaults.defaultPadding / 2),
+                      child: CircularProgressIndicator()),
                 CustomeTextButton(
                   icon: FontAwesomeIcons.google,
                   color: Theme.of(context).primaryColor,
                   fcolor: Theme.of(context).backgroundColor,
                   label: 'Sign in With Google',
-                  onPressed: () {},
+                  onPressed: () {
+                    authController.SignIngoogle();
+                  },
                 ),
               ]),
             ),
