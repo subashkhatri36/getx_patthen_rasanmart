@@ -7,6 +7,7 @@ import 'package:rasan_mart/app/core/constant/strings.dart';
 import 'package:rasan_mart/app/core/theme/app_theme.dart';
 import 'app/routes/app_pages.dart';
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(

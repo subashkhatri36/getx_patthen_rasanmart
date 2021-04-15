@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rasan_mart/app/modules/customeproductpage/product_model.dart';
 import 'package:dartz/dartz.dart';

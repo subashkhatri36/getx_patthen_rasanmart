@@ -75,11 +75,7 @@ class CategoriesGridView extends GetView {
             //String name = categories[index].toString();
             Get.find<HomeController>().subcategorypage.value = false;
             //You need to change here to get each category views
-            String catname =
-                productcontianerContorller.categories.value.toUpperCase() !=
-                        'home'.toUpperCase()
-                    ? 'Home'
-                    : productcontianerContorller.categories.value;
+            String catname = productcontianerContorller.categories.value;
             productcontianerContorller.changeCategories(catname);
             Get.to(() => ProductCategoryView(),
                 arguments: categories[index].categoryName);

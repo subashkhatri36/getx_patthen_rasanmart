@@ -57,7 +57,7 @@ AppBar buildAppBar(
                     text: new TextSpan(
                       children: <TextSpan>[
                         new TextSpan(
-                            text: 'Rasan ',
+                            text: 'Shopping ',
                             style: new TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Themes.lightBtnColor,
@@ -66,7 +66,7 @@ AppBar buildAppBar(
                             text: 'Mart',
                             style: new TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: Colors.pink[900],
+                                color: Colors.white,
                                 fontSize: Defaults.defaultfontsize * 2)),
                       ],
                     ),
